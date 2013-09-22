@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>bible ref</title>
+<link rel="stylesheet" href="qunit-1.12.0.css" />
+<script src="bible.js"></script>
+<script src="plan.js"></script>
+<script src="qunit-1.12.0.js"></script>
+</head>
+<body>
+
+<h1> Bible reference tests <h1>
+
+<h4> Bible book </h4>
+<p id="bible_book"> </p>
+<h4> Sequence </h4>
+<p id="sequence"> </p>
+<p id="sequence_random"> </p>
+<h4> Verses per day </h4>
+<p id="vpd"> </p>
+
+<h3> Output </h3>
+<div id="output"></div>
+
+<div id="qunit"></div>
+
+<script>
+function output (id, text) {
+	destination = document.getElementById(id).innerHTML += "<p>" + text + "</p>";
+}
+
+// var bible_book = bible.Books[0].verses;
+// if(!sequence) {
+// 	sequence = new Array();
+// 	for (var i = 0; i < bible_book.length; i++) {
+// 		sequence[i] = i+1;
+// 	};
+// }
+
+// output('bible_book', bible_book);
+// output('sequence', sequence);
+// output('vpd', verses_day);
+
+// var reading_plan = plan(bible_book, sequence, verses_day, 0, 0, 0);
+
+// for (var i = 0; i < reading_plan.length; i++) {
+// 	output('output', reading_plan[i].start.chapter + ":" + reading_plan[i].start.verse + "-" + reading_plan[i].end.chapter + ":" + reading_plan[i].end.verse);
+// };
+
+// console.info(reading_plan);
+// console.info(bible);
+</script>
+<script type="text/javascript" src="tests.js"></script>
+</body>
+</html>
