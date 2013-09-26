@@ -36,15 +36,44 @@ verses_day[3] = 50;
 // 	};
 
 	
-// 	console.info(reading_plan);
-// 	// console.info(bible);
-// };
-var sequence_small = [1,3,4,2,5];
-var verses_day_small = 20;
-var small_return = [{"day":0,"start":{"chapter":1,"verse":1},"end":{"chapter":1,"verse":20}},{"day":1,"start":{"chapter":1,"verse":21},"end":{"chapter":1,"verse":31}},{"day":2,"start":{"chapter":3,"verse":1},"end":{"chapter":3,"verse":9}},{"day":3,"start":{"chapter":3,"verse":10},"end":{"chapter":3,"verse":24}},{"day":4,"start":{"chapter":4,"verse":1},"end":{"chapter":4,"verse":5}},{"day":5,"start":{"chapter":4,"verse":6},"end":{"chapter":4,"verse":25}},{"day":6,"start":{"chapter":4,"verse":26},"end":{"chapter":4,"verse":26}},{"day":7,"start":{"chapter":2,"verse":1},"end":{"chapter":2,"verse":19}},{"day":8,"start":{"chapter":2,"verse":20},"end":{"chapter":2,"verse":25}},{"day":9,"start":{"chapter":5,"verse":1},"end":{"chapter":5,"verse":14}},{"day":10,"start":{"chapter":5,"verse":15},"end":{"chapter":5,"verse":32}}];
-var reading_plan_small = plan(bible_book, sequence_small, verses_day_small, 0, 0, 0);
 
 test("bible reading plan small", function() {
+    var sequence_small = [1,3,4,2,5];
+    var verses_day_small = 20;
+    var small_return = [{"day":0,"start":{"chapter":1,"verse":1},"end":{"chapter":1,"verse":20}},{"day":1,"start":{"chapter":1,"verse":21},"end":{"chapter":1,"verse":31}},{"day":2,"start":{"chapter":3,"verse":1},"end":{"chapter":3,"verse":9}},{"day":3,"start":{"chapter":3,"verse":10},"end":{"chapter":3,"verse":24}},{"day":4,"start":{"chapter":4,"verse":1},"end":{"chapter":4,"verse":5}},{"day":5,"start":{"chapter":4,"verse":6},"end":{"chapter":4,"verse":25}},{"day":6,"start":{"chapter":4,"verse":26},"end":{"chapter":4,"verse":26}},{"day":7,"start":{"chapter":2,"verse":1},"end":{"chapter":2,"verse":19}},{"day":8,"start":{"chapter":2,"verse":20},"end":{"chapter":2,"verse":25}},{"day":9,"start":{"chapter":5,"verse":1},"end":{"chapter":5,"verse":14}},{"day":10,"start":{"chapter":5,"verse":15},"end":{"chapter":5,"verse":32}}];
+    var reading_plan_small = plan(bible_book, sequence_small, verses_day_small, 0, 0, 0);
 	deepEqual(reading_plan_small, small_return);
+});
+
+// Verse distances
+// Gen 2 - Gen 4
+test("verse distance same book", function() {
+    var resultDistance = bible.verseDistance(0, 1, 3);
+    var expectedResults = 49;
+	equal(resultDistance, expectedResults);
+});
+
+// Gen 1 - Gen 1
+test("verse distance same book and chapter", function() {
+    var resultDistance = bible.verseDistance(0, 0, 0);
+    var expectedResults = 31;
+	equal(resultDistance, expectedResults);
+});
+
+// Gen 1 - Gen 50
+// Whole book, end chapter must be length of array
+test("verse distance whole book", function() {
+    var resultDistance = bible.verseDistance(0, 0, 50);
+    var expectedResults = 1533;
+	equal(resultDistance, expectedResults);
+});
+
+// Gen 2:5 - Lev 4:5
+test("distance partial book to partial book though another book", function() {
+    var ref1 = {bookIndex: 0, chapter: 1, verse: 5, chapter1: 1, verse1: 5, chapter2: -1, verse2: -1};
+    var ref2 = {bookIndex: 2, chapter: 3, verse: 5, chapter1: 3, verse1: 5, chapter2: -1, verse2: -1};
+    var resultDistance = bible.distance(ref1, ref2);
+    var expectedResults = {'chapters': 92, 'verses': 2766};
+	deepEqual(resultDistance, expectedResults);
 });
 
