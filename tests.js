@@ -56,7 +56,7 @@ test("verse distance same book", function() {
 // Gen 1 - Gen 1
 test("verse distance same book and chapter", function() {
     var resultDistance = bible.verseDistance(0, 0, 0);
-    var expectedResults = 31;
+    var expectedResults = 0;
 	equal(resultDistance, expectedResults);
 });
 
@@ -77,3 +77,48 @@ test("distance partial book to partial book though another book", function() {
 	deepEqual(resultDistance, expectedResults);
 });
 
+// 2 John 3 - 3 John 5
+test("verse distance middle of book to middle of another book", function() {
+    var ref1 = {bookIndex: 62, chapter: 0, verse: 3, chapter1: 0, verse1: 3, chapter2: -1, verse2: -1};
+    var ref2 = {bookIndex: 63, chapter: 0, verse: 5, chapter1: 0, verse1: 5, chapter2: -1, verse2: -1};
+    var resultDistance = bible.distance(ref1, ref2);
+    var expectedResults = {'chapters': 1, 'verses': 16};
+    deepEqual(resultDistance, expectedResults);
+});
+
+// References reversed.
+// 2 Chron 36:22 - Ezra 1:4
+test("verse distance middle of book to middle of another book small", function() {
+    var ref1 = {bookIndex: 13, chapter: 35, verse: 22, chapter1: 35, verse1: 22, chapter2: -1, verse2: -1};
+    var ref2 = {bookIndex: 14, chapter: 0, verse: 4, chapter1: 0, verse1: 4, chapter2: -1, verse2: -1};
+    var resultDistance = bible.distance(ref2, ref1);
+    var expectedResults = {'chapters': 1, 'verses': 6};
+    deepEqual(resultDistance, expectedResults);
+});
+
+// Eph 5:1 - Eph 6:10
+// Eph 5:1-6:10
+test("verse distance same book chapter to chapter", function() {
+    var ref1 = {bookIndex: 48, chapter: 4, verse: 1, chapter1: 4, verse1: 1, chapter2: 5, verse2: 10};
+    var resultDistance = bible.distance(ref1);
+    var expectedResults = {'chapters': 1, 'verses': 43};
+    deepEqual(resultDistance, expectedResults);
+});
+
+// Col
+test("verse distance whole book", function() {
+    var ref1 = {bookIndex: 50, chapter: -1, verse: -1, chapter1: -1, verse1: -1, chapter2: -1, verse2: -1};
+    var resultDistance = bible.distance(ref1);
+    var expectedResults = {'chapters': 4, 'verses': 95};
+    deepEqual(resultDistance, expectedResults);
+});
+
+// Errored reference
+test("verse distance whole book error all -1", function() {
+    var ref1 = {bookIndex: -1, chapter: -1, verse: -1, chapter1: -1, verse1: -1, chapter2: -1, verse2: -1};
+    var resultDistance = bible.distance(ref1);
+    var expectedResults = {'chapters': null, 'verses': null};
+    deepEqual(resultDistance, expectedResults);
+});
+
+// Other errors?
