@@ -45,7 +45,7 @@ test("bible reading plan small", function() {
 	deepEqual(reading_plan_small, small_return);
 });
 
-// Verse distances
+/** Verse distances */
 // Gen 2 - Gen 4
 test("verse distance same book", function() {
     var resultDistance = bible.verseDistance(0, 1, 3);
@@ -122,3 +122,50 @@ test("verse distance whole book error all -1", function() {
 });
 
 // Other errors?
+
+
+/** Add tests */
+// 1 John 5:1 + 5 verses
+test("add 5 verses from begining of book, same book", function() {
+    var ref1 = {bookIndex: 61, chapter: 4, verse: 1, chapter1: 4, verse1: 1, chapter2: -1, verse2: -1};
+    var n = 5;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 61, chapter: 4, verse: 1, chapter1: 4, verse1: 6, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// 1 John 5:20 + 10 verses
+test("add 10 verses from middle of book, change 1 book", function() {
+    var ref1 = {bookIndex: 61, chapter: 4, verse: 20, chapter1: 4, verse1: 20, chapter2: -1, verse2: -1};
+    var n = 10;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 62, chapter: 4, verse: 20, chapter1: 0, verse1: 9, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// Gen 3:5 + 100 verses
+test("add 100 verses from middle of book, change several chapters", function() {
+    var ref1 = {bookIndex: 0, chapter: 2, verse: 5, chapter1: 2, verse1: 5, chapter2: -1, verse2: -1};
+    var n = 100;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 0, chapter: 2, verse: 5, chapter1: 6, verse1: 1, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// Ps 3:5 + 100 verses
+test("add 100 verses from middle of book, change several chapters", function() {
+    var ref1 = {bookIndex: 18, chapter: 2, verse: 5, chapter1: 2, verse1: 5, chapter2: -1, verse2: -1};
+    var n = 100;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 18, chapter: 2, verse: 5, chapter1: 10, verse1: 3, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// 1 John 5:1 + 100 verses
+test("add 100 verses from middle of book, change several chapters and books", function() {
+    var ref1 = {bookIndex: 61, chapter: 4, verse: 1, chapter1: 4, verse1: 1, chapter2: -1, verse2: -1};
+    var n = 100;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 65, chapter: 4, verse: 1, chapter1: 1, verse1: 8, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});

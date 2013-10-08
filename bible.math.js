@@ -4,14 +4,17 @@
  * 
  */
 
-// Expects a bible.Reference object
-// bookIndex: _bookIndex,
-// chapter: _chapter1,
-// verse: _verse1,
-// chapter1: _chapter1,
-// verse1: _verse1,
-// chapter2: _chapter2,
-// verse2: _verse2,
+ /**    Expects a bible.Reference object
+ *      bookIndex: _bookIndex,
+ *      chapter: _chapter1,
+ *      verse: _verse1,
+ *      chapter1: _chapter1,
+ *      verse1: _verse1,
+ *      chapter2: _chapter2,
+ *      verse2: _verse2
+ *
+ *      bookIndex and chapters are 0 based arrays
+ */
 
 bible.distance = function() {
  //arguments received
@@ -114,6 +117,35 @@ bible.verseDistance = function(bookIndex, chapter1, chapter2) {
     }
     
     return verses;
+}
+
+bible.add = function(reference, verses) {
+    while(verses !== 0) {
+        var chapterVerses = bible.Books[reference.bookIndex].verses[reference.chapter1];
+        
+        if(reference.verse1 + verses <= chapterVerses) {
+            reference.verse1 = reference.verse1 + verses;
+            verses = 0;
+        }
+        else {
+            verses = Math.abs(chapterVerses - reference.verse1 - verses);
+            reference.verse1 = 0;
+        }
+        
+        if(verses !== 0) {
+            var nextChapter = reference.chapter1 + 1;
+            //-1 for 0 indexed array
+            if( (bible.Books[reference.bookIndex].verses.length - 1) < nextChapter) {
+                reference.bookIndex++;
+                reference.chapter1 = 0;
+            }
+            else {
+                reference.chapter1++;
+            }
+        }
+    }
+        
+    return reference;
 }
 
 //sdg
