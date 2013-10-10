@@ -119,32 +119,73 @@ bible.verseDistance = function(bookIndex, chapter1, chapter2) {
     return verses;
 }
 
-bible.add = function(reference, verses) {
-    while(verses !== 0) {
+/** 
+* Description 
+* @param {type} reference Description 
+* @param {type} verses Description 
+*/
+bible.add = function (reference, verses) {
+    while (verses !== 0) {
         var chapterVerses = bible.Books[reference.bookIndex].verses[reference.chapter1];
-        
-        if(reference.verse1 + verses <= chapterVerses) {
+
+        if (reference.verse1 + verses <= chapterVerses) {
             reference.verse1 = reference.verse1 + verses;
             verses = 0;
-        }
-        else {
+        } else {
             verses = Math.abs(chapterVerses - reference.verse1 - verses);
             reference.verse1 = 0;
         }
-        
-        if(verses !== 0) {
+
+        if (verses !== 0) {
             var nextChapter = reference.chapter1 + 1;
             //-1 for 0 indexed array
-            if( (bible.Books[reference.bookIndex].verses.length - 1) < nextChapter) {
+            if ((bible.Books[reference.bookIndex].verses.length - 1) < nextChapter) {
                 reference.bookIndex++;
                 reference.chapter1 = 0;
-            }
-            else {
+            } else {
                 reference.chapter1++;
             }
         }
     }
-        
+
+    return reference;
+}
+
+/** 
+* Description 
+* @param {type} reference Description 
+* @param {type} verses Description 
+*/
+bible.subtract = function (reference, verses) {
+    while (verses !== 0) {
+//        var chapterVerses = bible.Books[reference.bookIndex].verses[reference.chapter1];
+
+        if (reference.verse1 - verses > 0) {
+            reference.verse1 = reference.verse1 - verses;
+            verses = 0;
+        } else if (reference.verse1 - verses == 0) {
+            reference.bookIndex--;
+            reference.chapter1 = bible.Books[reference.bookIndex].verses.length - 1;
+            reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];
+        } else {
+            verses = Math.abs(reference.verse1 - verses);
+//            reference.verse1 = chapterVerses;
+        }
+
+        if (verses !== 0) {
+            var previousChapter = reference.chapter1 - 1;
+            //0 indexed array
+            if (previousChapter < 0) {
+                reference.bookIndex--;
+                reference.chapter1 = bible.Books[reference.bookIndex].verses.length - 1;
+                reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];
+            } else {
+                reference.chapter1--;
+                reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];
+            }
+        }
+    }
+
     return reference;
 }
 

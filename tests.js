@@ -169,3 +169,22 @@ test("add 100 verses from middle of book, change several chapters and books", fu
     var expectedResults = {bookIndex: 65, chapter: 4, verse: 1, chapter1: 1, verse1: 8, chapter2: -1, verse2: -1};
     deepEqual(result, expectedResults);
 });
+
+// 1 John 5:1 + 0 verses
+test("add 0 verses from middle of book", function() {
+    var ref1 = {bookIndex: 61, chapter: 4, verse: 1, chapter1: 4, verse1: 1, chapter2: -1, verse2: -1};
+    var n = 0;
+    var result = bible.add(ref1, n);
+    var expectedResults = {bookIndex: 61, chapter: 4, verse: 1, chapter1: 4, verse1: 1, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+/*Subtract Tests*/
+// 2 John 7 - 5 verses
+test("subtract 7 verses from middle of book", function() {
+    var ref1 = {bookIndex: 62, chapter: 0, verse: 7, chapter1: 0, verse1: 7, chapter2: -1, verse2: -1};
+    var n = 7;
+    var result = bible.subtract(ref1, n);
+    var expectedResults = {bookIndex: 62, chapter: 0, verse: 2, chapter1: 0, verse1: 2, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
