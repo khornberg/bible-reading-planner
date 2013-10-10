@@ -158,8 +158,6 @@ bible.add = function (reference, verses) {
 */
 bible.subtract = function (reference, verses) {
     while (verses !== 0) {
-//        var chapterVerses = bible.Books[reference.bookIndex].verses[reference.chapter1];
-
         if (reference.verse1 - verses > 0) {
             reference.verse1 = reference.verse1 - verses;
             verses = 0;
@@ -167,9 +165,9 @@ bible.subtract = function (reference, verses) {
             reference.bookIndex--;
             reference.chapter1 = bible.Books[reference.bookIndex].verses.length - 1;
             reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];
+            verses = 0;
         } else {
             verses = Math.abs(reference.verse1 - verses);
-//            reference.verse1 = chapterVerses;
         }
 
         if (verses !== 0) {
@@ -178,7 +176,7 @@ bible.subtract = function (reference, verses) {
             if (previousChapter < 0) {
                 reference.bookIndex--;
                 reference.chapter1 = bible.Books[reference.bookIndex].verses.length - 1;
-                reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];
+                reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1] + 1;
             } else {
                 reference.chapter1--;
                 reference.verse1 = bible.Books[reference.bookIndex].verses[reference.chapter1];

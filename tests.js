@@ -181,10 +181,63 @@ test("add 0 verses from middle of book", function() {
 
 /*Subtract Tests*/
 // 2 John 7 - 5 verses
-test("subtract 7 verses from middle of book", function() {
+test("subtract 5 verses from middle of book", function() {
+    var ref1 = {bookIndex: 62, chapter: 0, verse: 7, chapter1: 0, verse1: 7, chapter2: -1, verse2: -1};
+    var n = 5;
+    var result = bible.subtract(ref1, n);
+    var expectedResults = {bookIndex: 62, chapter: 0, verse: 7, chapter1: 0, verse1: 2, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// 2 John 7 - 10 verses
+test("subtract 10 verses from middle of book", function() {
+    var ref1 = {bookIndex: 62, chapter: 0, verse: 7, chapter1: 0, verse1: 7, chapter2: -1, verse2: -1};
+    var n = 10;
+    var result = bible.subtract(ref1, n);
+    var expectedResults = {bookIndex: 61, chapter: 0, verse: 7, chapter1: 4, verse1: 19, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// Gen 4:20 - 50 verses
+test("subtract 50 verses from middle of book", function() {
+    var ref1 = {bookIndex: 0, chapter: 3, verse: 20, chapter1: 3, verse1: 20, chapter2: -1, verse2: -1};
+    var n = 50;
+    var result = bible.subtract(ref1, n);
+    var expectedResults = {bookIndex: 0, chapter: 3, verse: 20, chapter1: 1, verse1: 19, chapter2: -1, verse2: -1};
+    deepEqual(result, expectedResults);
+});
+
+// 2 John 7 - 7 verses
+test("subtract 7 verses resulting in 0 verses from middle of book", function() {
     var ref1 = {bookIndex: 62, chapter: 0, verse: 7, chapter1: 0, verse1: 7, chapter2: -1, verse2: -1};
     var n = 7;
     var result = bible.subtract(ref1, n);
-    var expectedResults = {bookIndex: 62, chapter: 0, verse: 2, chapter1: 0, verse1: 2, chapter2: -1, verse2: -1};
+    var expectedResults = {bookIndex: 61, chapter: 0, verse: 7, chapter1: 4, verse1: 21, chapter2: -1, verse2: -1};
     deepEqual(result, expectedResults);
 });
+
+/*Verse difference tests equal add and subtract tests*/
+
+//not working, 1 off. 
+//difference does not include verse, add/subtract does?
+//this might be how I want it. TODO think about it.
+
+// Gen 2:5 - Lev 4:5
+test("distance ref equals add of verses ref", function() {
+    var ref1 = {bookIndex: 0, chapter: 1, verse: 5, chapter1: 1, verse1: 5, chapter2: -1, verse2: -1};
+    var ref2 = {bookIndex: 2, chapter: 3, verse: 5, chapter1: 3, verse1: 5, chapter2: -1, verse2: -1};
+    var verses = 2766;
+    var addresult = bible.add(ref1, verses);
+    var addexpectedResults = {bookIndex: 2, chapter: 1, verse: 5, chapter1: 3, verse1: 5, chapter2: -1, verse2: -1}
+	deepEqual(addresult, addexpectedResults);
+});
+
+test("distance ref equals subtract of verses ref", function() {
+    var ref1 = {bookIndex: 0, chapter: 1, verse: 5, chapter1: 1, verse1: 5, chapter2: -1, verse2: -1};
+    var ref2 = {bookIndex: 2, chapter: 3, verse: 5, chapter1: 3, verse1: 5, chapter2: -1, verse2: -1};
+    var verses = 2766;
+    var addresult = bible.subtract(ref2, verses);
+    var addexpectedResults = {bookIndex: 0, chapter: 3, verse: 5, chapter1: 1, verse1: 5, chapter2: -1, verse2: -1}
+	deepEqual(addresult, addexpectedResults);
+});
+
