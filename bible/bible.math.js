@@ -1,10 +1,13 @@
 /**
  * Calculates distance between verses by chapter and verse.
- * @depends on bible.js and bible.reference.js from bibly.js by John Dyer
+ * @depends on bible.js and bible.reference.js from bib.ly by John Dyer which are copyrighted by him
+ *
+ * @author khornberg
+ * @version 0.1.0
  * 
- */
-
- /**    Expects a bible.Reference object
+ * @param {object} A bible.Reference object. Expects one or two references, any more will be ignored.
+ *
+ * Expects a bible.Reference object
  *      bookIndex: _bookIndex,
  *      chapter: _chapter1,
  *      verse: _verse1,
@@ -13,7 +16,7 @@
  *      chapter2: _chapter2,
  *      verse2: _verse2
  *
- *      bookIndex and chapters are 0 based arrays
+ *  bookIndex and chapters are 0 based arrays
  */
 
 bible.distance = function() {
@@ -29,7 +32,7 @@ bible.distance = function() {
  
  // Sort references based on book order
  if (args.length > 1) {
-    if (args[0].bookIndex < args[1].bookIndex) {
+    if (args[0].bookIndex <= args[1].bookIndex) {
         startRef = args[0];
         endRef = args[1];
     }
@@ -106,6 +109,12 @@ bible.distance = function() {
  return {'chapters': chapters, 'verses': verses};
 }
 
+/** 
+* Calculate distance between two chapters of a book
+* @param {int} bookIndex Book in bible.js 
+* @param {int} chapter1 Index of chapter 
+* @param {int} chapter2 Index of chapter 
+*/
 bible.verseDistance = function(bookIndex, chapter1, chapter2) {
     var chapters = bible.Books[bookIndex].verses;
     var verses = 0;
@@ -120,9 +129,9 @@ bible.verseDistance = function(bookIndex, chapter1, chapter2) {
 }
 
 /** 
-* Description 
-* @param {type} reference Description 
-* @param {type} verses Description 
+* Add verses to a bible reference 
+* @param {object} reference A bible.Reference object 
+* @param {int} verses Number of verses to add 
 */
 bible.add = function (reference, verses) {
     while (verses !== 0) {
@@ -152,9 +161,9 @@ bible.add = function (reference, verses) {
 }
 
 /** 
-* Description 
-* @param {type} reference Description 
-* @param {type} verses Description 
+* Subtract verses from a bible reference 
+* @param {object} reference A bible.Reference object 
+* @param {int} verses Number of verses to subtract 
 */
 bible.subtract = function (reference, verses) {
     while (verses !== 0) {
