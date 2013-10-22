@@ -395,9 +395,11 @@ function s($day) {
 	return explode(";", $day);
 }
 $plan = array();
+$tmp_plan = array();
 foreach ($bibleplan->getData() as $day) {
-   $plan = array_merge($plan, s($day));
+   $tmp_plan = array_merge($tmp_plan, s($day));
 }
+$plan['data'] = $tmp_plan;
 $plan['id'] = $bibleplan->getId();
 $plan['name'] = $bibleplan->getName();
 $plan['info'] = $bibleplan->getInfo();
