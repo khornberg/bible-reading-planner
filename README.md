@@ -9,6 +9,11 @@ Very much a work in progress...
 
 ## Changes
 
+### 25 October 2013
+Added Qunit tests to Grunt
+Load bible.js, bible.reference.js and bible.math.js with RequireJS
+Add bootstrap-datepicker to requirejs
+
 ### 23 October 2013
 Put into a Yeoman workflow
 
@@ -16,9 +21,20 @@ Put into a Yeoman workflow
 Moved bible.math.js into seperate repo
 
 ## TODO
-- Add Qunit tests to grunt
-- Load bible.js, bible.reference.js and bible.math.js with RequireJS
-- The rest of it
+- Minimize and concat bible.math.js?
+- Add scaffolding for page
+- Calendars
+	- Connect skip days to calendars
+	- Get days between two dates (moment.js needed to exclude unwanted days?)
+	- set up options
+	- Bootstrap button groups not working
+- Link list automatically loaded with json names in files?
+	- Error handleing
+- Plan section
+	- Formats
+	- Errors
+- Fonts, colors
+
 
 ## Credits
 
