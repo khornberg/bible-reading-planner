@@ -96,13 +96,8 @@ module.exports = function (grunt) {
                 'test/spec/{,*/}*.js'
             ]
         },
-        mocha: {
-            all: {
-                options: {
-                    run: true,
-                    urls: ['http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html']
-                }
-            }
+        qunit: {
+            files: ['test/*.html']
         },
         compass: {
             options: {
@@ -329,7 +324,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'autoprefixer',
         'connect:test',
-        'mocha'
+        'qunit'
     ]);
 
     grunt.registerTask('build', [

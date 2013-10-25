@@ -20,7 +20,6 @@ Moved bible.math.js into seperate repo
 - Load bible.js, bible.reference.js and bible.math.js with RequireJS
 - The rest of it
 
-
 ## Credits
 
 ### Bible reading plan sequences
