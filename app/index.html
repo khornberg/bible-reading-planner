@@ -22,77 +22,259 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-    <div class="container">
-        <header class="header">
-            Sample Text
-            <blockquote cite="http:\/\/example.com\/facts">
-                <p>Jesus said this!</p>
-            </blockquote>
-        </header>
-    
-        <section id="controls" class="row">
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div id="sequence" class="list-group col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                </div>
-                <div id="dates" class="col-xs-4 col-sm-4 col-md-4 col-lg-4"> 
-                    <div class="row">
-                        <div class="input-group date col-xs-6 col-sm-6" >
-                            <input type="text" class="form-control" id="calendar-start">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                        <div class="input-group date col-xs-6 col-sm-6" >
-                            <input type="text" class="form-control" id="calendar-end">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        </div>
-                    </div>
-                    <div id="skip" class="row">
-                        <div id="skip-checkboxes" class="btn-group" date-toggle="buttons">
-                            <button class="btn btn-default">Su</button>
-                            <button class="btn btn-default">Mo</button>
-                            <button class="btn btn-default">Tu</button>
-                            <button class="btn btn-default">We</button>
-                            <button class="btn btn-default">Th</button>
-                            <button class="btn btn-default">Fr</button>
-                            <button class="btn btn-default">Sa</button>
-                        </div>
-                    </div>
-                </div>
-                <div id="amount" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                    <div id="amount" class="input-group">
-                        Amount/Day<input type="text" name="" id="" class="form-control" placeholder="25">
-                    </div>
-                    <div id="amount-checkboxes" class="input-group">
-                        <input type="checkbox" name="" id="" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <button id="create" class="btn btn-default">Create</button>
-        </section>
-        
-        <section id="plan">
-            <img src="" alt="">
-            <div id="downloads">
-                <div id="icons"></div>
-            </div>
-            <div id="plan"></div>
-        </section>
-        
-        <footer class="footer">
-        &copy Kyle Hornberg
-        <a href="LICENSE">MIT License</a>
-        <div id="credits">Thanks to 
-            <ul>
-                <li><a href="j.hn">John Dyer</a> for bible.js.</li>
-                <li>bootstrap</li>
-                <li>bootstrap-datepicker</li>
-                <li><a href="https://github.com/devkardia">devkardia's</a> bible reading plans</li>
-            </ul>
-        </div>
-        <div id="gh"><a href="https://github.com/khornberg/bible-reading-planner">Development on Github</a></div>
-        </footer>
-        
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Custom Bible Reading Plans</h1>
+        <blockquote cite="http:\/\/bib.ly\/mat4:4" class="pull-right">
+            <p>"'Man shall not live by bread alone, but by every word that comes from the mouth of God.'"</p>
+            <small>Jesus of Nazereth, Lord of lords, King of kings</small>
+        </blockquote>
+      </div>
     </div>
-    
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+            <h2>Choose a Sequence</h2>
+            <div id="sequence" class="list-group list-group-scroll"></div>
+        </div>
+        <div id="days" class="col-md-4">
+          <h2>Select Reading Days</h2>
+          <div class="row">
+            <div class="row col-md-12">
+                <div class="input-group date col-md-6" >
+                    <input type="text" class="form-control" id="calendar-start">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <div class="input-group date col-md-6" >
+                    <input type="text" class="form-control" id="calendar-end">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+            <p></p>
+            <div id="skip" class="col-md-12">
+                <h3> Skip </h3>
+                <div id="skip-checkboxes" class="btn-group" date-toggle="buttons">
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="su" id="su">Su</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="mo" id="mo">Mo</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="tu" id="tu">Tu</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="we" id="we">We</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="th" id="th">Th</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="fr" id="fr">Fr</label>
+                    <label class="btn btn-sm btn-primary">
+                        <input type="checkbox" name="sa" id="sa">Sa</label>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div id="amount-to-read" class="col-md-4">
+          <h2>Amount to Read</h2>
+            <div class="input-group">
+                <input type="text" name="amount" id="amount" class="form-control" placeholder="25">
+            </div> 
+            <p></p>       
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-sm btn-primary">
+                    <input type="radio" name="option1" id="option1">Chapters</label>
+                <label class="btn btn-sm btn-primary">
+                    <input type="radio" name="option2" id="option2">Verses</label>
+                <label class="btn btn-sm btn-primary">
+                    <input type="radio" name="option3" id="option3">Specified</label>
+            </div>
+        </div>
+      </div>
+      
+
+      <div class="row">
+        <div class="col-md-2 col-md-offset-5">
+            <button id="create" class="btn btn-lg btn-default">Create Your Plan</button>
+        </div>
+
+        <div id="wait" class="col-md-1 col-md-offset-6">
+                <img src="images/spinner.gif" alt="Waiting for the plan">
+        </div>
+      </div>
+    </div> <!-- /container -->
+
+    <div class="plan">
+        <div class="container">
+            <div class="row" id="plan" >
+                <div id="downloads" class="downloads">
+                    <h2>Your Plan</h2>
+                    <div id="icons"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">                           
+                            <p>Date</p>
+                        </div>
+                        <div class="col-md-6">                           
+                            <p>Reading</p>
+                        </div>
+                        <div class="col-md-6">                          
+                                    <p>November 1, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>Genesis 1</p></div>
+                        <div class="col-md-6">
+                                    <p>Novermber 2, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>Genesis 2-20</p></div>
+                        <div class="col-md-6">
+                                    <p>November 3, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>2 Chronicles 1:15-28</p></div>
+                        <div class="col-md-6">
+                                    <p>November 4, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>2 Chronicles 2-3; 2 Kings 5-6</p></div>
+                        <div class="col-md-6">
+                                    <p>November 5, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>Psalms 101, 105, 107, 109, 119</p></div>
+                        <div class="col-md-6">
+                                    <p>November 6, 2013</p></div>
+                        <div class="col-md-6">
+                                    <p>1 Kings 1:5-9; Psalm 86:1-3; 1 Chronicles 5:1-3</p></div>
+                        </div>  
+                    </div>                      
+                </div> <!-- /row -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Reading</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>November 1, 2013</td>
+                                    <td>Genesis 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Novermber 2, 2013</td>
+                                    <td>Genesis 2-20</td>
+                                </tr>
+                                <tr>
+                                    <td>November 3, 2013</td>
+                                    <td>2 Chronicles 1:15-28</td>
+                                </tr>
+                                <tr>
+                                    <td>November 4, 2013</td>
+                                    <td>2 Chronicles 2-3; 2 Kings 5-6</td>
+                                </tr>
+                                <tr>
+                                    <td>November 5, 2013</td>
+                                    <td>Psalms 101, 105, 107, 109, 119</td>
+                                </tr>
+                                <tr>
+                                    <td>November 6, 2013</td>
+                                    <td>1 Kings 1:5-9; Psalm 86:1-3; 1 Chronicles 5:1-3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                                <tr>
+                                    <td>November 1, 2013</td>
+                                    <td>Genesis 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Novermber 2, 2013</td>
+                                    <td>Genesis 2-20</td>
+                                </tr>
+                                <tr>
+                                    <td>November 3, 2013</td>
+                                    <td>2 Chronicles 1:15-28</td>
+                                </tr>
+                                <tr>
+                                    <td>November 4, 2013</td>
+                                    <td>2 Chronicles 2-3; 2 Kings 5-6</td>
+                                </tr>
+                                <tr>
+                                    <td>November 5, 2013</td>
+                                    <td>Psalms 101, 105, 107, 109, 119</td>
+                                </tr>
+                                <tr>
+                                    <td>November 6, 2013</td>
+                                    <td>1 Kings 1:5-9; Psalm 86:1-3; 1 Chronicles 5:1-3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- /row -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>Reading</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>November 1, 2013</td>
+                                    <td>Genesis 1</td>
+                                </tr>
+                                <tr>
+                                    <td>Novermber 2, 2013</td>
+                                    <td>Genesis 2-20</td>
+                                </tr>
+                                <tr>
+                                    <td>November 3, 2013</td>
+                                    <td>2 Chronicles 1:15-28</td>
+                                </tr>
+                                <tr>
+                                    <td>November 4, 2013</td>
+                                    <td>2 Chronicles 2-3; 2 Kings 5-6</td>
+                                </tr>
+                                <tr>
+                                    <td>November 5, 2013</td>
+                                    <td>Psalms 101, 105, 107, 109, 119</td>
+                                </tr>
+                                <tr>
+                                    <td>November 6, 2013</td>
+                                    <td>1 Kings 1:5-9; Psalm 86:1-3; 1 Chronicles 5:1-3</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!-- /row -->
+            </div>
+        </div> <!-- /container -->
+    </div>
+
+    <footer>
+        <div class="container">
+            <div id="gh" class="row">
+                <div class="col-md-6">
+                    <h4>&copy; Kyle Hornberg 2013</h4>
+                    <p><a href="LICENSE">MIT License</a></p>
+                    <p><a href="https://github.com/khornberg/bible-reading-planner">Development on Github</a></p>
+                </div>
+                <div id="credits" class="col-md-6">
+                    <h4>Thanks to </h4>
+                    <ul>
+                        <li><a href="j.hn">John Dyer</a> for bible.js.</li>
+                        <li>bootstrap</li>
+                        <li>bootstrap-datepicker</li>
+                        <li><a href="https://github.com/devkardia">devkardia's</a> bible reading plans</li>
+                    </ul>
+                </div>
+            </div>
+        </div> <!-- /container -->
+    </footer>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->

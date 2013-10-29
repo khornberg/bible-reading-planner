@@ -9,6 +9,10 @@ Very much a work in progress...
 
 ## Changes
 
+## 29 October 2013
+Scaffolding
+CSS
+
 ### 25 October 2013
 Added Qunit tests to Grunt
 Load bible.js, bible.reference.js and bible.math.js with RequireJS
@@ -22,7 +26,6 @@ Moved bible.math.js into seperate repo
 
 ## TODO
 - Minimize and concat bible.math.js?
-- Add scaffolding for page
 - Calendars
 	- Connect skip days to calendars
 	- Get days between two dates (moment.js needed to exclude unwanted days?)
@@ -34,6 +37,10 @@ Moved bible.math.js into seperate repo
 	- Formats
 	- Errors
 - Fonts, colors
+	- Primary color of buttons
+	- Customize bootstrap (get rid of what I don't use)
+- Scaffolding
+	- Checkbox button group, radio button group not working
 
 
 ## Credits
