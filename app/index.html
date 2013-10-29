@@ -76,29 +76,31 @@
         </div>
         <div id="amount-to-read" class="col-md-4">
           <h2>Amount to Read</h2>
-            <div class="input-group">
-                <input type="text" name="amount" id="amount" class="form-control" placeholder="25">
-            </div> 
-            <p></p>       
             <div id="type" class="btn-group" data-toggle="buttons">
                 <label class="btn btn-sm btn-primary">
                     <input type="radio" name="options" id="chapters">Chapters</label>
                 <label class="btn btn-sm btn-primary">
                     <input type="radio" name="options" id="verses">Verses</label>
                 <label class="btn btn-sm btn-primary">
-                    <input type="radio" name="options" id="specified">Specified</label>
+                    <input type="radio" name="options" id="specified">As Specified</label>
+            </div>
+            <p></p>
+            <div class="input-group">
+                <input type="text" name="amount" id="amount" class="form-control" placeholder="25">
             </div>
         </div>
       </div>
       
 
       <div class="row">
-        <div class="col-md-2 col-md-offset-5">
-            <button id="create" class="btn btn-lg btn-default">Create Your Plan</button>
+        <div class="col-md-2 col-md-offset-5 create">
+            <button id="create" class="btn btn-lg btn-success" data-loading-text="Creating your plan">Create Your Plan</button>
         </div>
+      </div>
 
-        <div id="wait" class="col-md-1 col-md-offset-6">
-                <img src="images/spinner.gif" alt="Waiting for the plan">
+      <div class="row">
+        <div id="wait" class="text-center wait">
+            <img src="images/spinner.gif" alt="Waiting for the plan">
         </div>
       </div>
     </div> <!-- /container -->

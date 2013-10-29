@@ -84,12 +84,18 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
     console.groupEnd();
 
     // calendars
-    var calDefaultOptions = {
+    $('#calendar-start').datepicker({
         "todayHighlight":true,
         "startDate": new Date()
-    }
-    $('#calendar-start').datepicker(calDefaultOptions);
-    $('#calendar-end').datepicker(calDefaultOptions);
+    });
+
+    var endDate = new Date();
+    endDate.setDate(endDate.getDate() + 30);
+
+    $('#calendar-end').datepicker({
+        "todayHighlight":true,
+        "startDate": endDate
+    });
 
     // the end cannot be before the start
     $('#calendar-start').change(function() {
@@ -103,12 +109,14 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
 
     // disable days
     $('#skip-checkboxes').change(function () {
-
-        
         $('#calendar-start').datepicker('setDaysOfWeekDisabled', getSkippedDays());
         $('#calendar-end').datepicker('setDaysOfWeekDisabled', getSkippedDays());
     })
 
+    /**
+     * Get skipped days checked
+     * @return {array} Array of skipped days
+     */
     function getSkippedDays () {
         var opts = [];
         $('#skip-checkboxes input:checked').each(function (i, input) { 
@@ -117,6 +125,10 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
         return opts;
     }
 
+    // radio buttons
+    $('#specified').click(function () { $('#amount').hide(); });
+    $('#chapters').click(function () { $('#amount').show(); });
+    $('#verses').click(function () { $('#amount').show(); });
 
     // Load plans
     $.ajax({
@@ -126,38 +138,46 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
     .done(function(data) {
         var plans = [];
 
-        console.groupCollapsed('Plans');
-        console.log("success");
         $(data).find("a:contains(.json)").each(function() {
             plans.push($(this).attr("title"));
         });
 
-        console.log(plans);
-
         for (var i = 0; i < plans.length; i++) {
-            var planName = plans[i].split("."); // TODO  parse json, get name
-            var plan = '<a href="#" class="list-group-item" name="' + plans[i] + '">' + planName[0] + '</a>';
-            console.log(plan);
-            $('#sequence').append(plan);
+            var planName = setSequences(plans[i]);   
         }
-        console.groupEnd();
-        $('.list-group-item').click(function () { 
-            $('.list-group-item').each(function () {
-                $(this).removeClass('active');
-            })
-
-            $(this).addClass('active');
-        });
-
-
     })
     .fail(function() {
-        console.log("error");
+        console.error("error loading bible reading plan");
         var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
         $('#sequence').append(plan);
     });
+
+    /**
+     * Gets name from each plan and add to list
+     * @param {string} plan Filename of plan to load
+     */
+    function setSequences (sequence) {
+        $.getJSON('/plans/' + sequence) 
+        .done(function(json, textStatus) {
+                console.log(json.name + " " + textStatus);
+                var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
+            $('#sequence').append(plan);
+
+            // select functionality
+            $('.list-group-item').click(function () { 
+                $('.list-group-item').each(function () {
+                    $(this).removeClass('active');
+                })
+
+                $(this).addClass('active');
+            });
+        });
+    }
     
-    // get data
+    /**
+     * Get data from page elements
+     * @return {array} Array of the data
+     */
     define('getData', [], function () {
         'use strict';
 
@@ -192,11 +212,22 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
 
     // create plan
     $('#create').click(function(event) {
+
+        $('#wait').show();     
+        
+
         require(['getData', 'plan'], function (getData, plan) {
             var data = getData();
+            // plan(bibleBook, sequence, versesPerDay, remainder, 0, 0, 0);
         });
+
+        //testing only
+        setTimeout(function () {
+            $('#wait').hide();
+            $('.plan').fadeIn('slow');
+        }, 2000)
     });
 });
 
-
+//sdg
 

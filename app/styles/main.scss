@@ -50,8 +50,18 @@ footer {
     color: white;
 }
 
+.create {
+    padding-bottom: 1.5em;
+}
+
+.wait {
+    display: none;
+    padding: 2em;
+}
+
 .plan {
     background-color: #9a8c77;
+    display: none;
 }
 
 table {

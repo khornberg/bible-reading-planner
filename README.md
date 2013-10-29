@@ -12,6 +12,8 @@ Very much a work in progress...
 ## 29 October 2013
 Scaffolding
 CSS
+Front-end js
+Bootstrap buttons, tooltips not working
 
 ### 25 October 2013
 Added Qunit tests to Grunt
