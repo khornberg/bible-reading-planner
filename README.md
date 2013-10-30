@@ -33,11 +33,6 @@ Moved bible.math.js into seperate repo
 
 ## TODO
 - Minimize and concat bible.math.js?
-- Calendars
-	- Get days between two dates (moment.js needed to exclude unwanted days?)
-	- Get icon to show calendar also
-- Link list automatically loaded with json names in files?
-	- Error handling
 - Plan section
 	- Errors
 - Fonts, colors
@@ -45,8 +40,6 @@ Moved bible.math.js into seperate repo
 	- Customize bootstrap (get rid of what I don't use)
 	- Test Google web fonts
 - Scaffolding
-- Plans
-	Check spelling of plans
 - Export
 	- Text
 	- PDF
@@ -54,9 +47,17 @@ Moved bible.math.js into seperate repo
 	- Email
 	- Social?
 - Optimization
-	- Load jQuery from CDN?
+	- Load scripts from CDN?
 	- cache.manifest
+- Plan
+	refactor to include chapters
+	generalize
+	parse sequence item
+	calc distance
+	return object
 
+bower install --save momentjs
+bower install --save twix
 
 ## Credits
 

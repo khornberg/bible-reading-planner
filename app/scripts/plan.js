@@ -2,7 +2,8 @@ define(["bibleMath"], function() {
 
     'use strict';
 
-    return function(bibleBook, sequence, versesPerDay, remainder, bookRemainder, sequenceKey, results) {
+    return {
+        'create': function(bibleBook, sequence, versesPerDay, remainder, bookRemainder, sequenceKey, results) {
                
         var chapterVerses = bibleBook[sequence[sequenceKey] - 1]; //minus 1 for 0 indexed array
         var chapter = sequence[sequenceKey]; //sequence must use real chapters
@@ -33,7 +34,7 @@ define(["bibleMath"], function() {
             endVerse = chapterVerses - bookRemainder + versesPerDay;
         }
         else {
-            endVerse = chapterVerses ;
+            endVerse = chapterVerses;
         }
         
         // Only if a reader is reading 1 verse a day
@@ -83,6 +84,27 @@ define(["bibleMath"], function() {
 
         return results;
 
+        },
+
+        'load': function (sequence) {
+            var result = '';
+            $.ajax({
+                dataType: "json",
+                url: '/plans/' + sequence,
+                async: false,
+                success: function(json) { result = json; }
+            });
+            return result;
+        },
+
+        'output': function (p) {
+            var day = '';
+            for (var i = 0; i < p.length; i++) {
+                day = '<tr><td>' + p[i].day + '</td><td>' + p[i].start + ' - ' + p[i].end + '</td>';
+                $('tbody').append(day);
+            };
+            
+        }
     };
 });
 

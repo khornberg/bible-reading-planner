@@ -17,6 +17,8 @@ require.config({
         bible: '../bower_components/bible.math.js/bible',
         bibleReference: '../bower_components/bible.math.js/bible.reference',
         bibleMath: '../bower_components/bible.math.js/bible.math',
+        moment: '../bower_components/moment/moment.min.js',
+        twix: '../bower_components/twix/twix.min.js'
     },
     shim: {
         bootstrapAffix: {
@@ -70,7 +72,7 @@ require.config({
     }
 });
 
-require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton'], function (app, $) {
+require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton', 'bootstrapTooltip'], function (app, $) {
     'use strict';
     // use app here
     // 
@@ -99,7 +101,9 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
 
     // the end cannot be before the start
     $('#calendar-start').change(function() {
-        $('#calendar-end').datepicker('setStartDate', $('#calendar-start').datepicker('getDate'));
+        var endDate = $('#calendar-start').datepicker('getDate');
+        endDate.setDate(endDate.getDate() + 30);
+        $('#calendar-end').datepicker('setStartDate', endDate);
     })
 
     // the start cannot be after the end
@@ -127,7 +131,6 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
 
     // radio buttons
     $('input[type=radio]').change(function () { 
-        console.log(this);
         if ( this.id === 'specified' ) {
             $('#amount').hide(); 
         }
@@ -183,14 +186,15 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
         });
     }
     
+    
     /**
      * Get data from page elements
      * @return {array} Array of the data
      */
-    define('getData', [], function () {
-        'use strict';
+    // define('getData', [], function () {
+    //     'use strict';
 
-        return function () {
+    function getData () {
                 var data = [];
                 // sequence
                 data['sequence'] = $('.list-group-item.active').attr('name');
@@ -202,10 +206,6 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
                 data['end'] = $('#calendar-end').datepicker('getDate');
 
                 // days to skip
-            //     var opts = [];
-            // $('#skip-checkboxes input:checked').each(function (i, input) { 
-            //     opts.push(input.value); 
-            // })
                 data['skip'] = getSkippedDays();
 
                 // amount
@@ -214,10 +214,10 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
                 // type
                 data['type'] = $(':radio:checked').attr('id');
 
-                console.info(data);
+                console.info("Data " + data);
                 return data;
-        };
-    });
+        }
+    // });
 
     // create plan
     $('#create').click(function(event) {
@@ -225,16 +225,26 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton']
         $('#wait').show();     
         
 
-        require(['getData', 'plan'], function (getData, plan) {
+        require(['plan'], function (plan) {
             var data = getData();
-            // plan(bibleBook, sequence, versesPerDay, remainder, 0, 0, 0);
-        });
 
-        //testing only
-        setTimeout(function () {
-            $('#wait').hide();
-            $('.plan').fadeIn('slow');
-        }, 2000)
+            console.info(plan);
+            var s = plan.load(data['sequence']);
+
+            if (s) {
+                $('#wait').hide();
+
+                var small_return = [{"day":0,"start":{"chapter":1,"verse":1},"end":{"chapter":1,"verse":20}},{"day":1,"start":{"chapter":1,"verse":21},"end":{"chapter":1,"verse":31}},{"day":2,"start":{"chapter":3,"verse":1},"end":{"chapter":3,"verse":9}},{"day":3,"start":{"chapter":3,"verse":10},"end":{"chapter":3,"verse":24}},{"day":4,"start":{"chapter":4,"verse":1},"end":{"chapter":4,"verse":5}},{"day":5,"start":{"chapter":4,"verse":6},"end":{"chapter":4,"verse":25}},{"day":6,"start":{"chapter":4,"verse":26},"end":{"chapter":4,"verse":26}},{"day":7,"start":{"chapter":2,"verse":1},"end":{"chapter":2,"verse":19}},{"day":8,"start":{"chapter":2,"verse":20},"end":{"chapter":2,"verse":25}},{"day":9,"start":{"chapter":5,"verse":1},"end":{"chapter":5,"verse":14}},{"day":10,"start":{"chapter":5,"verse":15},"end":{"chapter":5,"verse":32}}];
+
+                plan.output(small_return);
+
+                $('.plan').fadeIn('slow');
+            }
+
+            
+
+            // plan.create(bibleBook, sequence, versesPerDay, remainder, 0, 0, 0);
+        });
     });
 });
 
