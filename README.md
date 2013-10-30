@@ -11,6 +11,8 @@ Very much a work in progress...
 
 ## 30 October 2013
 Buttons worked. Added bootstrap js file to require function
+Single HTML for plan
+
 
 ## 29 October 2013
 Scaffolding
@@ -37,18 +39,12 @@ Moved bible.math.js into seperate repo
 - Link list automatically loaded with json names in files?
 	- Error handling
 - Plan section
-	- Formats - single html table
 	- Errors
 - Fonts, colors
 	- Change primary, success, warning, info color of buttons and others
 	- Customize bootstrap (get rid of what I don't use)
 	- Test Google web fonts
 - Scaffolding
-	- Add bible version to quote
-	- Add reference to quote
-	- Add start/end notices to calendars
-	- Change "As Specified" to something else
-	- Hide amount box by default
 - Plans
 	Check spelling of plans
 - Export
