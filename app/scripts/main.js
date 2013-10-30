@@ -70,7 +70,7 @@ require.config({
     }
 });
 
-require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $) {
+require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton'], function (app, $) {
     'use strict';
     // use app here
     // 
@@ -126,9 +126,15 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
     }
 
     // radio buttons
-    $('#specified').click(function () { $('#amount').hide(); });
-    $('#chapters').click(function () { $('#amount').show(); });
-    $('#verses').click(function () { $('#amount').show(); });
+    $('input[type=radio]').change(function () { 
+        console.log(this);
+        if ( this.id === 'specified' ) {
+            $('#amount').hide(); 
+        }
+        else {
+            $('#amount').show();
+        }
+    });
 
     // Load plans
     $.ajax({
@@ -142,9 +148,12 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
             plans.push($(this).attr("title"));
         });
 
+        console.groupCollapsed('Load Plan Names');
+
         for (var i = 0; i < plans.length; i++) {
             var planName = setSequences(plans[i]);   
         }
+        console.groupEnd();
     })
     .fail(function() {
         console.error("error loading bible reading plan");
@@ -159,8 +168,8 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker'], function (app, $)
     function setSequences (sequence) {
         $.getJSON('/plans/' + sequence) 
         .done(function(json, textStatus) {
-                console.log(json.name + " " + textStatus);
-                var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
+            console.log(json.name + " " + textStatus);
+            var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
             $('#sequence').append(plan);
 
             // select functionality

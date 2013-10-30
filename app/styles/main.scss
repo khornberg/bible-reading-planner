@@ -50,6 +50,16 @@ footer {
     color: white;
 }
 
+.list-group-scroll {
+    max-height: 230px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#amount {
+    display: none;
+}
+
 .create {
     padding-bottom: 1.5em;
 }
@@ -64,18 +74,12 @@ footer {
     display: none;
 }
 
-table {
-    background-color: white;
-}
-
-.list-group-scroll {
-    max-height: 230px;
-    overflow: hidden;
-    overflow-y: auto;
-}
-
 .downloads {
     text-align: center;    
+}
+
+table {
+    background-color: white;
 }
 
 /* Responsive: Portrait tablets and up */
