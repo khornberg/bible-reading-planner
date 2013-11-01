@@ -119,12 +119,14 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
     })
 
     // radio buttons
-    $('input[type=radio]').change(function () { 
+    $('#type input[type=radio]').change(function () { 
         if ( this.id === 'specified' ) {
-            $('#amount').hide();
+            $('#amountNumber').hide();
+            $('#amountSpecified').show();
         }
         else {
-            $('#amount').show();
+            $('#amountNumber').show();
+            $('#amountSpecified').hide();
         }
     });
 
@@ -205,8 +207,7 @@ console.error("error loading bible reading plan");
                 // var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
 
                 // test specified sequences
-                var userPlan = plan.create(jsonSequence, 'whole', plan.type);
-                // var userPlan = plan.create(jsonSequence, 'partial', plan.type);
+                var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
 
                 var rows = plan.output(userPlan, 'dom');
 console.log(rows);

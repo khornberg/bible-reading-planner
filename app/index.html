@@ -93,8 +93,14 @@
                     <input type="radio" name="options" id="specified">Sequence</label>
             </div>
             <p></p>
-            <div class="input-group">
-                <input type="number" name="amount" id="amount" class="form-control" placeholder="25">
+            <div class="input-group" id="amount">
+                <input type="number" name="amountNumber" id="amountNumber" class="form-control" placeholder="25">
+                <div id="amountSpecified" class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Finish whole sequence in the alloted time.">
+                        <input type="radio" name="options2" id="whole">Whole</label>
+                    <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Use the orginal sequence amount in the alloted time.">
+                        <input type="radio" name="options2" id="partial">What time allows</label>
+                </div>
             </div>
         </div>
       </div>

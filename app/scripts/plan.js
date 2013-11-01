@@ -25,11 +25,13 @@ define(['bibleMath'], function () {
         })
         data['skip'] = opts;
 
-        // amount
-        data['amount'] = Number($('#amount').val());
-
         // type
-        data['type'] = $(':radio:checked').attr('id');
+        data['type'] = $('#type :radio:checked').attr('id');
+
+        // amount
+        data['amount'] = (data['type'] === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
+
+
 
 console.info("Data " + JSON.stringify(data));
         return data;
@@ -66,7 +68,7 @@ console.info("Data " + JSON.stringify(data));
             type = (type === undefined) ? this.type : type;
 
             if(type === 'verses') {
-                return this.createVerses(sequence, 0, amount, 0, 0);
+                return this.createVerses(sequence, 0, Number(amount), 0, 0);
             }
             if(type === 'specified') {
                 return this.createSpecified(sequence, amount)
@@ -96,8 +98,9 @@ console.info("Data " + JSON.stringify(data));
             // partial sequence
             if (amount === 'partial') {
                 for (var i = 0; i < this.duration.length; i++) {
-                    results.push({'day': this.duration[i].toString(), 'refs': bible.parseReference(sequence.data[i])})    
+                    results.push({'day': this.duration[i].toString(), 'refs': [bible.parseReference(sequence.data[i])]});
                 };
+                    
             }
 
             return results;
@@ -214,7 +217,7 @@ console.info("Data " + JSON.stringify(data));
     console.info("bible distance " + b.toString());
                     d.push(b);
                     sequenceKey++;
-                    results.push({'day': this.duration[i].toString(), 'start': r, 'end': ''});
+                    results.push({'day': this.duration[i].toString(), 'refs': r});
                 }
             };
 
@@ -254,8 +257,8 @@ console.info("Data " + JSON.stringify(data));
                     var row = '';
                     for (var i = 0; i < plan.length; i++) {
                         row = row + '<tr><td>' + plan[i].day + '</td><td>';
-                        for(var n = 0; n < plan[i].refs.length; n++) {
-                            row = row + plan[i].refs[n].toString();
+                        for(var n = 0; n < plan[i].refs.length; n++) { 
+                           row = row + plan[i].refs[n].toString();
                             if( n < plan[i].refs.length - 1) {
                                 row = row + ', ';
                             }
