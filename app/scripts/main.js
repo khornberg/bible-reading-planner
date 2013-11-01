@@ -17,8 +17,8 @@ require.config({
         bible: '../bower_components/bible.math.js/bible',
         bibleReference: '../bower_components/bible.math.js/bible.reference',
         bibleMath: '../bower_components/bible.math.js/bible.math',
-        moment: '../bower_components/moment/moment.min.js',
-        twix: '../bower_components/twix/twix.min.js'
+        moment: '../bower_components/moment/min/moment.min',
+        twix: '../bower_components/twix/bin/twix.min'
     },
     shim: {
         bootstrapAffix: {
@@ -87,23 +87,24 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
 
     // calendars
     $('#calendar-start').datepicker({
-        "todayHighlight":true,
+        "todayHighlight": true,
         "startDate": new Date()
     });
 
-    var endDate = new Date();
-    endDate.setDate(endDate.getDate() + 30);
+    $('#calendar-start').datepicker('update', new Date());
 
     $('#calendar-end').datepicker({
-        "todayHighlight":true,
-        "startDate": endDate
+        "todayHighlight": true,
+        "startDate": new Date()
     });
+
+    var initEndDate = new Date();
+    initEndDate.setDate(initEndDate.getDate() + 30);
+    $('#calendar-end').datepicker('update', initEndDate);
 
     // the end cannot be before the start
     $('#calendar-start').change(function() {
-        var endDate = $('#calendar-start').datepicker('getDate');
-        endDate.setDate(endDate.getDate() + 30);
-        $('#calendar-end').datepicker('setStartDate', endDate);
+        $('#calendar-end').datepicker('setStartDate', $('#calendar-start').datepicker('getDate'));
     })
 
     // the start cannot be after the end
@@ -117,6 +118,16 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         $('#calendar-end').datepicker('setDaysOfWeekDisabled', getSkippedDays());
     })
 
+    // radio buttons
+    $('input[type=radio]').change(function () { 
+        if ( this.id === 'specified' ) {
+            $('#amount').hide(); 
+        }
+        else {
+            $('#amount').show();
+        }
+    });
+
     /**
      * Get skipped days checked
      * @return {array} Array of skipped days
@@ -129,19 +140,9 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         return opts;
     }
 
-    // radio buttons
-    $('input[type=radio]').change(function () { 
-        if ( this.id === 'specified' ) {
-            $('#amount').hide(); 
-        }
-        else {
-            $('#amount').show();
-        }
-    });
-
     // Load plans
     $.ajax({
-        url: '/plans',
+        url: '/bower_components/readingplans',
         type: 'GET',
     })
     .done(function(data) {
@@ -151,15 +152,12 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
             plans.push($(this).attr("title"));
         });
 
-        console.groupCollapsed('Load Plan Names');
-
         for (var i = 0; i < plans.length; i++) {
             var planName = setSequences(plans[i]);   
         }
-        console.groupEnd();
     })
     .fail(function() {
-        console.error("error loading bible reading plan");
+console.error("error loading bible reading plan");
         var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
         $('#sequence').append(plan);
     });
@@ -169,9 +167,8 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
      * @param {string} plan Filename of plan to load
      */
     function setSequences (sequence) {
-        $.getJSON('/plans/' + sequence) 
+        $.getJSON('/bower_components/readingplans/' + sequence) 
         .done(function(json, textStatus) {
-            console.log(json.name + " " + textStatus);
             var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
             $('#sequence').append(plan);
 
@@ -185,66 +182,47 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
             });
         });
     }
+
+    $('#sequence').click(function (e) {
+        e.preventDefault();
+    })
     
-    
-    /**
-     * Get data from page elements
-     * @return {array} Array of the data
-     */
-    // define('getData', [], function () {
-    //     'use strict';
-
-    function getData () {
-                var data = [];
-                // sequence
-                data['sequence'] = $('.list-group-item.active').attr('name');
-
-                // start
-                data['start'] = $('#calendar-start').datepicker('getDate');
-
-                // end
-                data['end'] = $('#calendar-end').datepicker('getDate');
-
-                // days to skip
-                data['skip'] = getSkippedDays();
-
-                // amount
-                data['amount'] = $('#amount').val();
-
-                // type
-                data['type'] = $(':radio:checked').attr('id');
-
-                console.info("Data " + data);
-                return data;
-        }
-    // });
-
     // create plan
     $('#create').click(function(event) {
 
         $('#wait').show();     
-        
 
-        require(['plan'], function (plan) {
-            var data = getData();
+        require(['plan', 'time', 'bootstrapAlert'], function (plan, time) {
 
-            console.info(plan);
-            var s = plan.load(data['sequence']);
-
-            if (s) {
+            plan.set();
+            var jsonSequence = plan.load(plan.sequence);
+            
+            if (jsonSequence.status != 404) {
                 $('#wait').hide();
+                $('.alert').remove();
 
-                var small_return = [{"day":0,"start":{"chapter":1,"verse":1},"end":{"chapter":1,"verse":20}},{"day":1,"start":{"chapter":1,"verse":21},"end":{"chapter":1,"verse":31}},{"day":2,"start":{"chapter":3,"verse":1},"end":{"chapter":3,"verse":9}},{"day":3,"start":{"chapter":3,"verse":10},"end":{"chapter":3,"verse":24}},{"day":4,"start":{"chapter":4,"verse":1},"end":{"chapter":4,"verse":5}},{"day":5,"start":{"chapter":4,"verse":6},"end":{"chapter":4,"verse":25}},{"day":6,"start":{"chapter":4,"verse":26},"end":{"chapter":4,"verse":26}},{"day":7,"start":{"chapter":2,"verse":1},"end":{"chapter":2,"verse":19}},{"day":8,"start":{"chapter":2,"verse":20},"end":{"chapter":2,"verse":25}},{"day":9,"start":{"chapter":5,"verse":1},"end":{"chapter":5,"verse":14}},{"day":10,"start":{"chapter":5,"verse":15},"end":{"chapter":5,"verse":32}}];
+                plan.duration = time(plan.start, plan.end, plan.skip);
+                var userPlan = plan.create(jsonSequence, plan.amount, plan.type, plan.duration.length);
+                var rows = plan.output(userPlan, 'dom');
+console.log(rows);
+                if (rows) {
+                    $('tbody').children().remove();
+                }
 
-                plan.output(small_return);
-
-                $('.plan').fadeIn('slow');
+                $('tbody').append(rows);
+                $('.plan').fadeIn('slow'); //use css3 animation
+            }
+            else {
+                $('#wait').hide();
+                $('div .alert').remove();
+                var message = 'A sequence could not be loaded.'
+console.error(jsonSequence.status);
+                var error_message = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
+                $('#wait').parent().append(error_message);
             }
 
             
-
-            // plan.create(bibleBook, sequence, versesPerDay, remainder, 0, 0, 0);
-        });
+       });
     });
 });
 

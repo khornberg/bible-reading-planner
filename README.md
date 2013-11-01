@@ -9,10 +9,13 @@ Very much a work in progress...
 
 ## Changes
 
+## 31 October 2013
+Error message
+Plan module refactor
+
 ## 30 October 2013
 Buttons worked. Added bootstrap js file to require function
 Single HTML for plan
-
 
 ## 29 October 2013
 Scaffolding
@@ -33,13 +36,12 @@ Moved bible.math.js into seperate repo
 
 ## TODO
 - Minimize and concat bible.math.js?
-- Plan section
-	- Errors
 - Fonts, colors
 	- Change primary, success, warning, info color of buttons and others
 	- Customize bootstrap (get rid of what I don't use)
-	- Test Google web fonts
+	- Google web fonts
 - Scaffolding
+	- Show create button only when data is selected
 - Export
 	- Text
 	- PDF
@@ -49,15 +51,26 @@ Moved bible.math.js into seperate repo
 - Optimization
 	- Load scripts from CDN?
 	- cache.manifest
+	- r.js?
+	- CSS animations
+- Privacy/legal statement in footer
 - Plan
-	refactor to include chapters
+	include chapters
+	sequence order
 	generalize
-	parse sequence item
-	calc distance
-	return object
+	time not loading as dependency in define...
+	- add time and put in constructor?
+	- click doesn't get updated data
+	- focus on plan
+	CONST for reading plans location
+- Documentation
 
-bower install --save momentjs
-bower install --save twix
+## Future
+
+- Mobile Apps (probably using Apache Cordova)
+- Offline access
+- Progress tracking
+- i18n
 
 ## Credits
 
@@ -67,3 +80,5 @@ Used [devkardia's](https://github.com/devkardia) plans and created json versions
 ### Application
 bible.js
 Twitter Bootstrap
+Twix
+Moment

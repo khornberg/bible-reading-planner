@@ -3,10 +3,14 @@
 <head>
     <title>bible ref</title>
     <link rel="stylesheet" href="qunit-1.12.0.css" />
-    <script src="../app/bower_compents/bible.math.js/bible.js"></script>
-    <script src="../app/bower_compents/bible.math.js/bible.math.js"></script>
-    <script src="../app/scripts/plan.js"></script>
+    <script data-main="scripts/main" src="../../app/bower_components/requirejs/require.js"></script>
+<!--     // <script src="../app/bower_compents/bible.math.js/bible.js"></script>
+    // <script src="../app/bower_compents/bible.math.js/bible.math.js"></script>
+    // <script src="../app/scripts/plan.js"></script> -->
     <script src="qunit-1.12.0.js"></script>
+    <script>
+    QUnit.config.autostart = false;
+    </script>
     <script src="tests.js"></script>
 </head>
 <body>

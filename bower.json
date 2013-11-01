@@ -5,7 +5,10 @@
     "sass-bootstrap": "~3.0.0",
     "requirejs": "~2.1.8",
     "modernizr": "~2.6.2",
-    "jquery": "~1.10.2"
+    "jquery": "~1.10.2",
+    "twix": "~0.3.0",
+    "bible.math.js": "khornberg/bible.math.js",
+    "readingplans": "khornberg/readingplans"
   },
   "devDependencies": {}
 }
