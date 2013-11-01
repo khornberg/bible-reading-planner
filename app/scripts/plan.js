@@ -10,7 +10,7 @@ define(['bibleMath'], function () {
      */
     function get () {  
         // sequence
-        data['sequence'] = $('.list-group-item.active').attr('name');
+        data['sequenceName'] = $('.list-group-item.active').attr('name');
 
         // start
         data['start'] = $('#calendar-start').datepicker('getDate');
@@ -40,7 +40,7 @@ console.info("Data " + JSON.stringify(data));
      */
     function set () {
         var data = this.get();
-        this.sequence = data.sequence;
+        this.sequenceName = data.sequenceName;
         this.start = data.start;
         this.end = data.end;
         this.skip = data.skip;
@@ -50,7 +50,7 @@ console.info("Data " + JSON.stringify(data));
     }
 
     return {
-        'sequence': data.sequence,
+        'sequenceName': data.sequenceName,
         'start': data.start,
         'end': data.end,
         'skip': data.skip,
@@ -61,15 +61,46 @@ console.info("Data " + JSON.stringify(data));
         'set': set,
 
         'create': function(sequence, amount, type) {
-            sequence = (sequence === undefined) ? this.load(this.sequence) : sequence;
+            sequence = (sequence === undefined) ? this.load(this.sequenceName) : sequence;
             amount = (amount === undefined) ? this.amount : amount;
             type = (type === undefined) ? this.type : type;
-console.info(sequence);
-console.info(amount);
-console.info(type);
+
             if(type === 'verses') {
                 return this.createVerses(sequence, 0, amount, 0, 0);
             }
+            if(type === 'specified') {
+                return this.createSpecified(sequence, amount)
+            }
+        },
+
+        'createSpecified': function (sequence, amount) {
+            var items = Math.round(sequence.data.length / this.duration.length, 0);
+            var results = [];
+
+            // whole sequence
+            if (amount === 'whole'){ 
+                for (var i = 0; i < this.duration.length; i++) {
+                    var n = i * items;
+                    var limit = (n + items > sequence.data.length) ? sequence.data.length : n + items;
+                    var refs = [];
+                    for (n; n < limit; n++) {
+                        if(n < sequence.data.length) {
+                            refs.push(bible.parseReference(sequence.data[n]));
+                        }
+                    };
+                    results.push({'day': this.duration[i].toString(), 'refs': refs});
+                    if (limit === sequence.data.length) { break; }
+                };
+            }
+
+            // partial sequence
+            if (amount === 'partial') {
+                for (var i = 0; i < this.duration.length; i++) {
+                    results.push({'day': this.duration[i].toString(), 'refs': bible.parseReference(sequence.data[i])})    
+                };
+            }
+
+            return results;
         },
 
         'createVersesOld': function (sequence, sequenceKey, versesPerDay, remainder, bookRemainder, results) {
@@ -172,24 +203,24 @@ console.info(type);
         
             for (var i = 0; i < this.duration.length; i++) {
                 ref = bible.parseReference(sequence.data[sequenceKey]);
-console.info("seq ref " + ref.toString());
+    console.info("seq ref " + ref.toString());
 
                 if (ref != 'invalid' || !ref) {
                     var a = bible.add(ref, this.amount);
                 
-console.info("bible amount " + this.amount + " bible add ref " + a.toString());
+    console.info("bible amount " + this.amount + " bible add ref " + a.toString());
                     r.push(a);
                     var b = bible.distance(ref);
-console.info("bible distance " + b.toString());
+    console.info("bible distance " + b.toString());
                     d.push(b);
                     sequenceKey++;
                     results.push({'day': this.duration[i].toString(), 'start': r, 'end': ''});
                 }
             };
 
-console.info(r);
-console.info(d);
-console.info(results);
+    console.info(r);
+    console.info(d);
+    console.info(results);
             
             // if (sequence.length !== sequenceKey) {
             //     this.createVerses(sequence, sequenceKey, versesPerDay, remainder, bookRemainder, results);
@@ -199,7 +230,7 @@ console.info(results);
         },
 
         'load': function (sequence) {
-            sequence = (sequence === undefined) ? this.sequence : sequence;
+            sequence = (sequence === undefined) ? this.sequenceName : sequence;
             var result = '';
             $.ajax({
                 dataType: "json",
@@ -222,7 +253,15 @@ console.info(results);
                 default:
                     var row = '';
                     for (var i = 0; i < plan.length; i++) {
-                        row = row + '<tr><td>' + plan[i].day + '</td><td>' + plan[i].start.toString() + ' - ' + plan[i].end.toString() + '</td>';
+                        row = row + '<tr><td>' + plan[i].day + '</td><td>';
+                        for(var n = 0; n < plan[i].refs.length; n++) {
+                            row = row + plan[i].refs[n].toString();
+                            if( n < plan[i].refs.length - 1) {
+                                row = row + ', ';
+                            }
+                        }
+
+                        row = row + '</td></tr>';
                     };
                     return row;
             }
