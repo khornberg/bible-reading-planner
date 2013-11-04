@@ -68,31 +68,43 @@ console.info("Data " + JSON.stringify(data));
             amount = (amount === undefined) ? this.amount : amount;
             type = (type === undefined) ? this.type : type;
 
+
             if(type === 'verses') {
                 return this.createVersesPlan(sequence, Number(amount));
             }
             if(type === 'specified') {
                 return this.createSpecifiedPlan(sequence, amount);
             }
+            if(type === 'chapters') {
+                return this.createChaptersPlan(sequence, Number(amount));
+            }
         },
 
         'createSpecifiedPlan': function (sequence, amount) {
-            var items = Math.round(sequence.data.length / this.duration.length, 0);
+            var items = Math.floor(sequence.data.length / this.duration.length);
+            var mod = sequence.data.length % this.duration.length;
             var results = [];
-
+            var sequenceKey = 0;
             // whole sequence
             if (amount === 'whole'){
+
                 for (var i = 0; i < this.duration.length; i++) {
-                    var n = i * items;
-                    var limit = (n + items > sequence.data.length) ? sequence.data.length : n + items;
                     var refs = [];
-                    for (n; n < limit; n++) {
-                        if(n < sequence.data.length) {
-                            refs.push(bible.parseReference(sequence.data[n]).toString());
+                    
+                    for (var x = 0; x < items; x++) {
+                        if(sequenceKey < sequence.data.length) {
+                            refs.push(bible.parseReference(sequence.data[sequenceKey]).toString());
+                            sequenceKey++;
+                            if (mod > 0) {
+                                refs.push(bible.parseReference(sequence.data[sequenceKey]).toString());
+                                sequenceKey++;
+                                mod--;
+                            }
                         }
-                    }
+                    };
+
                     results.push({'day': this.duration[i].toString(), 'refs': refs});
-                    if (limit === sequence.data.length) { break; }
+                    if (sequenceKey === sequence.data.length) { break; }
                 }
             }
 
@@ -108,6 +120,63 @@ console.info("Data " + JSON.stringify(data));
         },
 
         'createVersesPlan': function (sequence, amount) {
+            var results = [];
+            var remainder = 0;
+
+            function vA (sequenceKey, remainder, duration) {
+                var refs = [];
+                var ref = bible.parseReference(sequence.data[sequenceKey]);
+
+                if (ref != 'invalid') {
+                    var tmp = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
+                    var end = (ref.chapter2 !== -1 && ref.verse2 !== -1) ? bible.Reference(ref.bookIndex, ref.chapter2, ref.verse2) : tmp; // end ref
+
+                    refs.push(tmp.toString()); // first string ref (from)
+var e = 0;
+                    if (remainder > 0) {
+                        var r = bible.add(tmp, remainder);
+                        refs.push('-'+r.toString()); // second string ref (to) if remaining from the previous sequence | amount
+                        e++;
+                    }
+
+                    while (bible.distance(tmp, end).verses > amount) {
+                        var w = bible.add(tmp, amount);
+                        if(e%2 > 0) {
+                            refs.push(w.toString()); // second string ref (to) if remaining not true, else first string of new ref (from), 2nd iteration second string ref (to)
+                        }
+                        else {   
+                            refs.push('-'+w.toString());
+                        }
+                    }
+
+                    // add reminder before exit
+                    var d = bible.distance(tmp, end);
+                    remainder = (d.hasOwnProperty('verses')) ? d.verses : 0;
+                    if (remainder > 1) {
+                        refs.push('-'+end.toString()); // finish the sequence (to) Amount to read is more than the total distance of the sequence item.
+                    }
+                    else {
+                        refs.push('?'+tmp.toString()); // ?
+                    }
+                }
+                else {
+                    console.error("invalid (seq.data): " + sequence.data[sequenceKey])
+                }
+
+                results.push({'day': duration, 'refs': refs});
+
+                return remainder;
+            }
+var sequenceKey = 0;
+            for (var i = 0; i < this.duration.length; i++) {
+                remainder = vA (sequenceKey, remainder, this.duration[i]);
+                sequenceKey++;
+            }
+
+            return results;
+        },
+
+        'createChaptersPlan': function (sequence, amount) {
             var results = [];
             var remainder = 0;
 
