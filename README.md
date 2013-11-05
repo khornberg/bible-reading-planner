@@ -9,30 +9,7 @@ Very much a work in progress...
 
 ## Changes
 
-## 31 October 2013
-Error message
-Plan module refactor
 
-## 30 October 2013
-Buttons worked. Added bootstrap js file to require function
-Single HTML for plan
-
-## 29 October 2013
-Scaffolding
-CSS
-Front-end js
-Bootstrap buttons, tooltips not working
-
-### 25 October 2013
-Added Qunit tests to Grunt
-Load bible.js, bible.reference.js and bible.math.js with RequireJS
-Add bootstrap-datepicker to requirejs
-
-### 23 October 2013
-Put into a Yeoman workflow
-
-### 21 October 2013
-Moved bible.math.js into seperate repo
 
 ## TODO
 - Minimize and concat bible.math.js?
@@ -55,22 +32,15 @@ Moved bible.math.js into seperate repo
 	- CSS animations
 - Privacy/legal statement in footer
 - Plan
-	include chapters
-	sequence order
-	generalize
-	time not loading as dependency in define...
-	- add time and put in constructor?
-	- click doesn't get updated data
-	- focus on plan
-	CONST for reading plans location
+	- CONST for reading plans location
 - Documentation
 
 ## Future
 
-- Mobile Apps (probably using Apache Cordova)
-- Offline access
-- Progress tracking
 - i18n
+- Offline access
+- Mobile Apps (probably using Apache Cordova)
+- Progress tracking
 
 ## Credits
 

@@ -216,6 +216,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
                 }
                 $('tbody').append(rows);
                 $('.plan').fadeIn('slow'); //use css3 animation
+                document.getElementById('plan').scrollIntoView();
             }
             else {
                 $('#wait').hide();
@@ -224,6 +225,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
                 console.error(jsonSequence.status);
                 var error_message = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
                 $('#wait').parent().append(error_message);
+                document.getElementById('wait').scrollIntoView() ;
             }
 
             

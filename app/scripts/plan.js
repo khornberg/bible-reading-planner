@@ -70,7 +70,8 @@ console.info("Data " + JSON.stringify(data));
 
 
             if(type === 'verses') {
-                return this.createVersesPlan(sequence, Number(amount));
+                amount = (Number(amount) > 0) ? Number(amount) : 1;
+                return this.createVersesPlan(sequence, amount);
             }
             if(type === 'specified') {
                 return this.createSpecifiedPlan(sequence, amount);
@@ -215,22 +216,22 @@ console.info("Data " + JSON.stringify(data));
                 break;
             case 'dom':
             default:
-                var row = '';
+                var rows = '';
                 for (var i = 0; i < plan.length; i++) {
-                    row = row + '<tr><td>' + plan[i].day + '</td><td>';
+                    rows = rows + '<tr><td>' + plan[i].day + '</td><td>';
                     for(var n = 0; n < plan[i].refs.length; n++) {
-                        row = row + plan[i].refs[n];
-                        // row = row + plan[i].refs[n].toString();
+                        rows = rows + plan[i].refs[n];
+                        // rows = rows + plan[i].refs[n].toString();
                         
                         // don't put a comma after the last element
                         if( n < plan[i].refs.length - 1) {
-                            row = row + ', ';
+                            rows = rows + ', ';
                         }
                     }
 
-                    row = row + '</td></tr>';
+                    rows = rows + '</td></tr>';
                 }
-                return row;
+                return rows;
             }
             
         }
