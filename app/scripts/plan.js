@@ -32,9 +32,7 @@ define(['bibleMath'], function () {
         // amount
         data.amount = (data.type === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
 
-
-
-console.info("Data " + JSON.stringify(data));
+            console.info("Data " + JSON.stringify(data));
         return data;
     }
 

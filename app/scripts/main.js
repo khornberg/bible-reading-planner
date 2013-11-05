@@ -18,7 +18,8 @@ require.config({
         bibleReference: '../bower_components/bible.math.js/bible.reference',
         bibleMath: '../bower_components/bible.math.js/bible.math',
         moment: '../bower_components/moment/min/moment.min',
-        twix: '../bower_components/twix/bin/twix.min'
+        twix: '../bower_components/twix/bin/twix.min',
+        filesaver: '../bower_components/filesaver/FileSaver'
     },
     shim: {
         bootstrapAffix: {
@@ -72,7 +73,7 @@ require.config({
     }
 });
 
-require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton', 'bootstrapTooltip'], function (app, $) {
+require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton', 'bootstrapTooltip', 'filesaver'], function (app, $) {
     'use strict';
     // use app here
     // 
@@ -84,6 +85,31 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
     var ref = bible.parseReference("rom 1:3");
     console.log(bible.add(ref, 10).toString());
     console.groupEnd();
+
+    var READING_PLANS = '/bower_components/readingplans';
+    var FILENAME = 'YourPlan';
+
+    // Load plans
+    $.ajax({
+        url: READING_PLANS,
+        type: 'GET',
+    })
+    .done(function(data) {
+        var plans = [];
+
+        $(data).find("a:contains(.json)").each(function() {
+            plans.push($(this).attr("title"));
+        });
+
+        for (var i = 0; i < plans.length; i++) {
+            var planName = setSequences(plans[i]);   
+        }
+    })
+    .fail(function() {
+        console.error("error loading bible reading plan");
+        var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
+        $('#sequence').append(plan);
+    });
 
     // calendars
     $('#calendar-start').datepicker({
@@ -142,34 +168,12 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         return opts;
     }
 
-    // Load plans
-    $.ajax({
-        url: '/bower_components/readingplans',
-        type: 'GET',
-    })
-    .done(function(data) {
-        var plans = [];
-
-        $(data).find("a:contains(.json)").each(function() {
-            plans.push($(this).attr("title"));
-        });
-
-        for (var i = 0; i < plans.length; i++) {
-            var planName = setSequences(plans[i]);   
-        }
-    })
-    .fail(function() {
-        console.error("error loading bible reading plan");
-        var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
-        $('#sequence').append(plan);
-    });
-
     /**
      * Gets name from each plan and add to list
      * @param {string} plan Filename of plan to load
      */
     function setSequences (sequence) {
-        $.getJSON('/bower_components/readingplans/' + sequence) 
+        $.getJSON(READING_PLANS + '/' + sequence) 
         .done(function(json, textStatus) {
             var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
             $('#sequence').append(plan);
@@ -204,7 +208,6 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
                 $('.alert').remove();
 
                 plan.duration = time(plan.start, plan.end, plan.skip);
-                // var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
 
                 // test specified sequences
                 var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
@@ -226,10 +229,28 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
                 var error_message = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
                 $('#wait').parent().append(error_message);
                 document.getElementById('wait').scrollIntoView() ;
-            }
-
-            
+            } 
        });
+    });
+
+    $('#downloadText').click(function(event) {
+        event.preventDefault();
+        var text = '';
+        $('tbody td').each(function( index ) { 
+          text = (index%2 === 0)? text + $(this).text().trim() : text + ": " + $(this).text().trim() + "\n"; 
+        });
+        var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, FILENAME + '.txt');
+    });
+
+    $('#downloadMarkdown').click(function(event) {
+        event.preventDefault();
+        var text = '';
+        $('tbody td').each(function( index ) { 
+          text = (index%2 === 0)? text + '**' + $(this).text().trim() + '**' : text + ': ' + $(this).text().trim() + '  \n'; 
+        });
+        var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, FILENAME + '.md');
     });
 });
 
