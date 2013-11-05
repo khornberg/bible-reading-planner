@@ -159,7 +159,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         }
     })
     .fail(function() {
-console.error("error loading bible reading plan");
+        console.error("error loading bible reading plan");
         var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
         $('#sequence').append(plan);
     });
@@ -210,7 +210,7 @@ console.error("error loading bible reading plan");
                 var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
 
                 var rows = plan.output(userPlan, 'dom');
-console.log(rows);
+
                 if (rows) {
                     $('tbody').children().remove();
                 }
@@ -221,7 +221,7 @@ console.log(rows);
                 $('#wait').hide();
                 $('div .alert').remove();
                 var message = 'A sequence could not be loaded.'
-console.error(jsonSequence.status);
+                console.error(jsonSequence.status);
                 var error_message = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
                 $('#wait').parent().append(error_message);
             }

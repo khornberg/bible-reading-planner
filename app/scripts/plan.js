@@ -85,6 +85,7 @@ console.info("Data " + JSON.stringify(data));
             var mod = sequence.data.length % this.duration.length;
             var results = [];
             var sequenceKey = 0;
+
             // whole sequence
             if (amount === 'whole'){
 
@@ -120,108 +121,130 @@ console.info("Data " + JSON.stringify(data));
         },
 
         'createVersesPlan': function (sequence, amount) {
+
+            var sequenceKey = 0;
+            var ref = undefined;
+            var partialReferenceString = '';
             var results = [];
-            var remainder = 0;
+            var refs = [];
 
-            function vA (sequenceKey, remainder, duration) {
-                var refs = [];
-                var ref = bible.parseReference(sequence.data[sequenceKey]);
+            // Determine references per day
 
-                if (ref != 'invalid') {
-                    var tmp = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
-                    var end = (ref.chapter2 !== -1 && ref.verse2 !== -1) ? bible.Reference(ref.bookIndex, ref.chapter2, ref.verse2) : tmp; // end ref
+            while(sequenceKey < sequence.data.length) {
+                if (ref === undefined) {
+                    var ref = bible.parseReference(sequence.data[sequenceKey]);
+                }
 
-                    refs.push(tmp.toString()); // first string ref (from)
-var e = 0;
-                    if (remainder > 0) {
-                        var r = bible.add(tmp, remainder);
-                        refs.push('-'+r.toString()); // second string ref (to) if remaining from the previous sequence | amount
-                        e++;
+                if (ref.isValid()) {
+                    var distance = (ref !== undefined) ? bible.distance(ref).verses : undefined;
+                    var tmpDistance = (partialReferenceString !== '') ? bible.distance(bible.parseReference(partialReferenceString)).verses : '';
+
+                    // amount
+                    var amt = (partialReferenceString !== '') ? amount - tmpDistance : amount;
+                    if(distance >= amt) { 
+                        var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
+                        var startRefString = startRef.toString();
+                        var endRef = bible.add(startRef, amt - 1).toString(); // end ref
+
+                        var referenceString = (partialReferenceString !== '') ? partialReferenceString + '; ' + startRefString + '-' + endRef : startRefString + '-' + endRef;
+                        refs.push(referenceString);
+                        bible.add(ref, amt);
+                        partialReferenceString = '';
                     }
-
-                    while (bible.distance(tmp, end).verses > amount) {
-                        var w = bible.add(tmp, amount);
-                        if(e%2 > 0) {
-                            refs.push(w.toString()); // second string ref (to) if remaining not true, else first string of new ref (from), 2nd iteration second string ref (to)
-                        }
-                        else {   
-                            refs.push('-'+w.toString());
-                        }
-                    }
-
-                    // add reminder before exit
-                    var d = bible.distance(tmp, end);
-                    remainder = (d.hasOwnProperty('verses')) ? d.verses : 0;
-                    if (remainder > 1) {
-                        refs.push('-'+end.toString()); // finish the sequence (to) Amount to read is more than the total distance of the sequence item.
-                    }
-                    else {
-                        refs.push('?'+tmp.toString()); // ?
+                    else { 
+                        partialReferenceString = (partialReferenceString === '') ? ref.toString() : partialReferenceString + '; ' + ref.toString();
+                        ref = undefined;
+                        sequenceKey++;
                     }
                 }
                 else {
-                    console.error("invalid (seq.data): " + sequence.data[sequenceKey])
+                    if (sequence.data[sequenceKey] !== undefined) {
+                        console.error("invalid reference: " + sequence.data[sequenceKey] + " key: " + sequenceKey);
+                        refs.push('Error parsing reference in sequence.');
+                        ref = undefined;
+                        sequenceKey++;
+                    }
                 }
-
-                results.push({'day': duration, 'refs': refs});
-
-                return remainder;
             }
-var sequenceKey = 0;
+
+            // add any remaining partials
+            if (partialReferenceString !== '') {
+                refs.push(partialReferenceString);
+            }
+
+            // Add references and date to results
             for (var i = 0; i < this.duration.length; i++) {
-                remainder = vA (sequenceKey, remainder, this.duration[i]);
-                sequenceKey++;
-            }
+                if (refs[i] !== undefined) {
+                    results.push({'day': this.duration[i], 'refs': [refs[i]]});
+                }
+            }                         
 
             return results;
         },
 
         'createChaptersPlan': function (sequence, amount) {
+            
+            var seq = ['Gen 1:1-2:25', 'Matt 1:1-2:12'];
+            var amount = 50;
+            var seqKey = 0;
+            var ref = undefined;
+            var partialReferenceString = '';
+            var remRef = undefined;
             var results = [];
-            var remainder = 0;
 
-            function vA (i, remainder, duration) {
-                var refs = [];
-                var ref = bible.parseReference(sequence.data[i]);
+            while(seqKey < seq.length) {
+                if (ref === undefined) {
+                    ref = bible.parseReference(seq[seqKey]);
+                }
+                
+                console.log('Ref: ' + ref.toString());
+                
+                var distance = (ref !== undefined) ? bible.distance(ref).verses : undefined;
+                var tmpDistance = (partialReferenceString !== '') ? bible.distance(bible.parseReference(partialReferenceString)).verses : '';
 
-                if (ref != 'invalid') {
-                    var tmp = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
-                    // var end = (ref.chapter2 !== -1 && ref.verse2 !== -1) ? bible.Reference(ref.bookIndex, ref.chapter2, ref.verse2) : tmp; // end ref
-                    var end = bible.Reference(ref.bookIndex, ref.chapter2, ref.verse2);
-                    refs.push(tmp.toString());
-                    // if (remainder > 0) {
-                    //     var r = bible.add(tmp, remainder);
-                    //     refs.push(r);
-                    // }
+                if (partialReferenceString !== '') {
+                    if(distance >= amount - tmpDistance) { 
+                        var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
+                        var startRefString = startRef.toString();
+                        var endRef = bible.add(startRef, amount - tmpDistance - 1).toString(); // end ref
 
-                    while (bible.distance(tmp, end).verses > amount) {
-                        var w = bible.add(tmp, amount);
-                        refs.push(w.toString());
+                        results.push(partialReferenceString + '; ' + startRefString + '-' + endRef);
+                        bible.add(ref, amount - tmpDistance);
+                        partialReferenceString = '';
                     }
-
-                    // add reminder before exit
-                    var d = bible.distance(tmp, end);
-                    remainder = (d.hasOwnProperty('verses')) ? d.verses : 0;
-                    if (remainder > 1) {
-                        refs.push(end.toString());
-                    }
-                    else {
-                        refs.push(tmp.toString());
+                    else { 
+                        partialReferenceString = (partialReferenceString === '') ? ref.toString() : partialReferenceString + '; ' + ref.toString();
+                        ref = undefined;
+                        seqKey++;
                     }
                 }
                 else {
-                    console.error("invalid (seq.data): " + sequence.data[i])
+                    if(distance >= amount) { 
+                        var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ref.verse1); // start ref
+                        var startRefString = startRef.toString();
+                        var endRef = bible.add(startRef, amount - 1).toString(); // end ref
+
+                        results.push(startRefString + '-' + endRef);
+                        bible.add(ref, amount);
+                        partialReferenceString = '';
+                    }
+                    else { 
+                        partialReferenceString = (partialReferenceString === '') ? ref.toString() : partialReferenceString + '; ' + ref.toString();
+                        ref = undefined;
+                        seqKey++;
+                    }
                 }
-                results.push({'day': duration, 'refs': refs});
-
-                return remainder;
+                
             }
 
-            for (var i = 0; i < this.duration.length; i++) {
-                remainder = vA (i, remainder, this.duration[i]);
+            if (partialReferenceString !== '') {
+                results.push(partialReferenceString);
             }
 
-            return results;
+            console.info(results);
+            console.info(partialReferenceString);
+
+            return {'day': this.duration[0], 'refs': ['Unavailable']};
         },
 
         'load': function (sequence) {
