@@ -19,7 +19,7 @@ require.config({
         bibleMath: '../bower_components/bible.math.js/bible.math',
         moment: '../bower_components/moment/min/moment.min',
         twix: '../bower_components/twix/bin/twix.min',
-        filesaver: '../bower_components/filesaver/FileSaver'
+        filesaver: '../bower_components/FileSaver/FileSaver'
     },
     shim: {
         bootstrapAffix: {

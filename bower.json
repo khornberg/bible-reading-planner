@@ -8,7 +8,9 @@
     "jquery": "~1.10.2",
     "twix": "~0.3.0",
     "bible.math.js": "khornberg/bible.math.js",
-    "readingplans": "khornberg/readingplans"
+    "readingplans": "khornberg/readingplans",
+    "FileSaver": "*",
+    "bootstrap-datepicker": "https://github.com/eternicode/bootstrap-datepicker/archive/bs3.zip"
   },
   "devDependencies": {}
 }
