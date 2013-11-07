@@ -80,10 +80,10 @@ define(['bibleMath'], function () {
         },
 
         'createSpecifiedPlan': function (sequence, amount) {
-            var items = Math.floor(sequence.data.length / this.duration.length);
+            var items = Math.floor(sequence.data2.length / this.duration.length);
             // If duration is longer than the sequence, adjust to ouput everything
                 items = (items === 0) ? 1 : items;
-            var mod = sequence.data.length % this.duration.length;
+            var mod = sequence.data2.length % this.duration.length;
             var results = [];
             var sequenceKey = 0;
 
@@ -94,11 +94,17 @@ define(['bibleMath'], function () {
                     var refs = [];
                     
                     for (var x = 0; x < items; x++) {
-                        if(sequenceKey < sequence.data.length) {
-                            refs.push(bible.parseReference(sequence.data[sequenceKey]).toString());
+                        if(sequenceKey < sequence.data2.length) {
+                            for (var i = 0; i < sequence.data2[sequenceKey].length; i++) {
+                                refs.push(bible.parseReference(sequence.data2[sequenceKey][i]).toString());
+                            }
+                            // sequence.data2[sequenceKey]
                             sequenceKey++;
                             if (mod > 0) {
-                                refs.push(bible.parseReference(sequence.data[sequenceKey]).toString());
+                                // refs.push(bible.parseReference(sequence.data2[sequenceKey]).toString());
+                                for (var i = 0; i < sequence.data2[sequenceKey].length; i++) {
+                                    refs.push(bible.parseReference(sequence.data2[sequenceKey][i]).toString());
+                                }
                                 sequenceKey++;
                                 mod--;
                             }
@@ -106,15 +112,19 @@ define(['bibleMath'], function () {
                     };
 
                     results.push({'day': this.duration[i].toString(), 'refs': refs});
-                    if (sequenceKey === sequence.data.length) { break; }
+                    if (sequenceKey === sequence.data2.length) { break; }
                 }
             }
 
             // partial sequence
             if (amount === 'partial') {
-                var length = (this.duration.length < sequence.data.length) ? this.duration.length : sequence.data.length;
+                var length = (this.duration.length < sequence.data2.length) ? this.duration.length : sequence.data2.length;
                 for (var i = 0; i < length; i++) {
-                    results.push({'day': this.duration[i].toString(), 'refs': [bible.parseReference(sequence.data[i]).toString()]});
+                    var ref = '';
+                    for (var n = 0; n < sequence.data2[i].length; n++) {
+                        ref += bible.parseReference(sequence.data2[i][n]).toString() + ', ';
+                    };
+                    results.push({'day': this.duration[i].toString(), 'refs': [ref.trim()]});
                 }
                     
             }
