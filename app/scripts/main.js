@@ -82,7 +82,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
     console.log(app);
     console.log('Running jQuery %s', $().jquery);
     console.log(bible);
-    var ref = bible.parseReference("rom 1:3");
+    var ref = bible.parseReference("rom 1:4");
     console.log(bible.add(ref, 10).toString());
     console.groupEnd();
 
