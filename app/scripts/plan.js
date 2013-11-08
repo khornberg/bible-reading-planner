@@ -95,15 +95,15 @@ define(['bibleMath'], function () {
                     
                     for (var x = 0; x < items; x++) {
                         if(sequenceKey < sequence.data2.length) {
-                            for (var i = 0; i < sequence.data2[sequenceKey].length; i++) {
-                                refs.push(bible.parseReference(sequence.data2[sequenceKey][i]).toString());
+                            for (var a = 0; a < sequence.data2[sequenceKey].length; a++) {
+                                refs.push(bible.parseReference(sequence.data2[sequenceKey][a]).toString());
                             }
                             // sequence.data2[sequenceKey]
                             sequenceKey++;
                             if (mod > 0) {
                                 // refs.push(bible.parseReference(sequence.data2[sequenceKey]).toString());
-                                for (var i = 0; i < sequence.data2[sequenceKey].length; i++) {
-                                    refs.push(bible.parseReference(sequence.data2[sequenceKey][i]).toString());
+                                for (var b = 0; b < sequence.data2[sequenceKey].length; b++) {
+                                    refs.push(bible.parseReference(sequence.data2[sequenceKey][b]).toString());
                                 }
                                 sequenceKey++;
                                 mod--;
@@ -206,7 +206,7 @@ define(['bibleMath'], function () {
             var result = '';
             $.ajax({
                 dataType: "json",
-                url: '/bower_components/readingplans/' + sequence,
+                url: '../bower_components/readingplans/' + sequence,
                 async: false,
                 success: function(json) { result = json; },
                 error: function(e) { result = e; }

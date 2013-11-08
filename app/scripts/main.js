@@ -86,7 +86,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
     console.log(bible.add(ref, 10).toString());
     console.groupEnd();
 
-    var READING_PLANS = '/bower_components/readingplans';
+    var READING_PLANS = '../bower_components/readingplans';
     var FILENAME = 'YourPlan';
 
     // Load plans
