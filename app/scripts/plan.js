@@ -98,10 +98,8 @@ define(['bibleMath'], function () {
                             for (var a = 0; a < sequence.data2[sequenceKey].length; a++) {
                                 refs.push(bible.parseReference(sequence.data2[sequenceKey][a]).toString());
                             }
-                            // sequence.data2[sequenceKey]
                             sequenceKey++;
                             if (mod > 0) {
-                                // refs.push(bible.parseReference(sequence.data2[sequenceKey]).toString());
                                 for (var b = 0; b < sequence.data2[sequenceKey].length; b++) {
                                     refs.push(bible.parseReference(sequence.data2[sequenceKey][b]).toString());
                                 }
