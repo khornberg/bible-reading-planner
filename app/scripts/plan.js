@@ -109,7 +109,7 @@ define(['bibleMath'], function () {
                                 mod--;
                             }
                         }
-                    };
+                    }
 
                     results.push({'day': this.duration[i].toString(), 'refs': refs});
                     if (sequenceKey === sequence.data2.length) { break; }
@@ -123,7 +123,7 @@ define(['bibleMath'], function () {
                     var ref = '';
                     for (var n = 0; n < sequence.data2[i].length; n++) {
                         ref += bible.parseReference(sequence.data2[i][n]).toString() + ', ';
-                    };
+                    }
                     results.push({'day': this.duration[i].toString(), 'refs': [ref.trim()]});
                 }
                     
@@ -173,7 +173,7 @@ define(['bibleMath'], function () {
                 else {
                     if (sequence.data[sequenceKey] !== undefined) {
                         console.error("invalid reference: " + sequence.data[sequenceKey] + " key: " + sequenceKey);
-                        refs.push('Error parsing reference in sequence.');
+                        refs.push('Sorry there was an error parsing ' + sequence.data[sequenceKey] + '.');
                         ref = undefined;
                         sequenceKey++;
                     }
