@@ -1,15 +1,14 @@
 {
-  "name": "bible-reading-planner",
-  "version": "0.1.0",
+  "name": "bible-plans",
+  "version": "0.0.0",
   "dependencies": {
-    "sass-bootstrap": "~3.0.0",
-    "requirejs": "~2.1.8",
     "modernizr": "~2.6.2",
     "jquery": "~1.10.2",
-    "twix": "~0.3.0",
-    "bible.math.js": "khornberg/bible.math.js",
+    "bible.math": "~0.1.6",
+    "spin.js": "~1.3.2"
     "readingplans": "khornberg/readingplans",
     "FileSaver": "*",
+    "twix": "~0.3.0",    
     "bootstrap-datepicker": "https://github.com/eternicode/bootstrap-datepicker/archive/bs3.zip"
   },
   "devDependencies": {}

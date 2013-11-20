@@ -1,90 +1,16 @@
-require.config({
-    paths: {
-        jquery: '../bower_components/jquery/jquery',
-        bootstrapAffix: '../bower_components/sass-bootstrap/js/affix',
-        bootstrapAlert: '../bower_components/sass-bootstrap/js/alert',
-        bootstrapButton: '../bower_components/sass-bootstrap/js/button',
-        bootstrapCarousel: '../bower_components/sass-bootstrap/js/carousel',
-        bootstrapCollapse: '../bower_components/sass-bootstrap/js/collapse',
-        bootstrapDropdown: '../bower_components/sass-bootstrap/js/dropdown',
-        bootstrapModal: '../bower_components/sass-bootstrap/js/modal',
-        bootstrapPopover: '../bower_components/sass-bootstrap/js/popover',
-        bootstrapScrollspy: '../bower_components/sass-bootstrap/js/scrollspy',
-        bootstrapTab: '../bower_components/sass-bootstrap/js/tab',
-        bootstrapTooltip: '../bower_components/sass-bootstrap/js/tooltip',
-        bootstrapTransition: '../bower_components/sass-bootstrap/js/transition',
-        bootstrapDatepicker: '../bower_components/bootstrap-datepicker/js/bootstrap-datepicker',
-        bible: '../bower_components/bible.math.js/bible',
-        bibleReference: '../bower_components/bible.math.js/bible.reference',
-        bibleMath: '../bower_components/bible.math.js/bible.math',
-        moment: '../bower_components/moment/min/moment.min',
-        twix: '../bower_components/twix/bin/twix.min',
-        filesaver: '../bower_components/FileSaver/FileSaver'
-    },
-    shim: {
-        bootstrapAffix: {
-            deps: ['jquery']
-        },
-        bootstrapAlert: {
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapButton: {
-            deps: ['jquery']
-        },
-        bootstrapCarousel: {
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapCollapse: {
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapDropdown: {
-            deps: ['jquery']
-        },
-        bootstrapModal:{
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapPopover: {
-            deps: ['jquery', 'bootstrapTooltip']
-        },
-        bootstrapScrollspy: {
-            deps: ['jquery']
-        },
-        bootstrapTab: {
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapTooltip: {
-            deps: ['jquery', 'bootstrapTransition']
-        },
-        bootstrapTransition: {
-            deps: ['jquery']
-        },
-        bootstrapDatepicker: {
-            deps: ['jquery']
-        },
-        bible: {
-            exports: 'bible'
-        },
-        bibleReference: {
-            deps: ['bible']
-        },
-        bibleMath: {
-            deps: ['bible', 'bibleReference']
-        }
-    }
-});
-
-require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton', 'bootstrapTooltip', 'filesaver'], function (app, $) {
     'use strict';
-    // use app here
-    // 
+
     // tests
     console.groupCollapsed('App tests');
-    console.log(app);
     console.log('Running jQuery %s', $().jquery);
     console.log(bible);
     var ref = bible.parseReference("rom 1:4");
     console.log(bible.add(ref, 10).toString());
     console.groupEnd();
+
+    /**
+     * UI construct
+     */
 
     var READING_PLANS = '../bower_components/readingplans';
     var FILENAME = 'YourPlan';
@@ -157,6 +83,10 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
     });
 
     /**
+     * Helper functions
+     */
+
+    /**
      * Get skipped days checked
      * @return {array} Array of skipped days
      */
@@ -189,50 +119,148 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         });
     }
 
+    /**
+     * Shows error message
+     * @param  {string} message Error message
+     */
+    function showError(message) {
+        var errorMessage = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
+        $('#wait').hide();
+        $('div .alert').remove();
+        $('#wait').parent().append(errorMessage);
+        document.getElementById('wait').scrollIntoView() ;
+    }
+
+    /**
+     * Get data from page elements
+     * @return {array} Array of the user data
+     */
+    function getPlannerData () {
+        var data = {};
+
+        // sequence name
+        data.sequenceName = $('.list-group-item.active').attr('name');
+        
+        // beginning
+        data.begin = $('#calendar-start').datepicker('getDate');
+
+        // end
+        data.end = $('#calendar-end').datepicker('getDate');
+
+        // days to skip
+        var opts = [];
+        $('#skip-checkboxes input:checked').each(function (i, input) {
+            opts.push(Number(input.value));
+        });
+
+        data.skip = opts;
+
+        // type
+        data.type = $('#type :radio:checked').attr('id');
+
+        // amount
+        data.amount = (data.type === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
+
+        console.info("Data " + JSON.stringify(data));
+        return data;
+    }
+
+    /**
+     * Creates output of plan
+     * @param  {object} plan        Bible reading plan
+     * @param  {string} destination Type of destination to create output for
+     * @return {string}             Formated bible reading plan
+     */
+    function output (plan, destination) {
+        switch (destination) {
+        case 'pdf':
+        case 'text':
+        case 'markdown':
+        case 'ical':
+            console.error('Not implemented yet.');
+            break;
+        case 'dom':
+        default:
+            var rows = '';
+            for (var i = 0; i < plan.length; i++) {
+                rows = rows + '<tr><td>' + plan[i].day + '</td><td>';
+                for(var n = 0; n < plan[i].refs.length; n++) {
+                    rows = rows + plan[i].refs[n];
+                    // rows = rows + plan[i].refs[n].toString();
+                    
+                    // don't put a comma after the last element
+                    if( n < plan[i].refs.length - 1) {
+                        rows = rows + ', ';
+                    }
+                }
+
+                rows = rows + '</td></tr>';
+            }
+            return rows;
+        }
+    }
+
+
+    /**
+     * User actions
+     */
+
     $('#sequence').click(function (e) {
         e.preventDefault();
     })
     
     // create plan
     $('#create').click(function(event) {
+        $('#wait').show();
+        // Show spinner while waiting
+        var opts = {
+            lines: 13,
+            length: 15,
+            width: 5,
+            radius: 15,
+            corners: 1,
+            rotate: 0,
+            direction: 1,
+            color: '#000',
+            speed: 1,
+            trail: 40,
+            shadow: false,
+            hwaccel: false,
+            className: 'spinner'
+        };
+        var wait = document.getElementById('wait');
+        // don't add another spiner if one exists
+        if (!wait.firstElementChild) {
+            var spinner = new Spinner(opts).spin(wait);
+        }
 
-        $('#wait').show();     
-
-        require(['plan', 'time', 'bootstrapAlert'], function (plan, time) {
-
-            plan.set();
-            var jsonSequence = plan.load(plan.sequence);
+        // try {
+            $('.alert').remove();
             
-            if (jsonSequence.status != 404) {
-                $('#wait').hide();
-                $('.alert').remove();
+            var data = getPlannerData();
+            planner.set(data);
+            planner.create();
+            var rows = output(planner.plan, 'dom');
 
-                plan.duration = time(plan.start, plan.end, plan.skip);
+            spinner.stop();
+            $('#wait').hide();
 
-                // test specified sequences
-                var userPlan = plan.create(jsonSequence, plan.amount, plan.type);
-
-                var rows = plan.output(userPlan, 'dom');
-
-                if (rows) {
-                    $('tbody').children().remove();
-                }
-                $('tbody').append(rows);
-                $('.plan').fadeIn('slow'); //use css3 animation
-                document.getElementById('plan').scrollIntoView();
+            if (rows) {
+                $('tbody').children().remove();
             }
-            else {
-                $('#wait').hide();
-                $('div .alert').remove();
-                var message = 'A sequence could not be loaded.'
-                console.error(jsonSequence.status);
-                var error_message = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>' + message + '</strong></div>';
-                $('#wait').parent().append(error_message);
-                document.getElementById('wait').scrollIntoView() ;
-            } 
-       });
+            $('tbody').append(rows);
+            $('.plan').fadeIn('slow'); //TODO use css3 animation
+
+            document.getElementById('plan').scrollIntoView();
+        // }
+        // catch(err) {
+        //     console.error(err);
+        //     spinner.stop();            
+        //     showError(err);
+        // }
     });
 
+    // download as text
     $('#downloadText').click(function(event) {
         event.preventDefault();
         var text = '';
@@ -243,6 +271,7 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         saveAs(blob, FILENAME + '.txt');
     });
 
+    // download as markdown
     $('#downloadMarkdown').click(function(event) {
         event.preventDefault();
         var text = '';
@@ -252,7 +281,5 @@ require(['app', 'jquery', 'bibleMath', 'bootstrapDatepicker', 'bootstrapButton',
         var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
         saveAs(blob, FILENAME + '.md');
     });
-});
 
 //sdg
-

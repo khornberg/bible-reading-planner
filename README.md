@@ -12,17 +12,14 @@ Inital release. Download plan as a text or markdown file.
 
 ## TODO
 - FIX relative url errors of all the important things...
-- Minimize and concat bible.math.js
 - Fonts, colors
 	- Change primary, success, warning, info color of buttons and others
 	- Customize bootstrap (get rid of what I don't use)
 	- Google web fonts
 - Scaffolding
 	- Show create button only when data is selected
-  - spin.js for spinner
 - Download
 	- PDF
-	- Markdown
 - Share
 	- Email
 	- Social?
@@ -31,14 +28,15 @@ Inital release. Download plan as a text or markdown file.
 	- cache.manifest
 	- CSS animations
 - Privacy/legal statement in footer
+- Minimum requirements (check filesaver, spinner, moment, twix)
 - Plan
 	- CONST for reading plans location
 - Documentation
 
 ## Future
 
-- i18n
 - Offline access
+- i18n
 - Mobile Apps (probably using Apache Cordova)
 - Progress tracking
 

@@ -1,6 +1,8 @@
-$icon-font-path: "/bower_components/sass-bootstrap/fonts/";
-
-@import 'sass-bootstrap/lib/bootstrap';
+body {
+    background: #fafafa;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+}
 
 .browsehappy {
     margin: 0.2em 0;
@@ -17,6 +19,13 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
     padding-right: 15px;
 }
 
+.jumbotron {
+    text-align: center;
+    border-bottom: 1px solid #48525d;
+    background-color: #48525d;
+    color: #fff;
+}
+
 /* Custom page header */
 .header {
     border-bottom: 1px solid #e5e5e5;
@@ -30,24 +39,8 @@ $icon-font-path: "/bower_components/sass-bootstrap/fonts/";
     padding-bottom: 19px;
 }
 
-/* Custom page footer */
-footer {
-    padding-top: 19px;
-    border-top: 1px solid #3c4857;
-    background-color: #3c4857;
-    color: white;
-}
-
 .container-narrow > hr {
     margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #48525d;
-    background-color: #48525d;
-    color: white;
 }
 
 .list-group-scroll {
@@ -67,7 +60,9 @@ footer {
 
 .wait {
     display: none;
+    left: 50%;
     padding: 2em;
+    padding-bottom: 4em;
 }
 
 .plan {
@@ -81,6 +76,18 @@ footer {
 
 table {
     background-color: white;
+}
+
+/* Custom page footer */
+footer {
+    padding-top: 19px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #48525d;
+    color: #eee;
+}
+
+footer a {
+    color: #eee;
 }
 
 /* Responsive: Portrait tablets and up */

@@ -11,8 +11,9 @@
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/css/bootstrap.css">
         <link rel="stylesheet" href="bower_components/bootstrap-datepicker/css/datepicker3.css">
+        <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
         <script src="bower_components/modernizr/modernizr.js"></script>
@@ -114,7 +115,6 @@
 
       <div class="row">
         <div id="wait" class="text-center wait">
-            <img src="images/spinner.gif" alt="Waiting for the plan">
         </div>
       </div>
     </div> <!-- /container -->
@@ -124,6 +124,7 @@
             <div class="row" id="plan" >
                 <div id="downloads" class="downloads">
                     <h2>Your Plan
+                    <hr>
                     <!-- <div id="icons"> -->
                         <a id="downloadText" href="#" class="btn btn-small btn-warning">Save Text <span class="glyphicon glyphicon-save"></span></a>
                         <a id="downloadMarkdown" href="#" class="btn btn-small btn-warning">Save Markdown <span class="glyphicon glyphicon-save"></span></a>
@@ -174,21 +175,30 @@
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/bootstrap/js/bootstrap.min.js"></script>
+        <script src="bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="bower_components/moment/min/moment.min.js"></script>
+        <script src="bower_components/twix/bin/twix.min.js"></script>
+        <script src="bower_components/FileSaver/FileSaver.js"></script>
+        <script src="bower_components/spin.js/dist/spin.min.js"></script>
+        <script src="bower_components/bible.math/dist/bible.math.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-42888984-1');ga('send','pageview');
+            // (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            // function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            // e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            // e.src='//www.google-analytics.com/analytics.js';
+            // r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            // ga('create','UA-42888984-1');ga('send','pageview');
         </script>
 
         <!-- build:js scripts/main.js -->
-        <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
+        <script src="scripts/main.js"></script>
+        <script src="scripts/plan.js"></script>
+        <script src="scripts/time.js"></script>
         <!-- endbuild -->
 </body>
 </html>
