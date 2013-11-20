@@ -1,3 +1,13 @@
+/* global bible */
+/* global time */
+/* exported planner */
+
+/**
+ * Planner creates the bible reading plan.
+ */
+
+'use strict';
+
 var planner = {
     'sequence': null,
     'sequenceName': null,
@@ -17,13 +27,8 @@ var planner = {
      * @return {object}          Bible reading plan
      */
     'create': function () {
-        // sequence = (sequence === undefined) ? this.load(this.sequenceName) : sequence;
-        // amount = (amount === undefined) ? this.amount : amount;
-        // type = (type === undefined) ? this.type : type;
-
-
         if(this.type === 'verses') {
-            amount = (Number(this.amount) > 0) ? Number(this.amount) : 1;
+            var amount = (Number(this.amount) > 0) ? Number(this.amount) : 1;
             this.plan = this.createVersesPlan(this.sequence, amount);
         }
         if(this.type === 'specified') {
@@ -43,7 +48,7 @@ var planner = {
     'createSpecifiedPlan': function (sequence, amount) {
         var items = Math.floor(sequence.data2.length / this.duration.length);
         // If duration is longer than the sequence, adjust to ouput everything
-            items = (items === 0) ? 1 : items;
+        items = (items === 0) ? 1 : items;
         var mod = sequence.data2.length % this.duration.length;
         var results = [];
         var sequenceKey = 0;
@@ -51,7 +56,7 @@ var planner = {
         // whole sequence
         if (amount === 'whole'){
 
-            for (var i = 0; i < this.duration.length; i++) {
+            for (var day = 0; day < this.duration.length; day++) {
                 var refs = [];
                 
                 for (var x = 0; x < items; x++) {
@@ -70,15 +75,15 @@ var planner = {
                     }
                 }
 
-                results.push({'day': this.duration[i].toString(), 'refs': refs});
+                results.push({'day': this.duration[day].toString(), 'refs': refs});
                 if (sequenceKey === sequence.data2.length) { break; }
             }
         }
 
         // partial sequence
         if (amount === 'partial') {
-            var length = (this.duration.length < sequence.data2.length) ? this.duration.length : sequence.data2.length;
-            for (var i = 0; i < length; i++) {
+            var sequenceLength = (this.duration.length < sequence.data2.length) ? this.duration.length : sequence.data2.length;
+            for (var i = 0; i < sequenceLength; i++) {
                 var ref = '';
                 for (var n = 0; n < sequence.data2[i].length; n++) {
                     ref += bible.parseReference(sequence.data2[i][n]).toString() + ', ';
@@ -100,16 +105,16 @@ var planner = {
     'createVersesPlan': function (sequence, amount) {
 
         var sequenceKey = 0;
-        var ref = undefined;
         var partialReferenceString = '';
         var results = [];
         var refs = [];
+        var ref;
 
         // Determine references per day
 
         while(sequenceKey < sequence.data.length) {
             if (ref === undefined) {
-                var ref = bible.parseReference(sequence.data[sequenceKey]);
+                ref = bible.parseReference(sequence.data[sequenceKey]);
                 console.info(ref.toString());
             }
 
@@ -119,7 +124,7 @@ var planner = {
 
                 // amount
                 var amt = (partialReferenceString !== '') ? amount - tmpDistance : amount;
-                if(distance >= amt) { 
+                if(distance >= amt) {
                     var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ((ref.verse1 === -1) ? 1 : ref.verse1)); // start ref
                     var startRefString = startRef.toString();
                     var endRef = bible.add(startRef, amt - 1).toString(); // end ref
@@ -137,7 +142,7 @@ var planner = {
             }
             else {
                 if (sequence.data[sequenceKey] !== undefined) {
-                    console.error("invalid reference: " + sequence.data[sequenceKey] + " key: " + sequenceKey);
+                    console.error('invalid reference: ' + sequence.data[sequenceKey] + ' key: ' + sequenceKey);
                     refs.push('Sorry there was an error parsing ' + sequence.data[sequenceKey] + '.');
                     ref = undefined;
                     sequenceKey++;
@@ -174,7 +179,7 @@ var planner = {
         // sequence = (sequence === undefined) ? this.sequenceName : sequence;
         var result = '';
         $.ajax({
-            dataType: "json",
+            dataType: 'json',
             url: '../bower_components/readingplans/' + this.sequenceName,
             async: false,
             success: function(json) { result = json; },
@@ -194,7 +199,7 @@ var planner = {
         this.skip = data.skip;
         this.amount = data.amount;
         this.type = data.type;
-        this.duration = time(this.begin, this.end, this.skip)
+        this.duration = time(this.begin, this.end, this.skip);
         this.load();
     }
 };
