@@ -11,6 +11,7 @@ A user supplies the sequence, reading amount, and duration of the reading plan.
 Inital release. Download plan as a text or markdown file.
 
 ## TODO
+- FIX relative url errors of all the important things...
 - Minimize and concat bible.math.js
 - Fonts, colors
 	- Change primary, success, warning, info color of buttons and others
@@ -18,6 +19,7 @@ Inital release. Download plan as a text or markdown file.
 	- Google web fonts
 - Scaffolding
 	- Show create button only when data is selected
+  - spin.js for spinner
 - Download
 	- PDF
 	- Markdown
@@ -27,7 +29,6 @@ Inital release. Download plan as a text or markdown file.
 - Optimization
 	- Load scripts from CDN?
 	- cache.manifest
-	- r.js?
 	- CSS animations
 - Privacy/legal statement in footer
 - Plan
