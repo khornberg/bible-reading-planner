@@ -217,6 +217,11 @@ $('#sequence').click(function (e) {
     e.preventDefault();
 });
 
+$('#legal').click(function (e) {
+    e.preventDefault();
+    $('.legal').show();
+});
+
 // create plan
 $('#create').click(function() {
     $('#wait').show();

@@ -96,6 +96,10 @@ table {
     background-color: white;
 }
 
+.legal {
+    display: none;
+}
+
 /* Custom page footer */
 footer {
     padding-top: 19px;
