@@ -1,5 +1,6 @@
 /* global bible */
 /* global time */
+/* global READING_PLANS */
 /* exported planner */
 
 /**
@@ -180,7 +181,7 @@ var planner = {
         var result = '';
         $.ajax({
             dataType: 'json',
-            url: '../bower_components/readingplans/' + this.sequenceName,
+            url: READING_PLANS + '/' + this.sequenceName,
             async: false,
             success: function(json) { result = json; },
             error: function(e) { throw e; }
