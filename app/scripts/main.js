@@ -258,7 +258,7 @@ $('#create').click(function() {
             $('tbody').children().remove();
         }
         $('tbody').append(rows);
-        $('.plan').fadeIn('slow'); //TODO use css3 animation
+        $('.plan').addClass('fade');
 
         document.getElementById('plan').scrollIntoView();
     }
