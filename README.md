@@ -13,24 +13,22 @@ Inital release. Download plan as a text or markdown file.
 ## TODO
 - FIX relative url errors of all the important things...
 - Fonts, colors
-	- Change primary, success, warning, info color of buttons and others
-	- Customize bootstrap (get rid of what I don't use)
 	- Google web fonts
+	- webfontloader
+	- font awesome via npm
+	- datepicker css
 - Scaffolding
-	- Show create button only when data is selected
+	- Show create button only when data is selected?
+- Share [simplesharebuttons.com/html-share-buttons/]()
 - Download
-	- PDF
-- Share
-	- Email
-	- Social?
+	- ics [github.com/khornberg/ics.js]()
 - Optimization
-	- Load scripts from CDN?
+	- Load scripts, css, fonts from CDN?
 	- cache.manifest
-	- CSS animations
-- Privacy/legal statement in footer
-- Minimum requirements (check filesaver, spinner, moment, twix)
-- Plan
-	- CONST for reading plans location
+- Fixes
+	- npm update (usemin to fix dist .tmp css error, comment out cssmin?)
+	- trailing commas in plan
+	- errors
 - Documentation
 
 ## Future

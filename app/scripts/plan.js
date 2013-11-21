@@ -7,8 +7,6 @@
  * Planner creates the bible reading plan.
  */
 
-'use strict';
-
 var planner = {
     'sequence': null,
     'sequenceName': null,
@@ -28,6 +26,8 @@ var planner = {
      * @return {object}          Bible reading plan
      */
     'create': function () {
+        'use strict';
+
         if(this.type === 'verses') {
             var amount = (Number(this.amount) > 0) ? Number(this.amount) : 1;
             this.plan = this.createVersesPlan(this.sequence, amount);
@@ -47,6 +47,8 @@ var planner = {
      * @return {object}          Bible reading plan
      */
     'createSpecifiedPlan': function (sequence, amount) {
+        'use strict';
+
         var items = Math.floor(sequence.data2.length / this.duration.length);
         // If duration is longer than the sequence, adjust to ouput everything
         items = (items === 0) ? 1 : items;
@@ -104,6 +106,7 @@ var planner = {
      * @return {object}          Bible reading plan
      */
     'createVersesPlan': function (sequence, amount) {
+        'use strict';
 
         var sequenceKey = 0;
         var partialReferenceString = '';
@@ -177,7 +180,8 @@ var planner = {
      * @param  {string} sequence Bible reading sequence name
      */
     'load': function () {
-        // sequence = (sequence === undefined) ? this.sequenceName : sequence;
+        'use strict';
+
         var result = '';
         $.ajax({
             dataType: 'json',
@@ -194,6 +198,8 @@ var planner = {
      * @param  {object} data Data from user
      */
     'set': function (data) {
+        'use strict';
+
         this.sequenceName = data.sequenceName;
         this.begin = data.begin;
         this.end = data.end;

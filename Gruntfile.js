@@ -50,6 +50,7 @@ module.exports = function (grunt) {
             livereload: {
                 options: {
                     open: true,
+                    debug: true,
                     base: [
                         '.tmp',
                         '<%= yeoman.app %>'
@@ -68,6 +69,7 @@ module.exports = function (grunt) {
             dist: {
                 options: {
                     open: true,
+                    debug: true,
                     base: '<%= yeoman.dist %>',
                     livereload: false
                 }
@@ -256,7 +258,8 @@ module.exports = function (grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
-                        'styles/fonts/{,*/}*.*'
+                        'styles/fonts/{,*/}*.*',
+                        'bower_components/readingplans/*'
                     ]
                 }]
             },
