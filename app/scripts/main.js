@@ -17,7 +17,7 @@ console.groupEnd();
  * Contants
  */
 var READING_PLANS = '../bower_components/readingplans';
-var FILENAME = 'YourPlan';
+var FILENAME = 'BibleReadingPlan';
 
 /**
  * Helper functions
@@ -279,7 +279,7 @@ $('#downloadText').click(function(event) {
     event.preventDefault();
     var text = '';
     $('tbody td').each(function( index ) {
-        text = (index%2 === 0)? text + $(this).text().trim() : text + ': ' + $(this).text().trim() + '\n';
+        text = (index%2 === 0) ? text + $(this).text().trim() : text + ': ' + $(this).text().trim() + '\n';
     });
     var blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, FILENAME + '.txt');
@@ -290,10 +290,33 @@ $('#downloadMarkdown').click(function(event) {
     event.preventDefault();
     var text = '';
     $('tbody td').each(function( index ) {
-        text = (index%2 === 0)? text + '**' + $(this).text().trim() + '**' : text + ': ' + $(this).text().trim() + '  \n';
+        text = (index%2 === 0) ? text + '**' + $(this).text().trim() + '**' : text + ': ' + $(this).text().trim() + '  \n';
     });
     var blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, FILENAME + '.md');
+});
+
+// download as ics
+$('#downloadIcs').click(function(event) {
+    event.preventDefault();
+    $.getScript('/scripts/ics.js')
+        .done(function() {
+            var cal = ics();
+            $('tbody tr').each(function (index, el) {
+                var day = moment(el.cells[0].innerText, 'MMMM DD, YYYY');
+                var start = moment(day).format('YYYY/MM/DD');
+                var end = moment(day).add('d', 1).format('YYYY/MM/DD');
+                var description = el.cells[1].innerText;
+                var subject = 'Bible Reading';
+                var location = 'Your Bible';
+                cal.addEvent(subject, description, location, start, end);
+            });
+            cal.download(FILENAME);
+        })
+        .fail(function(err) {
+            showError(err);
+            console.log(err);
+        });
 });
 
 //sdg
