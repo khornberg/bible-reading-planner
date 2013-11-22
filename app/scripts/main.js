@@ -45,7 +45,8 @@ function getSkippedDays () {
 function setSequences (sequence) {
     $.getJSON(READING_PLANS + '/' + sequence)
     .done(function(json) {
-        var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '</a>';
+        var length = (typeof json.data2 === 'undefined') ? json.data.length : json.data2.length;
+        var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '<span class="badge">' + length + ' days</span></a>';
         $('#sequence').append(plan);
 
         // select functionality
