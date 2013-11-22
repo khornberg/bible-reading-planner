@@ -2,6 +2,8 @@
 /* global Spinner */
 /* global planner */
 /* global saveAs */
+/* global moment */
+/* global ics */
 
 'use strict';
 
@@ -18,6 +20,7 @@ console.groupEnd();
  */
 var READING_PLANS = '../bower_components/readingplans';
 var FILENAME = 'BibleReadingPlan';
+var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
 
 /**
  * Helper functions
@@ -278,8 +281,8 @@ $('#create').click(function() {
 $('#downloadText').click(function(event) {
     event.preventDefault();
     var text = '';
-    $('tbody td').each(function( index ) {
-        text = (index%2 === 0) ? text + $(this).text().trim() : text + ': ' + $(this).text().trim() + '\n';
+    $('tbody tr').each(function( index, el ) {
+        text += el.cells[0].innerText + ': ' + el.cells[1].innerText + SEPARATOR;
     });
     var blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, FILENAME + '.txt');
@@ -289,8 +292,8 @@ $('#downloadText').click(function(event) {
 $('#downloadMarkdown').click(function(event) {
     event.preventDefault();
     var text = '';
-    $('tbody td').each(function( index ) {
-        text = (index%2 === 0) ? text + '**' + $(this).text().trim() + '**' : text + ': ' + $(this).text().trim() + '  \n';
+    $('tbody tr').each(function( index, el ) {
+        text += '**' + el.cells[0].innerText + '**: ' + el.cells[1].innerText + SEPARATOR;
     });
     var blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
     saveAs(blob, FILENAME + '.md');
