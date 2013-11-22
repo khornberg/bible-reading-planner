@@ -56,7 +56,11 @@ var planner = {
         var results = [];
         var sequenceKey = 0;
 
-        // whole sequence
+        /** 
+         * Whole sequence
+         * For each day of the sequence and each item in the day's sequence, add the day's items.
+         * If the number of days to read is not the same as the days in the sequence, read more in the beginning since people give up less right away.
+         */
         if (amount === 'whole'){
 
             for (var day = 0; day < this.duration.length; day++) {
@@ -83,13 +87,17 @@ var planner = {
             }
         }
 
-        // partial sequence
+        /**
+         * Partial sequence
+         * For each day in the sequence, read the amount
+         */
         if (amount === 'partial') {
             var sequenceLength = (this.duration.length < sequence.data2.length) ? this.duration.length : sequence.data2.length;
             for (var i = 0; i < sequenceLength; i++) {
                 var ref = '';
                 for (var n = 0; n < sequence.data2[i].length; n++) {
-                    ref += bible.parseReference(sequence.data2[i][n]).toString() + ', ';
+                    var comma = (n > 0) ? ', ' : '';
+                    ref += comma + bible.parseReference(sequence.data2[i][n]).toString();
                 }
                 results.push({'day': this.duration[i].toString(), 'refs': [ref.trim()]});
             }
@@ -114,7 +122,15 @@ var planner = {
         var refs = [];
         var ref;
 
-        // Determine references per day
+        /** 
+         * Determine references per day
+         * Loop through the sequence data and parse each item to get a bible reference.
+         * If the reference is valid, determine the amount to read relative to the reference.
+         *     If the sequence specifies to read more than the amount desired to read, split the sequence reference up into readable parts.
+         *     Else add the sequence reference.
+         * Else the reference is invalid. Notify the user and move on in the sequence.
+         * Finally if a partial reference remains from spliting a sequence reference, add that also.
+         */
 
         while(sequenceKey < sequence.data.length) {
             if (ref === undefined) {
@@ -123,11 +139,12 @@ var planner = {
             }
 
             if (ref.isValid()) {
+                // amount to read
                 var distance = (ref !== undefined) ? bible.distance(ref).verses : undefined;
                 var tmpDistance = (partialReferenceString !== '') ? bible.distance(bible.parseReference(partialReferenceString)).verses : '';
-
-                // amount
                 var amt = (partialReferenceString !== '') ? amount - tmpDistance : amount;
+
+
                 if(distance >= amt) {
                     var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ((ref.verse1 === -1) ? 1 : ref.verse1)); // start ref
                     var startRefString = startRef.toString();
