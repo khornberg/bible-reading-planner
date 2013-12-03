@@ -13,7 +13,7 @@
         <!-- build:css styles/main.css -->
         <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
         <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="bower_components/bootstrap-datepicker/build/datepicker.css">
+        <link rel="stylesheet" href="styles/datepicker.css">
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
@@ -39,7 +39,15 @@
       <div class="row">
         <div class="col-md-4">
             <h2>Choose a Sequence</h2>
-            <div id="sequence" class="list-group list-group-scroll"></div>
+            <div id="sequence" class="list-group list-group-scroll">
+                <a href="#" class="list-group-item" name="backtothebiblechronological.json">Back to the Bible Chronological<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="esvchroniclesandprophets.json">Chronicles and Prophets<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="esvpsalmsandwisdomliterature.json">Psalms and Wisdom Literature<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="esvgospelsandepistles.json">Gospel and Epistles<span class="badge">365 days</span></a><a href="#" class="list-group-item" name="esvpentateuchandhistoryofisrael.json">Pentateuch and History of Israel<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="esveverydayinword.json">Every Day In the Word<span class="badge">365 days</span></a><a href="#" class="list-group-item" name="esvliterarystudybible.json">ESV Literary Study Bible Plan<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="esvthroughthebible.json">Through The Bible<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="heartlightotandnt.json">Old and New Testament<span class="badge">365 days</span></a><a href="#" class="list-group-item" name="mcheyne.json">M'Cheyne<span class="badge">365 days</span></a>
+                <a href="#" class="list-group-item" name="oneyearchronological.json">One Year Chronological<span class="badge">365 days</span></a></div>
         </div>
         <div id="days" class="col-md-4">
           <h2>Select Reading Days</h2>
@@ -129,7 +137,35 @@
                     <!-- <div id="icons"> -->
                         <a id="downloadText" href="#" class="btn btn-small btn-warning">Save Text <span class="glyphicon glyphicon-save"></span></a>
                         <a id="downloadMarkdown" href="#" class="btn btn-small btn-warning">Save Markdown <span class="glyphicon glyphicon-save"></span></a>
-                        <a id="downloadIcs" href="" class="btn btn-small btn-warning">Save iCal <span class="glyphicon glyphicon-save"></span></a>
+                        <a id="downloadIcs" href="#" class="btn btn-small btn-warning">Save iCal <span class="glyphicon glyphicon-save"></span></a>
+
+                        <!-- From http://www.simplesharebuttons.com/html-share-buttons/ -->
+                        <!-- Email -->
+                        <a id="emailText" href="#" class="btn btn-small btn-warning">Email</a>
+
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning">Facebook</a>
+                         
+                        <!-- Twitter -->
+                        <a href="http://twitter.com/share?url=http://khornberg.github.io/bible-reading-planner/&Bible Reading Plan" target="_blank" class="btn btn-small btn-warning">Twitter</a>
+                         
+                        <!-- Google+ -->
+                        <a href="https://plus.google.com/share?url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning">Google+</a>
+                         
+                        <!-- Digg -->
+                        <a href="http://www.digg.com/submit?url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning">Digg</a>
+                         
+                        <!-- Reddit -->
+                        <a href="http://reddit.com/submit?url=http://khornberg.github.io/bible-reading-planner/&title=Bible Reading Plan" target="_blank" class="btn btn-small btn-warning">Reddit</a>
+                         
+                        <!-- LinkedIn -->
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning">LinkedIn</a>
+                         
+                        <!-- Pinterest -->
+                        <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());" class="btn btn-small btn-warning">Pinterest</a>
+                         
+                        <!-- StumbleUpon-->
+                        <a href="http://www.stumbleupon.com/submit?url=http://khornberg.github.io/bible-reading-planner/&title=Bible Reading Plan" target="_blank" class="btn btn-small btn-warning">StumbleUpon</a>                         
                     <!-- </div> -->
                     </h2>
                 </div>

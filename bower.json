@@ -9,8 +9,9 @@
     "readingplans": "khornberg/readingplans",
     "FileSaver": "*",
     "twix": "~0.3.0",
-    "bootstrap-datepicker": "https://github.com/eternicode/bootstrap-datepicker/archive/bs3.zip",
-    "font-awesome": "~4.0.3"
+    "font-awesome": "~4.0.3",
+    "ics.js": "khornberg/ics.js",
+    "bootstrap-datepicker": "master"
   },
   "devDependencies": {}
 }

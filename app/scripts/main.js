@@ -18,7 +18,7 @@ console.groupEnd();
 /**
  * Contants
  */
-var READING_PLANS = '../bower_components/readingplans';
+var READING_PLANS = '/bower_components/readingplans';
 var FILENAME = 'BibleReadingPlan';
 var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
 
@@ -41,13 +41,14 @@ function getSkippedDays () {
 /**
  * Gets name from each plan and add to list
  * @param {string} plan Filename of plan to load
+ * @todo  github does not allow getting contents of a directory
  */
-function setSequences (sequence) {
-    $.getJSON(READING_PLANS + '/' + sequence)
-    .done(function(json) {
-        var length = (typeof json.data2 === 'undefined') ? json.data.length : json.data2.length;
-        var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '<span class="badge">' + length + ' days</span></a>';
-        $('#sequence').append(plan);
+// function setSequences (sequence) {
+//     $.getJSON(READING_PLANS + '/' + sequence)
+//     .done(function(json) {
+//         var length = (typeof json.data2 === 'undefined') ? json.data.length : json.data2.length;
+//         var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '<span class="badge">' + length + ' days</span></a>';
+//         $('#sequence').append(plan);
 
         // select functionality
         $('.list-group-item').click(function () {
@@ -57,8 +58,8 @@ function setSequences (sequence) {
 
             $(this).addClass('active');
         });
-    });
-}
+//     });
+// }
 
 /**
  * Shows error message
@@ -147,26 +148,26 @@ function output (plan, destination) {
  */
 
 // Load plans
-$.ajax({
-    url: READING_PLANS,
-    type: 'GET',
-})
-.done(function(data) {
-    var plans = [];
+// $.ajax({
+//     url: READING_PLANS,
+//     type: 'GET',
+// })
+// .done(function(data) {
+//     var plans = [];
 
-    $(data).find('a:contains(.json)').each(function() {
-        plans.push($(this).attr('title'));
-    });
+//     $(data).find('a:contains(.json)').each(function() {
+//         plans.push($(this).attr('title'));
+//     });
 
-    for (var i = 0; i < plans.length; i++) {
-        setSequences(plans[i]);
-    }
-})
-.fail(function() {
-    console.error('error loading bible reading plan');
-    var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
-    $('#sequence').append(plan);
-});
+//     for (var i = 0; i < plans.length; i++) {
+//         setSequences(plans[i]);
+//     }
+// })
+// .fail(function() {
+//     console.error('error loading bible reading plan');
+//     var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
+//     $('#sequence').append(plan);
+// });
 
 // calendars
 $('#calendar-start').datepicker({
@@ -322,5 +323,16 @@ $('#downloadIcs').click(function(event) {
             console.log(err);
         });
 });
+
+// email as text
+$('#emailText').click(function(event) {
+    var text = '';
+    $('tbody tr').each(function( index, el ) {
+        text += el.cells[0].innerText + ': ' + el.cells[1].innerText + SEPARATOR;
+    });
+    console.log(text);
+    $('#emailText').attr('href', 'mailto:?Subject=Bible Reading Plan&Body='+text);
+});
+
 
 //sdg
