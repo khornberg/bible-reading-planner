@@ -18,7 +18,7 @@ console.groupEnd();
 /**
  * Contants
  */
-var READING_PLANS = window.location.href + '/bower_components/readingplans';
+var READING_PLANS = (window.location.host === 'khornberg.github.io') ? 'http://khornberg.github.io/bible-reading-planner/bower_components/readingplans' : '/bower_components/readingplans';
 var FILENAME = 'BibleReadingPlan';
 var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
 
