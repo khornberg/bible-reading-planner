@@ -194,19 +194,22 @@ var planner = {
 
     /**
      * Loads bible reading sequence
-     * @param  {string} sequence Bible reading sequence name
+     * @param  {string} Bible reading sequence name
      */
     'load': function () {
         'use strict';
 
-        var result = '';
-        $.ajax({
-            dataType: 'json',
-            url: READING_PLANS + '/' + this.sequenceName,
-            async: false,
-            success: function(json) { result = json; },
-            error: function(e) { throw e; }
-        });
+        var sequenceName = (arguments.length === 1) ? arguments[0] : this.sequenceName;
+        var result = null;
+        if(sequenceName) {
+            $.ajax({
+                dataType: 'json',
+                url: READING_PLANS + '/' + sequenceName,
+                async: false,
+                success: function(json) { result = json; },
+                error: function(e) { throw e; }
+            });
+        }
         this.sequence = result;
     },
 
