@@ -59,8 +59,13 @@ function getSkippedDays () {
             planner.sequenceName = $('.list-group-item.active').attr('name');
             planner.load();
 
-            $('.panel-heading').text(planner.sequence.name);
-            $('.panel-body').html(planner.sequence.info);
+            // $('.panel-heading').text(planner.sequence.name);
+            
+            var firstDay = '<p><b>First Day:</b> ' + planner.sequence.data2[0];
+            var secondDay = '<br /><b>Second Day:</b> ' + planner.sequence.data2[1] + '</p>';
+            var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay;
+
+            $('.panel-sequence').html(info);
         });
 //     });
 // }
