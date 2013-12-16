@@ -88,8 +88,16 @@ body {
     to {opacity: 1}
 }
 
-.downloads {
+.actions {
     text-align: center;    
+}
+
+.save, .share {
+    padding-bottom: 10px;
+}
+
+.save a, .share a {
+    display: none;
 }
 
 table {

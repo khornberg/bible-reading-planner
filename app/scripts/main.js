@@ -1,4 +1,4 @@
-/* global bible, Spinner, planner, saveAs, moment, ics */
+/* global bible, planner, saveAs, moment, ics */
 
 'use strict';
 
@@ -259,30 +259,6 @@ $('#legal').click(function (e) {
 
 // create plan
 $('#create').click(function() {
-    $('#wait').show();
-    // Show spinner while waiting
-    var opts = {
-        lines: 13,
-        length: 15,
-        width: 5,
-        radius: 15,
-        corners: 1,
-        rotate: 0,
-        direction: 1,
-        color: '#000',
-        speed: 1,
-        trail: 40,
-        shadow: false,
-        hwaccel: false,
-        className: 'spinner'
-    };
-    var wait = document.getElementById('wait');
-    var spinner;
-    // don't add another spiner if one exists
-    if (!wait.firstElementChild) {
-        spinner = new Spinner(opts).spin(wait);
-    }
-
     try {
         $('.alert').remove();
         
@@ -290,9 +266,6 @@ $('#create').click(function() {
         planner.set(data);
         planner.create();
         var rows = output(planner.plan, 'dom');
-
-        spinner.stop();
-        $('#wait').hide();
 
         if (rows) {
             $('tbody').children().remove();
@@ -304,7 +277,6 @@ $('#create').click(function() {
     }
     catch(err) {
         console.error(err);
-        spinner.stop();
         showError(err);
     }
 });
