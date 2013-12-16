@@ -1,9 +1,4 @@
-/* global bible */
-/* global Spinner */
-/* global planner */
-/* global saveAs */
-/* global moment */
-/* global ics */
+/* global bible, Spinner, planner, saveAs, moment, ics */
 
 'use strict';
 
@@ -52,11 +47,20 @@ function getSkippedDays () {
 
         // select functionality
         $('.list-group-item').click(function () {
+            // TODO better way of doing this?          
             $('.list-group-item').each(function () {
                 $(this).removeClass('active');
             });
 
             $(this).addClass('active');
+
+            // Load text
+            // TODO reduce XHRs
+            planner.sequenceName = $('.list-group-item.active').attr('name');
+            planner.load();
+
+            $('.panel-heading').text(planner.sequence.name);
+            $('.panel-body').html(planner.sequence.info);
         });
 //     });
 // }
