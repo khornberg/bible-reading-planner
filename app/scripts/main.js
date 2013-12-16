@@ -52,25 +52,10 @@ function getSkippedDays () {
                 $(this).removeClass('active');
             });
 
-            
-            var x = null;
-            $('.list-group-item').each(function () {
-                // Load text
-                planner.sequenceName = $(this).attr('name');
-                planner.load();
-
-                $('.panel-heading').text(planner.sequence.name);
-                $('.panel-body').html(planner.sequence.info);
-
-                x += $('.panel').html();
-
-            
-                console.info(x);
-            });
-
             $(this).addClass('active');
 
             // Load text
+            // TODO reduce XHRs
             planner.sequenceName = $('.list-group-item.active').attr('name');
             planner.load();
 
