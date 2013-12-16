@@ -61,9 +61,10 @@ function getSkippedDays () {
 
             // $('.panel-heading').text(planner.sequence.name);
             
-            var firstDay = '<p><b>First Day:</b> ' + planner.sequence.data2[0];
-            var secondDay = '<br /><b>Second Day:</b> ' + planner.sequence.data2[1] + '</p>';
-            var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay;
+            var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
+            var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
+            var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
+            var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay + totalDays;
 
             $('.panel-sequence').html(info);
         });
@@ -91,12 +92,21 @@ function getPlannerData () {
 
     // sequence name
     data.sequenceName = $('.list-group-item.active').attr('name');
+    if (!data.sequenceName) {
+        throw 'Choose a sequence.';
+    }
     
     // beginning
     data.begin = $('#calendar-start').datepicker('getDate');
+    if (data.begin[0]) {
+        throw 'Choose a start date.';
+    }
 
     // end
     data.end = $('#calendar-end').datepicker('getDate');
+    if (data.end[0]) {
+        throw 'Choose an end date.';
+    }
 
     // days to skip
     var opts = [];
@@ -112,7 +122,18 @@ function getPlannerData () {
     // amount
     data.amount = (data.type === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
 
+    if(!data.type) {
+        throw 'Choose an amount to read.'
+    }
+    else if(data.type === 'verses' && !data.amount) {
+        throw 'Specify the number of verses per day you want to read.';
+    }
+    else if(data.type === 'specified' && !data.amount) {
+        throw 'Choose to whether or not to read the whole plan or just what fits in your days.';
+    }
+
     console.info('Data ' + JSON.stringify(data));
+
     return data;
 }
 
