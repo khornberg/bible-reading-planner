@@ -288,8 +288,20 @@ $('#create').click(function() {
     }
 });
 
+// show save/download options
+$('#save').click(function (event) {
+    event.preventDefault();
+    $('.save a').toggle();
+})
+
+// show share options
+$('#share').click(function (event) {
+    event.preventDefault();
+    $('.share a').toggle();
+})
+
 // download as text
-$('#downloadText').click(function(event) {
+$('#downloadText').click(function (event) {
     event.preventDefault();
     var text = '';
     $('tbody tr').each(function( index, el ) {
@@ -300,7 +312,7 @@ $('#downloadText').click(function(event) {
 });
 
 // download as markdown
-$('#downloadMarkdown').click(function(event) {
+$('#downloadMarkdown').click(function (event) {
     event.preventDefault();
     var text = '';
     $('tbody tr').each(function( index, el ) {
@@ -311,7 +323,7 @@ $('#downloadMarkdown').click(function(event) {
 });
 
 // download as ics
-$('#downloadIcs').click(function(event) {
+$('#downloadIcs').click(function (event) {
     event.preventDefault();
     $.getScript('/scripts/ics.js')
         .done(function() {
@@ -334,7 +346,7 @@ $('#downloadIcs').click(function(event) {
 });
 
 // email as text
-$('#emailText').click(function(event) {
+$('#emailText').click(function (event) {
     var text = '';
     $('tbody tr').each(function( index, el ) {
         text += el.cells[0].innerText + ': ' + el.cells[1].innerText + SEPARATOR;
