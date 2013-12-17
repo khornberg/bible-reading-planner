@@ -12,7 +12,7 @@
                 assert.ok(bible, 'bible not loaded');
                 assert.ok(ics, 'ics not loaded');
                 assert.ok(Blob, 'ics not loaded');
-                assert.ok(saveas, 'ics not loaded');
+                assert.ok(saveAs, 'ics not loaded');
             });
         });
     });
