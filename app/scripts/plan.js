@@ -1,5 +1,4 @@
-/* global bible */
-/* global time */
+/* global bible, time */
 /* global READING_PLANS */
 /* exported planner */
 
