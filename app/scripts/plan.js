@@ -135,7 +135,7 @@ var planner = {
         while(sequenceKey < sequence.data.length) {
             if (ref === undefined) {
                 ref = bible.parseReference(sequence.data[sequenceKey]);
-                console.info(ref.toString());
+                // console.info(ref.toString());
             }
 
             if (ref.isValid()) {
@@ -163,7 +163,7 @@ var planner = {
             }
             else {
                 if (sequence.data[sequenceKey] !== undefined) {
-                    console.error('invalid reference: ' + sequence.data[sequenceKey] + ' key: ' + sequenceKey);
+                    console.error('invalid reference: ' + sequence.data[sequenceKey] + ' key: ' + sequenceKey + ' sequence: ' + sequence.name);
                     refs.push('Sorry there was an error parsing ' + sequence.data[sequenceKey] + '.');
                     ref = undefined;
                     sequenceKey++;
@@ -199,12 +199,13 @@ var planner = {
     'load': function () {
         'use strict';
 
-        var sequenceName = (arguments.length === 1) ? arguments[0] : this.sequenceName;
+        var sequenceName = (arguments.length >= 1) ? arguments[0] : this.sequenceName;
+        var readingPlans = (arguments.length >= 2) ? arguments[1] : READING_PLANS;
         var result = null;
         if(sequenceName) {
             $.ajax({
                 dataType: 'json',
-                url: READING_PLANS + '/' + sequenceName,
+                url: readingPlans + '/' + sequenceName,
                 async: false,
                 success: function(json) { result = json; },
                 error: function(e) { throw e; }
