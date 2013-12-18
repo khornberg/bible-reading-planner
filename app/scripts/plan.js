@@ -119,7 +119,9 @@ var planner = {
         var partialReferenceString = '';
         var results = [];
         var refs = [];
+        var dayRefs = [];
         var ref;
+        var remainder = 0;
 
         /** 
          * Determine references per day
@@ -132,39 +134,60 @@ var planner = {
          */
 
         while(sequenceKey < sequence.data.length) {
-            if (ref === undefined) {
+            if (ref === null || ref === undefined) {
                 ref = bible.parseReference(sequence.data[sequenceKey]);
-                // console.info(ref.toString());
+                
+                // account for single and multi chapter ref
+                if (ref.chapter1 >= 0 && ref.verse1 === -1 && ref.verse2 === -1) {
+                    ref.chapter2 = (ref.chapter2 === -1) ? ref.chapter1 : ref.chapter2;
+                    var ch = (ref.chapter2 === -1) ? ref.chapter1 - 1 : ref.chapter2 -1; // 0 based index
+                    ref.verse2 = bible.Books[ref.bookIndex].verses[ch];
+                    ref.verse1 = 1;
+                }
             }
 
             if (ref.isValid()) {
-                // amount to read
-                var distance = (ref !== undefined) ? bible.distance(ref).verses : undefined;
-                var tmpDistance = (partialReferenceString !== '') ? bible.distance(bible.parseReference(partialReferenceString)).verses : '';
-                var amt = (partialReferenceString !== '') ? amount - tmpDistance : amount;
+                var distance = (ref !== null) ? bible.distance(ref).verses : 0; // distance of reference
+                var amt = (remainder > 0) ? remainder : amount; // amount to read
 
-
+                // the amount to read is less than the distance of the reference
                 if(distance >= amt) {
-                    var startRef = bible.Reference(ref.bookIndex, ref.chapter1, ((ref.verse1 === -1) ? 1 : ref.verse1)); // start ref
+                    var verse1 = (ref.verse1 === -1) ? 1 : ref.verse1; // multiple chapter ref
+                    var startRef = bible.Reference(ref.bookIndex, ref.chapter1, verse1); // start ref
                     var startRefString = startRef.toString();
-                    var endRef = bible.add(startRef, amt - 1).toString(); // end ref
+                    var endRefString = bible.add(startRef, amt - 1).toString();
+                    
+                    var referenceString = (startRefString !== endRefString) ? startRefString + '-' + endRefString : startRefString;
 
-                    var referenceString = (partialReferenceString !== '') ? partialReferenceString + '; ' + startRefString + '-' + endRef : startRefString + '-' + endRef;
-                    refs.push(referenceString);
+                    dayRefs.push(referenceString);
+                    refs.push(dayRefs);
+                    dayRefs = [];
+
                     bible.add(ref, amt);
-                    partialReferenceString = '';
+
+                    // add past end ref
+                    if (ref.chapter1 > ref.chapter2 || (ref.chapter1 === ref.chapter2 && ref.verse1 > ref.verse2)) {
+                        console.error('Reversed: ' + ref);
+                        ref = null;
+                        sequenceKey++;
+                    }
+
+                    remainder = 0;
                 }
+                // amount to read is greater than the reference, so add it and go to the next reference for more verses
                 else {
-                    partialReferenceString = (partialReferenceString === '') ? ref.toString() : partialReferenceString + '; ' + ref.toString();
-                    ref = undefined;
+                    dayRefs.push(ref.toString());
+                    remainder = amt - distance;
+                    ref = null;
                     sequenceKey++;
                 }
             }
+            // not a valid reference, log it and move on
             else {
                 if (sequence.data[sequenceKey] !== undefined) {
                     console.error('invalid reference: ' + sequence.data[sequenceKey] + ' key: ' + sequenceKey + ' sequence: ' + sequence.name);
                     refs.push('Sorry there was an error parsing ' + sequence.data[sequenceKey] + '.');
-                    ref = undefined;
+                    ref = null;
                     sequenceKey++;
                 }
             }
