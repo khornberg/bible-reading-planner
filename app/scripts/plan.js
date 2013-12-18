@@ -155,9 +155,24 @@ var planner = {
                     var verse1 = (ref.verse1 === -1) ? 1 : ref.verse1; // multiple chapter ref
                     var startRef = bible.Reference(ref.bookIndex, ref.chapter1, verse1); // start ref
                     var startRefString = startRef.toString();
-                    var endRefString = bible.add(startRef, amt - 1).toString();
+                    var endRef = bible.add(startRef, amt - 1);
+                    var endRefString = endRef.toString();
                     
-                    var referenceString = (startRefString !== endRefString) ? startRefString + '-' + endRefString : startRefString;
+
+                    var referenceString = null;
+                    // Format output to shorter reference strings
+                    if (startRefString !== endRefString) {
+                        if (startRef.bookIndex === endRef.bookIndex) {
+                            var endRefChapter = (startRef.chapter1 === endRef.chapter1) ? '' : endRef.chapter1 + ':';
+                            referenceString = startRefString + '-' + endRefChapter + endRef.verse1;
+                        }
+                        else {
+                            referenceString = startRefString + '-' + endRefString;
+                        }
+                    } 
+                    else {
+                        referenceString = startRefString; // don't output same ref twice
+                    }
 
                     dayRefs.push(referenceString);
                     refs.push(dayRefs);
@@ -166,6 +181,7 @@ var planner = {
                     bible.add(ref, amt);
 
                     // add past end ref
+                    // get a new ref
                     if (ref.chapter1 > ref.chapter2 || (ref.chapter1 === ref.chapter2 && ref.verse1 > ref.verse2)) {
                         console.error('Reversed: ' + ref);
                         ref = null;

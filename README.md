@@ -19,18 +19,14 @@ Inital release.
 	- brand-primary #48525D success #567256  warning #8e7e6c  danger #8e6c6c  info #96a6ac
 - Scaffolding
 	- Show create button only when data is selected?
-- Share [simplesharebuttons.com/html-share-buttons/]()
 - Optimization
 	- Load scripts, css, fonts from CDN? (maybe)
-	- cache.manifest (grunt-manifest)
+	- cache.manifest 
 	- Reduce XHRs
-	- grunt remove console methods
 - Fixes
-	- npm update (usemin to fix dist .tmp css error, comment out cssmin?)
+	- ics download
 - Tests
-	- parse each item of each sequence for errors
 	- each function of planner
-	- reference stuff in `/app` from `/tests`?
 
 ## Future
 
