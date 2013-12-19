@@ -13,7 +13,7 @@ console.groupEnd();
 /**
  * Contants
  */
-var READING_PLANS = (window.location.host === 'khornberg.github.io') ? 'http://khornberg.github.io/bible-reading-planner/bower_components/readingplans' : '/bower_components/readingplans';
+var READING_PLANS = (window.location.host === 'khornberg.github.io') ? 'http://khornberg.github.io/bible-reading-planner/bower_components/readingplans' : 'bower_components/readingplans';
 var FILENAME = 'BibleReadingPlan';
 var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
 
@@ -278,7 +278,12 @@ $('#create').click(function() {
     }
     catch(err) {
         console.error(err);
-        showError(err);
+        if (err.status === 404) {
+            showError('Error getting the plan file.');
+        }
+        else {
+            showError(err);
+        }
     }
 });
 

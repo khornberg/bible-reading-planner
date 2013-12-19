@@ -1,0 +1,36 @@
+{
+  "vars": {
+    "@brand-primary": "#48525d",
+    "@brand-success": "#567256",
+    "@brand-warning": "#8e7e6c",
+    "@brand-danger": "#8e6c6c",
+    "@brand-info": "#96a6ac"
+  },
+  "css": [
+    "print.less",
+    "type.less",
+    "code.less",
+    "grid.less",
+    "tables.less",
+    "forms.less",
+    "buttons.less",
+    "button-groups.less",
+    "input-groups.less",
+    "labels.less",
+    "badges.less",
+    "jumbotron.less",
+    "alerts.less",
+    "list-group.less",
+    "panels.less",
+    "close.less",
+    "tooltip.less",
+    "utilities.less",
+    "responsive-utilities.less",
+    "component-animations.less"
+  ],
+  "js": [
+    "alert.js",
+    "button.js",
+    "tooltip.js"
+  ]
+}
