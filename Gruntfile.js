@@ -178,8 +178,7 @@ module.exports = function (grunt) {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
-                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
+                        '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}'
                     ]
                 }
             }
@@ -267,7 +266,19 @@ module.exports = function (grunt) {
                         '.htaccess',
                         'images/{,*/}*.{webp,gif}',
                         'styles/fonts/{,*/}*.*',
+                        'bower_components/font-awesome/fonts/*',
                         'bower_components/readingplans/*'
+                    ]
+                }]
+            },
+            fonts: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>/bower_components/font-awesome/fonts',
+                    dest: '<%= yeoman.dist %>/styles/fonts/',
+                    src: [
+                        '*',
                     ]
                 }]
             },
@@ -344,6 +355,7 @@ module.exports = function (grunt) {
         'uglify',
         'modernizr',
         'copy:dist',
+        'copy:fonts',
         'rev',
         'usemin'
     ]);
