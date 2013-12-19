@@ -298,6 +298,22 @@ module.exports = function (grunt) {
                 'svgmin',
                 'htmlmin'
             ]
+        },
+        manifest: {
+            generate: {
+                options: {
+                    basePath: '<%= yeoman.dist %>',
+                    cache: [],
+                    network: ['http://*', 'https://*'],
+                    preferOnline: true,
+                    verbose: true,
+                    timestamp: true
+                },
+                src: [
+                    '**/*'
+                ],
+                dest: '<%= yeoman.dist %>/manifest.appcache'
+            }
         }
     });
 
@@ -339,7 +355,8 @@ module.exports = function (grunt) {
         'modernizr',
         'copy:dist',
         'rev',
-        'usemin'
+        'usemin',
+        'manifest'
     ]);
 
     grunt.registerTask('default', [
