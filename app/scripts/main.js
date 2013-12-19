@@ -35,41 +35,31 @@ function getSkippedDays () {
 
 /**
  * Gets name from each plan and add to list
- * @param {string} plan Filename of plan to load
- * @todo  github does not allow getting contents of a directory
  */
-// function setSequences (sequence) {
-//     $.getJSON(READING_PLANS + '/' + sequence)
-//     .done(function(json) {
-//         var length = (typeof json.data2 === 'undefined') ? json.data.length : json.data2.length;
-//         var plan = '<a href="#" class="list-group-item" name="' + sequence + '">' + json.name + '<span class="badge">' + length + ' days</span></a>';
-//         $('#sequence').append(plan);
 
-        // select functionality
-        $('.list-group-item').click(function () {
-            // TODO better way of doing this?          
-            $('.list-group-item').each(function () {
-                $(this).removeClass('active');
-            });
+ // select functionality
+$('.list-group-item').click(function () {
+    // TODO better way of doing this?          
+    $('.list-group-item').each(function () {
+        $(this).removeClass('active');
+    });
 
-            $(this).addClass('active');
+    $(this).addClass('active');
 
-            // Load text
-            // TODO reduce XHRs
-            planner.sequenceName = $('.list-group-item.active').attr('name');
-            planner.load();
+    // Load text
+    // TODO reduce XHRs
+    planner.sequenceName = $('.list-group-item.active').attr('name');
+    planner.load();
 
-            // $('.panel-heading').text(planner.sequence.name);
-            
-            var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
-            var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
-            var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
-            var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay + totalDays;
+    // $('.panel-heading').text(planner.sequence.name);
+    
+    var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
+    var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
+    var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
+    var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay + totalDays;
 
-            $('.panel-sequence').html(info);
-        });
-//     });
-// }
+    $('.panel-sequence').html(info);
+});
 
 /**
  * Shows error message
@@ -123,7 +113,7 @@ function getPlannerData () {
     data.amount = (data.type === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
 
     if(!data.type) {
-        throw 'Choose an amount to read.'
+        throw 'Choose an amount to read.';
     }
     else if(data.type === 'verses' && !data.amount) {
         throw 'Specify the number of verses per day you want to read.';
@@ -190,28 +180,6 @@ function output (plan, destination) {
  * UI construct
  */
 
-// Load plans
-// $.ajax({
-//     url: READING_PLANS,
-//     type: 'GET',
-// })
-// .done(function(data) {
-//     var plans = [];
-
-//     $(data).find('a:contains(.json)').each(function() {
-//         plans.push($(this).attr('title'));
-//     });
-
-//     for (var i = 0; i < plans.length; i++) {
-//         setSequences(plans[i]);
-//     }
-// })
-// .fail(function() {
-//     console.error('error loading bible reading plan');
-//     var plan = '<a href="" class="list-group-item">Error Loading Plans</a>';
-//     $('#sequence').append(plan);
-// });
-
 // calendars
 $('#calendar-start').datepicker({
     'todayHighlight': true,
@@ -267,7 +235,8 @@ $('#sequence').click(function (e) {
 
 $('#legal').click(function (e) {
     e.preventDefault();
-    $('.legal').show();
+    $('.legal').toggle();
+    document.getElementById('legal').scrollIntoView();
 });
 
 // create plan
@@ -303,13 +272,13 @@ $('#create').click(function() {
 $('#save').click(function (event) {
     event.preventDefault();
     $('.save a').toggle();
-})
+});
 
 // show share options
 $('#share').click(function (event) {
     event.preventDefault();
     $('.share a').toggle();
-})
+});
 
 // download as text
 $('#downloadText').click(function (event) {
@@ -336,24 +305,17 @@ $('#downloadMarkdown').click(function (event) {
 // download as ics
 $('#downloadIcs').click(function (event) {
     event.preventDefault();
-    $.getScript('/scripts/ics.js')
-        .done(function() {
-            var cal = ics();
-            $('tbody tr').each(function (index, el) {
-                var day = moment(el.cells[0].innerText, 'MMMM DD, YYYY');
-                var start = moment(day).format('YYYY/MM/DD');
-                var end = moment(day).add('d', 1).format('YYYY/MM/DD');
-                var description = el.cells[1].innerText;
-                var subject = 'Bible Reading';
-                var location = 'Your Bible';
-                cal.addEvent(subject, description, location, start, end);
-            });
-            cal.download(FILENAME);
-        })
-        .fail(function(err) {
-            showError(err);
-            console.log(err);
-        });
+    var cal = ics();
+    $('tbody tr').each(function (index, el) {
+        var day = moment(el.cells[0].innerText, 'MMMM DD, YYYY');
+        var start = moment(day).format('YYYY/MM/DD');
+        var end = moment(day).add('d', 1).format('YYYY/MM/DD');
+        var description = el.cells[1].innerText;
+        var subject = 'Bible Reading';
+        var location = 'Your Bible';
+        cal.addEvent(subject, description, location, start, end);
+    });
+    cal.download(FILENAME);
 });
 
 // email as text

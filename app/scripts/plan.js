@@ -169,7 +169,7 @@ var planner = {
                         else {
                             referenceString = startRefString + '-' + endRefString;
                         }
-                    } 
+                    }
                     else {
                         referenceString = startRefString; // don't output same ref twice
                     }
