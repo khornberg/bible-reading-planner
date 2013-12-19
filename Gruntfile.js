@@ -19,6 +19,10 @@ module.exports = function (grunt) {
             app: 'app',
             dist: 'dist'
         },
+        c9: {
+            host: (process.env.IP) ? process.env.IP : 'localhost',
+            port: (process.env.PORT) ? process.env.PORT: '9001'
+        },
         watch: {
             compass: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -45,7 +49,7 @@ module.exports = function (grunt) {
                 port: 9000,
                 livereload: 35729,
                 // change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: '<%= c9.host %>' //'localhost'
             },
             livereload: {
                 options: {
@@ -59,7 +63,7 @@ module.exports = function (grunt) {
             },
             test: {
                 options: {
-                    port: 9001,
+                    port: '<%= c9.port %>',
                     base: [
                         '.tmp',
                         'test',
@@ -131,6 +135,8 @@ module.exports = function (grunt) {
                 }
             },
             server: {
+                port: '<%= c9.port %>',
+                host: '<%= c9.host %>',
                 options: {
                     debugInfo: true
                 }
