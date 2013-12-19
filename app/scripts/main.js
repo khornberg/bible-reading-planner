@@ -156,14 +156,26 @@ function output (plan, destination) {
         for (var i = 0; i < plan.length; i++) {
             rows = rows + '<tr><td>' + plan[i].day + '</td><td>';
             for(var n = 0; n < plan[i].refs.length; n++) {
-                for(var d = 0; d < plan[i].refs[n].length; d++) {
-                    rows = rows + plan[i].refs[n][d];
-                   
+                
+                if ( typeof  plan[i].refs[n] === 'string') {
+                    rows = rows + plan[i].refs[n];
+                       
                     // don't put a comma after the last element
-                    if( d < plan[i].refs[n].length - 1) {
+                    if( n < plan[i].refs.length - 1) {
                         rows = rows + ', ';
                     }
                 }
+                else {
+                    for(var d = 0; d < plan[i].refs[n].length; d++) {
+                        rows = rows + plan[i].refs[n][d];
+                       
+                        // don't put a comma after the last element
+                        if( d < plan[i].refs[n].length - 1) {
+                            rows = rows + ', ';
+                        }
+                    }
+                }
+
             }
 
             rows = rows + '</td></tr>';
