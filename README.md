@@ -5,30 +5,14 @@ Bible reading planner generates a list of verses to read each day.
 
 A user supplies the sequence, reading amount, and duration of the reading plan.
 
+[See it live](http://khornberg.github.com/bible-reading-planner)
+
 ## Releases
 
 ### 0.1.0 
 Inital release.
 
-## TODO
-- Fonts, colors
-	- Google web fonts
-	- webfontloader
-	- datepicker css (manual copy of last 30 lines, created custom)
-	- bootstrap custom (do not need navs, nav bars, breadcrumbs, pag, page, thumbnails, progress bars, media items, panels, wells, dropdowns, popovers, carousel, OR carousel functinoality, dropdowns, modals, popovers, togglable tabs, affix, collaps, scrollspy, transitions)
-	- brand-primary #48525D success #567256  warning #8e7e6c  danger #8e6c6c  info #96a6ac
-- Scaffolding
-	- Show create button only when data is selected?
-- Optimization
-	- Load scripts, css, fonts from CDN? (maybe)
-	- cache.manifest 
-	- Reduce XHRs
-- Fixes
-	- ics download
-- Tests
-	- each function of planner
-
-## Future
+## Future Iterations
 
 - Pass data by url
 - Offline access
