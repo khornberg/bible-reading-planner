@@ -6,7 +6,6 @@
     "jquery": "~1.10.2",
     "bible.math": "~0.1.6",
     "readingplans": "khornberg/readingplans",
-    "FileSaver": "*",
     "twix": "~0.3.0",
     "font-awesome": "~4.0.3",
     "ics.js": "khornberg/ics.js",
