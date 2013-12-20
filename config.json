@@ -23,6 +23,7 @@
     "list-group.less",
     "panels.less",
     "close.less",
+    "dropdowns.less",
     "tooltip.less",
     "utilities.less",
     "responsive-utilities.less",
@@ -31,6 +32,7 @@
   "js": [
     "alert.js",
     "button.js",
+    "dropdown.js",
     "tooltip.js"
   ]
 }
