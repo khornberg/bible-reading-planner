@@ -12,7 +12,7 @@ A user supplies the sequence, reading amount, and duration of the reading plan.
 ### 0.1.0 
 Inital release.
 
-## Future Iterations
+## Possible Future Additions
 
 - Pass data by url
 - Offline access
