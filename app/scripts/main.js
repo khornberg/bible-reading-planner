@@ -405,6 +405,8 @@ $('#create').click(function() {
         window.history.pushState({}, 'Create Bible Reading Plan', '/?' + compressUri());
 
         updateLinks();
+
+        $('#downloads h2').text('Your customized ' + planner.sequence.name + ' plan');
     }
     catch(err) {
         console.error(err);
