@@ -211,6 +211,11 @@ console.log(uri || false);
     return oGetVars;
 }
 
+/**
+ * Validates plan data in uri
+ * @param  {object}  uriData Uncompressed plan data
+ * @return {Boolean}         True if plan is valid
+ */
 function isValidPlan (uriData) {
     var abbv = [];
     $('.list-group-item').each(function () {
@@ -228,7 +233,15 @@ function isValidPlan (uriData) {
     return true;
 }
 
-
+/**
+ * Updates links for sharing the plan
+ */
+function updateLinks () {
+    $('#fb').attr('href', 'http://www.facebook.com/sharer.php?u=' + window.location.href);
+    $('#tw').attr('href', 'http://twitter.com/share?url=' + window.location.href + '&Bible Reading Plan');
+    $('#gp').attr('href', 'https://plus.google.com/share?url='+ window.location.href);
+    $('#li').attr('href', 'http://www.linkedin.com/shareArticle?mini=true&url='+ window.location.href);
+}
 
 /**
  * UI construct
@@ -390,6 +403,8 @@ $('#create').click(function() {
         document.getElementById('plan').scrollIntoView();
 
         window.history.pushState({}, 'Create Bible Reading Plan', '/?' + compressUri());
+
+        updateLinks();
     }
     catch(err) {
         console.error(err);
@@ -454,12 +469,12 @@ $('#downloadIcs').click(function (event) {
 
 // email as text
 $('#emailText').click(function (event) {
-    var text = '';
-    $('tbody tr').each(function( index, el ) {
-        text += el.cells[0].innerText + ': ' + el.cells[1].innerText + SEPARATOR;
-    });
-    console.log(text);
-    $('#emailText').attr('href', 'mailto:?Subject=Bible Reading Plan&Body='+text);
+    // var text = '';
+    // $('tbody tr').each(function( index, el ) {
+    //     text += el.cells[0].innerText + ': ' + el.cells[1].innerText + SEPARATOR;
+    // });
+    // console.log(text);
+    $('#emailText').attr('href', 'mailto:?Subject=Bible Reading Plan&Body=My bible reading plan: ' + window.location.href);
 });
 
 if (isValidPlan(uriData)) {
