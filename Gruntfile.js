@@ -320,6 +320,11 @@ module.exports = function (grunt) {
                 ],
                 dest: '<%= yeoman.dist %>/manifest.appcache'
             }
+        },
+        removelogging: {
+            dist: {
+                src: 'dist/scripts/*main.js'
+            }
         }
     });
 
@@ -362,7 +367,8 @@ module.exports = function (grunt) {
         'copy:dist',
         'rev',
         'usemin',
-        'manifest'
+        'manifest',
+        'removelogging'
     ]);
 
     grunt.registerTask('default', [
