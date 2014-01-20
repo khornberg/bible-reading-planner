@@ -34,34 +34,6 @@ function getSkippedDays () {
 }
 
 /**
- * Gets name from each plan and add to list
- */
-
- // select functionality
-$('.list-group-item').click(function () {
-    // TODO better way of doing this?          
-    $('.list-group-item').each(function () {
-        $(this).removeClass('active');
-    });
-
-    $(this).addClass('active');
-
-    // Load text
-    // TODO reduce XHRs
-    planner.sequenceName = $('.list-group-item.active').attr('name');
-    planner.load();
-
-    // $('.panel-heading').text(planner.sequence.name);
-    
-    var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
-    var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
-    var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
-    var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay + totalDays;
-
-    $('.panel-sequence').html(info);
-});
-
-/**
  * Shows error message
  * @param  {string} message Error message
  */
@@ -75,9 +47,9 @@ function showError(message) {
 
 /**
  * Get data from page elements
- * @return {array} Array of the user data
+ * @return {object} Object of the user data
  */
-function getPlannerData () {
+function getPlanData () {
     var data = {};
 
     // sequence name
@@ -106,19 +78,19 @@ function getPlannerData () {
 
     data.skip = opts;
 
-    // type
-    data.type = $('#type :radio:checked').attr('id');
+    // kind
+    data.kind = $('#type :radio:checked').attr('id');
 
     // amount
-    data.amount = (data.type === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
+    data.amount = (data.kind === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
 
-    if(!data.type) {
+    if(!data.kind) {
         throw 'Choose an amount to read.';
     }
-    else if(data.type === 'verses' && !data.amount) {
+    else if(data.kind === 'verses' && !data.amount) {
         throw 'Specify the number of verses per day you want to read.';
     }
-    else if(data.type === 'specified' && !data.amount) {
+    else if(data.kind === 'specified' && !data.amount) {
         throw 'Choose to whether or not to read the whole plan or just what fits in your days.';
     }
 
@@ -177,24 +149,121 @@ function output (plan, destination) {
 }
 
 /**
+ * Assembles URI
+ * @return {[type]} [description]
+ */
+function assembleUri () {
+    var uriString = '';
+
+    /*
+     * p = plan
+     * s = start date
+     * e = end date
+     * k = skipped days
+     * a = amount to read (kind): read number of verses, everything, or what time allows
+     */
+    
+    uriString += 'p=' + planner.sequence.abbv + '&';
+    uriString += 's=' + (planner.begin.getMonth()+1) + '/' + planner.begin.getDate() + '/' + planner.begin.getFullYear() + '&';
+    uriString += 'e=' + (planner.end.getMonth()+1) + '/' + planner.end.getDate() + '/' + planner.end.getFullYear() + '&';
+    uriString += 'k=[' + planner.skip.toString() + ']&';
+    uriString += 'a=' + planner.amount;
+console.log(uriString);
+    return uriString;
+}
+
+/**
+ * Compresses URI string to base64 using LZString and replacing invalid URI characters = and /
+ * @return {string} Compressed URI data
+ */
+function compressUri () {
+    var uriStringCompressed = LZString.compressToBase64(assembleUri()).replace("=","$").replace("/","-");
+    return uriStringCompressed;
+}
+
+/**
+ * Decompresses and gets URI data
+ * {@link https://developer.mozilla.org/en-US/docs/Web/API/window.location}
+ * @returns {object} URI data
+ */
+
+function getUriData () {
+    var oGetVars = {};
+
+    function buildValue(sValue) {
+      if (/^\s*$/.test(sValue)) { return null; }
+      if (/^(true|false)$/i.test(sValue)) { return sValue.toLowerCase() === "true"; } //Boolean
+      if (isFinite(sValue)) { return parseFloat(sValue); } //Float
+      if (isFinite(Date.parse(sValue))) { return new Date(sValue); } //Date
+      if (/^\[.*\]$/.test(sValue)) { return JSON.parse(sValue); } //Array
+      return sValue;
+    }
+
+    if (window.location.search.length > 1) {
+      var uri = LZString.decompressFromBase64(window.location.search.substr(1)).replace("$","=").replace("-","/");
+console.log(uri || false);
+      for (var aItKey, nKeyId = 0, aCouples = uri.split("&"); nKeyId < aCouples.length; nKeyId++) {
+        aItKey = aCouples[nKeyId].split("=");
+        oGetVars[unescape(aItKey[0])] = aItKey.length > 1 ? buildValue(unescape(aItKey[1])) : null;
+      }
+    }
+
+    return oGetVars;
+}
+
+function isValidPlan (uriData) {
+    var abbv = [];
+    $('.list-group-item').each(function () {
+        abbv.push($( this ).attr('data-abbv'));
+    });
+
+    if (abbv.indexOf(uriData.p) === -1) { return false; } // plan abbreviation
+    // if (typeof uriData.p === 'undefined') { return false; } // plan abbreviation
+    if (!isFinite(Date.parse(uriData.s))) { return false; } // start date
+    if (!isFinite(Date.parse(uriData.e))) { return false; } // end date
+    if (!Array.isArray(uriData.k)) { return false; } // skip days 
+    if (!$.isNumeric(uriData.a) && uriData.a !== 'partial' && uriData.a !== 'whole') {
+        return false;
+    }
+    return true;
+}
+
+
+
+/**
  * UI construct
  */
+
+var uriData = getUriData();
+
+// set sequence selected
+$('.list-group-item').each(function () {
+    if ($( this ).attr('data-abbv') === uriData.p) {
+        $( this ).addClass('active');
+    }
+});
 
 // calendars
 $('#calendar-start').datepicker({
     'todayHighlight': true,
     'startDate': new Date()
 });
-
-$('#calendar-start').datepicker('update', new Date());
+// set calendar start date
+$('#calendar-start').datepicker('update', (typeof uriData.s !== 'undefined') ? uriData.s : new Date());
 
 $('#calendar-end').datepicker({
     'todayHighlight': true,
     'startDate': new Date()
 });
 
-var initEndDate = new Date();
-initEndDate.setDate(initEndDate.getDate() + 30);
+var initEndDate = null;
+if (typeof uriData.e !== 'undefined') {
+    initEndDate = uriData.e;
+} else {
+    initEndDate = new Date();
+    initEndDate.setDate(initEndDate.getDate() + 30);
+}
+// set calendar end date
 $('#calendar-end').datepicker('update', initEndDate);
 
 // the end cannot be before the start
@@ -207,11 +276,46 @@ $('#calendar-end').change(function() {
     $('#calendar-start').datepicker('setEndDate', $('#calendar-end').datepicker('getDate'));
 });
 
+// set disabled days
+if (typeof uriData.k !== 'undefined' && uriData.k.length > 0) {
+    $('#calendar-start').datepicker('setDaysOfWeekDisabled', uriData.k);
+    $('#calendar-end').datepicker('setDaysOfWeekDisabled', uriData.k);
+    $('#skip-checkboxes input').each(function (i, input) { 
+        if (uriData.k.indexOf(Number(input.value)) !== -1) {
+            $( this ).parent().addClass('active');
+        }
+    })
+}
+
 // disable days
 $('#skip-checkboxes').change(function () {
     $('#calendar-start').datepicker('setDaysOfWeekDisabled', getSkippedDays());
     $('#calendar-end').datepicker('setDaysOfWeekDisabled', getSkippedDays());
 });
+
+// set radio buttons
+if (typeof uriData.a !== 'undefined') {
+    if (uriData.a === 'partial') {
+        $('#amountNumber').hide();
+        $('#amountSpecified').show();
+        $('#partial').parent().addClass('active');
+        $('#partial').prop( 'checked', true);
+        $('#specified').parent().addClass('active');
+        $('#specified').prop( 'checked', true);
+    } else if (uriData.a === 'whole') {
+        $('#amountNumber').hide();
+        $('#amountSpecified').show();
+        $('#whole').parent().addClass('active');
+        $('#whole').prop( 'checked', true);
+        $('#specified').parent().addClass('active');
+        $('#specified').prop( 'checked', true);
+    } else {
+        $('#amountNumber').show().val(uriData.a);
+        $('#amountSpecified').hide();
+        $('#verses').parent().addClass('active');
+        $('#verses').prop( 'checked', true);
+    }
+}
 
 // radio buttons
 $('#type input[type=radio]').change(function () {
@@ -229,6 +333,34 @@ $('#type input[type=radio]').change(function () {
  * User actions
  */
 
+/**
+ * Gets name from each plan and add to list
+ */
+
+ // select functionality
+$('.list-group-item').click(function () {
+    // TODO better way of doing this?          
+    $('.list-group-item').each(function () {
+        $(this).removeClass('active');
+    });
+
+    $(this).addClass('active');
+
+    // Load text
+    // TODO reduce XHRs
+    planner.sequenceName = $('.list-group-item.active').attr('name');
+    planner.load();
+
+    // $('.panel-heading').text(planner.sequence.name);
+    
+    var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
+    var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
+    var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
+    var info = planner.sequence.info + '<br /><br />Excerpt from the original sequence:' + firstDay + secondDay + totalDays;
+
+    $('.panel-sequence').html(info);
+});
+
 $('#sequence').click(function (e) {
     e.preventDefault();
 });
@@ -244,11 +376,11 @@ $('#create').click(function() {
     try {
         $('.alert').remove();
         
-        var data = getPlannerData();
+        var data = getPlanData();
         planner.set(data);
         planner.create();
-        var rows = output(planner.plan, 'dom');
 
+        var rows = output(planner.plan, 'dom');
         if (rows) {
             $('tbody').children().remove();
         }
@@ -256,6 +388,8 @@ $('#create').click(function() {
         $('.plan').addClass('fade');
 
         document.getElementById('plan').scrollIntoView();
+
+        window.history.pushState({}, 'Create Bible Reading Plan', '/?' + compressUri());
     }
     catch(err) {
         console.error(err);
@@ -328,5 +462,9 @@ $('#emailText').click(function (event) {
     $('#emailText').attr('href', 'mailto:?Subject=Bible Reading Plan&Body='+text);
 });
 
+if (isValidPlan(uriData)) {
+    console.log(isValidPlan(uriData));
+    $('#create').trigger('click');
+}
 
 //sdg

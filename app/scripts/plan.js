@@ -13,7 +13,7 @@ var planner = {
     'end': null,
     'skip': null,
     'amount': null,
-    'type': null,
+    'kind': null,
     'duration': null,
     'plan': null,
     
@@ -21,17 +21,17 @@ var planner = {
      * Determines type of plan to create
      * @param  {object} sequence Bible reading sequence
      * @param  {string|int} amount   Amount to read
-     * @param  {string} type     Sequence type
+     * @param  {string} kind     Sequence kind
      * @return {object}          Bible reading plan
      */
     'create': function () {
         'use strict';
 
-        if(this.type === 'verses') {
+        if(this.kind === 'verses') {
             var amount = (Number(this.amount) > 0) ? Number(this.amount) : 1;
             this.plan = this.createVersesPlan(this.sequence, amount);
         }
-        if(this.type === 'specified') {
+        if(this.kind === 'specified') {
             this.plan = this.createSpecifiedPlan(this.sequence, this.amount);
         }
         // if(type === 'chapters') {
@@ -264,7 +264,7 @@ var planner = {
         this.end = data.end;
         this.skip = data.skip;
         this.amount = data.amount;
-        this.type = data.type;
+        this.kind = data.kind;
         this.duration = time(this.begin, this.end, this.skip);
         this.load();
     }

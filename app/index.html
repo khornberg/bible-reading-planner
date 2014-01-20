@@ -40,14 +40,16 @@
         <div class="col-md-4">
             <h2>Choose a Sequence</h2>
             <div id="sequence" class="list-group list-group-scroll">
-                <a href="#" class="list-group-item" name="backtothebiblechronological.json">Back to the Bible Chronological </a>
-                <a href="#" class="list-group-item" name="esvchroniclesandprophets.json">Chronicles and Prophets</a>
-                <a href="#" class="list-group-item" name="esvpsalmsandwisdomliterature.json">Psalms and Wisdom Literature </a>
-                <a href="#" class="list-group-item" name="esvgospelsandepistles.json">Gospel and Epistles </a><a href="#" class="list-group-item" name="esvpentateuchandhistoryofisrael.json">Pentateuch and History of Israel </a>
-                <a href="#" class="list-group-item" name="esveverydayinword.json">Every Day In the Word </a><a href="#" class="list-group-item" name="esvliterarystudybible.json">ESV Literary Study Bible Plan </a>
-                <a href="#" class="list-group-item" name="esvthroughthebible.json">Through The Bible </a>
-                <a href="#" class="list-group-item" name="heartlightotandnt.json">Old and New Testament </a><a href="#" class="list-group-item" name="mcheyne.json">M'Cheyne </a>
-                <a href="#" class="list-group-item" name="oneyearchronological.json">One Year Chronological </a></div>
+                <a href="#" class="list-group-item" name="backtothebiblechronological.json" data-abbv="bttbc">Back to the Bible Chronological </a>
+                <a href="#" class="list-group-item" name="esvchroniclesandprophets.json" data-abbv="ecp">Chronicles and Prophets</a>
+                <a href="#" class="list-group-item" name="esvpsalmsandwisdomliterature.json" data-abbv="epwl">Psalms and Wisdom Literature </a>
+                <a href="#" class="list-group-item" name="esvgospelsandepistles.json" data-abbv="ege">Gospel and Epistles </a>
+                <a href="#" class="list-group-item" name="esvpentateuchandhistoryofisrael.json" data-abbv="ephi">Pentateuch and History of Israel </a>
+                <a href="#" class="list-group-item" name="esveverydayinword.json" data-abbv="eedw">Every Day In the Word </a>
+                <a href="#" class="list-group-item" name="esvliterarystudybible.json" data-abbv="elsb">ESV Literary Study Bible Plan </a>
+                <a href="#" class="list-group-item" name="esvthroughthebible.json" data-abbv="etb">Through The Bible </a>
+                <a href="#" class="list-group-item" name="heartlightotandnt.json" data-abbv="hlnt">Old and New Testament </a><a href="#" class="list-group-item" name="mcheyne.json" data-abbv="m">M'Cheyne </a>
+                <a href="#" class="list-group-item" name="oneyearchronological.json" data-abbv="oyc ">One Year Chronological </a></div>
         </div>
         <div class="col-md-8 hidden-xs">
             <h2>&nbsp</h2>
@@ -256,6 +258,7 @@
         <script src="scripts/bootstrap.min.js"></script>
         <script src="bower_components/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
         <script src="bower_components/ics.js/ics.deps.min.js"></script> <!-- filesaver included -->
+        <script src="bower_components/lz-string/libs/lz-string-1.3.3-min.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -270,9 +273,9 @@
         </script>
 
         <!-- build:js scripts/main.js -->
-        <script src="scripts/main.js"></script>
         <script src="scripts/plan.js"></script>
         <script src="scripts/time.js"></script>
+        <script src="scripts/main.js"></script>
         <!-- endbuild -->
 </body>
 </html>

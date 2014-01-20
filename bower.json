@@ -9,7 +9,8 @@
     "twix": "~0.3.0",
     "font-awesome": "~4.0.3",
     "ics.js": "khornberg/ics.js",
-    "bootstrap-datepicker": "master"
+    "bootstrap-datepicker": "master",
+    "lz-string": "*"
   },
   "devDependencies": {}
 }
