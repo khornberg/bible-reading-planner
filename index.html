@@ -30,19 +30,21 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <h2>Choose a Sequence</h2>
             <div id="sequence" class="list-group list-group-scroll">
-                <a href="#" class="list-group-item" name="backtothebiblechronological.json">Back to the Bible Chronological </a>
-                <a href="#" class="list-group-item" name="esvchroniclesandprophets.json">Chronicles and Prophets</a>
-                <a href="#" class="list-group-item" name="esvpsalmsandwisdomliterature.json">Psalms and Wisdom Literature </a>
-                <a href="#" class="list-group-item" name="esvgospelsandepistles.json">Gospel and Epistles </a><a href="#" class="list-group-item" name="esvpentateuchandhistoryofisrael.json">Pentateuch and History of Israel </a>
-                <a href="#" class="list-group-item" name="esveverydayinword.json">Every Day In the Word </a><a href="#" class="list-group-item" name="esvliterarystudybible.json">ESV Literary Study Bible Plan </a>
-                <a href="#" class="list-group-item" name="esvthroughthebible.json">Through The Bible </a>
-                <a href="#" class="list-group-item" name="heartlightotandnt.json">Old and New Testament </a><a href="#" class="list-group-item" name="mcheyne.json">M'Cheyne </a>
-                <a href="#" class="list-group-item" name="oneyearchronological.json">One Year Chronological </a></div>
+                <a href="#" class="list-group-item" name="backtothebiblechronological.json" data-abbv="bttbc">Back to the Bible Chronological </a>
+                <a href="#" class="list-group-item" name="esvchroniclesandprophets.json" data-abbv="ecp">Chronicles and Prophets</a>
+                <a href="#" class="list-group-item" name="esvpsalmsandwisdomliterature.json" data-abbv="epwl">Psalms and Wisdom Literature </a>
+                <a href="#" class="list-group-item" name="esvgospelsandepistles.json" data-abbv="ege">Gospel and Epistles </a>
+                <a href="#" class="list-group-item" name="esvpentateuchandhistoryofisrael.json" data-abbv="ephi">Pentateuch and History of Israel </a>
+                <a href="#" class="list-group-item" name="esveverydayinword.json" data-abbv="eedw">Every Day In the Word </a>
+                <a href="#" class="list-group-item" name="esvliterarystudybible.json" data-abbv="elsb">ESV Literary Study Bible Plan </a>
+                <a href="#" class="list-group-item" name="esvthroughthebible.json" data-abbv="etb">Through The Bible </a>
+                <a href="#" class="list-group-item" name="heartlightotandnt.json" data-abbv="hlnt">Old and New Testament </a><a href="#" class="list-group-item" name="mcheyne.json" data-abbv="m">M'Cheyne </a>
+                <a href="#" class="list-group-item" name="oneyearchronological.json" data-abbv="oyc ">One Year Chronological </a></div>
         </div>
-        <div class="col-md-8 hidden-xs">
+        <div class="col-md-6 hidden-xs">
             <h2>&nbsp</h2>
             <div class="panel panel-default">
                 <div class="panel-body panel-sequence">Choose a sequence for more information about the sequence.</div>
@@ -50,7 +52,7 @@
         </div>
     </div>
     <div class="row">
-        <div id="days" class="col-md-4">
+        <div id="days" class="col-md-6">
           <h2>Choose Reading Days</h2>
           <div class="row">
             <div class="row col-md-12">
@@ -93,7 +95,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-8 hidden-xs">
+        <div class="col-md-6 hidden-xs">
             <h2>&nbsp</h2>
             <div class="panel panel-default">
                 <div class="panel-heading">Choosing your days</div>
@@ -102,7 +104,7 @@
         </div>
     </div>
     <div class="row">
-        <div id="amount-to-read" class="col-md-4">
+        <div id="amount-to-read" class="col-md-6">
           <h2>Choose Amount to Read</h2>
             <div id="type" class="btn-group" data-toggle="buttons">
                 <!-- <label class="btn btn-sm btn-primary"> -->
@@ -123,7 +125,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-8 hidden-xs">
+        <div class="col-md-6 hidden-xs">
             <h2>&nbsp</h2>
             <div class="panel panel-default">
                 <div class="panel-heading">Choosing the amount</div>
@@ -166,13 +168,13 @@
                         <a id="emailText" href="#" class="btn btn-small btn-warning"><i class="fa fa-envelope"></i> Email</a>
 
                         <!-- Facebook -->
-                        <a href="http://www.facebook.com/sharer.php?u=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-facebook-square"></i> Facebook</a>
+                        <a href="#" target="_blank" class="btn btn-small btn-warning" id="fb"><i class="fa fa-facebook-square"></i> Facebook</a>
                          
                         <!-- Twitter -->
-                        <a href="http://twitter.com/share?url=http://khornberg.github.io/bible-reading-planner/&Bible Reading Plan" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-twitter-square"></i> Twitter</a>
+                        <a href="#" target="_blank" class="btn btn-small btn-warning" id="tw"><i class="fa fa-twitter-square"></i> Twitter</a>
                          
                         <!-- Google+ -->
-                        <a href="https://plus.google.com/share?url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-google-plus-square"></i> Google+</a>
+                        <a href="#" target="_blank" class="btn btn-small btn-warning" id="gp"><i class="fa fa-google-plus-square"></i> Google+</a>
                          
                         <!-- Digg -->
                         <!-- <a href="http://www.digg.com/submit?url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-"></i>Digg</a> -->
@@ -181,7 +183,7 @@
                         <!-- a href="http://reddit.com/submit?url=http://khornberg.github.io/bible-reading-planner/&title=Bible Reading Plan" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-"></i>Reddit</a> -->
                          
                         <!-- LinkedIn -->
-                        <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://khornberg.github.io/bible-reading-planner/" target="_blank" class="btn btn-small btn-warning"><i class="fa fa-linkedin-square"></i> LinkedIn</a>
+                        <a href="#" target="_blank" class="btn btn-small btn-warning" id="li"><i class="fa fa-linkedin-square"></i> LinkedIn</a>
                          
                         <!-- Pinterest -->
                         <a href="javascript:void((function()%7Bvar%20e=document.createElement('script');e.setAttribute('type','text/javascript');e.setAttribute('charset','UTF-8');e.setAttribute('src','http://assets.pinterest.com/js/pinmarklet.js?r='+Math.random()*99999999);document.body.appendChild(e)%7D)());" class="btn btn-small btn-warning"><i class="fa fa-pinterest-square"></i> Pinterest</a>
@@ -240,7 +242,7 @@
         </div> <!-- /container -->
     </footer>
 
-        <script src="scripts/f90128e1.vendor.js"></script>
+        <script src="scripts/2432d650.vendor.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -252,6 +254,6 @@
             // ga('create','UA-42888984-1');ga('send','pageview');
         </script>
 
-        <script src="scripts/c8fb824e.main.js"></script>
+        <script src="scripts/64046903.main.js"></script>
 </body>
 </html>
