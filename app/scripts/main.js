@@ -8,12 +8,17 @@ console.log('Running jQuery %s', $().jquery);
 console.log(bible);
 var ref = bible.parseReference('rom 1:4');
 console.log(bible.add(ref, 10).toString());
+console.log('LZString: ' + typeof LZString !== 'undefined');
+console.log('moment: ' + typeof moment !== 'undefined');
+console.log('ics: ' + typeof ics !== 'undefined');
 console.groupEnd();
 
 /**
  * Contants
  */
-var READING_PLANS = (window.location.host === 'khornberg.github.io') ? 'http://khornberg.github.io/bible-reading-planner/bower_components/readingplans' : 'bower_components/readingplans';
+// var PATH = (window.location.host === 'khornberg.github.io') ? window.location.href + '/bible-reading-planner' : '';
+var BASE_URL = window.location.origin + window.location.pathname;
+var READING_PLANS = BASE_URL + 'bower_components/readingplans';
 var FILENAME = 'BibleReadingPlan';
 var SEPARATOR = (navigator.appVersion.indexOf('Win') !== -1) ? '\r\n' : '\n';
 
@@ -402,7 +407,7 @@ $('#create').click(function() {
 
         document.getElementById('plan').scrollIntoView();
 
-        window.history.pushState({}, 'Create Bible Reading Plan', '/?' + compressUri());
+        window.history.pushState({}, 'Create Bible Reading Plan', window.location.pathname + '?' + compressUri());
 
         updateLinks();
 

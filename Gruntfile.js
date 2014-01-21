@@ -102,6 +102,7 @@ module.exports = function (grunt) {
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
+                '!<%= yeoman.app %>/scripts/*.min.js',
                 'test/spec/{,*/}*.js'
             ]
         },
@@ -316,16 +317,17 @@ module.exports = function (grunt) {
                     timestamp: true
                 },
                 src: [
-                    '**/*'
+                    'bower_components/modernizr/*',
+                    'bower_components/readingplans/*',
+                    'scripts/*/*',
+                    'scripts/*',
+                    '!scripts/vendor',
+                    'styles/*',
+                    '*.*'
                 ],
                 dest: '<%= yeoman.dist %>/manifest.appcache'
             }
-        },
-        // removelogging: {
-        //     dist: {
-        //         src: 'dist/scripts/*main.js' //broke it :(
-        //     }
-        // }
+        }
     });
 
     grunt.registerTask('serve', function (target) {
@@ -368,7 +370,6 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'manifest'
-        // 'removelogging'
     ]);
 
     grunt.registerTask('default', [
