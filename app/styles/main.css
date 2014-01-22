@@ -94,6 +94,7 @@ body {
 
 .save, .share {
     padding-bottom: 10px;
+    line-height: 35px;
 }
 
 .save a, .share a {
