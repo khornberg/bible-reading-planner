@@ -396,7 +396,8 @@ $('#create').click(function() {
             $('tbody').children().remove();
         }
         $('tbody').append(rows);
-        $('.plan').addClass('fade');
+        // $('.plan').addClass('fade');
+        $('.plan').css('display', 'block');
 
         document.getElementById('plan').scrollIntoView();
 
