@@ -82,7 +82,7 @@ function getPlanData () {
     data.kind = $('#type :radio:checked').attr('id');
 
     // amount
-    data.amount = (data.kind === 'specified') ? $('#amountSpecified :radio:checked').attr('id') : $('#amountNumber').val();
+    data.amount = $('#amountNumber').val();
 
     if(!data.kind) {
         throw 'Choose an amount to read.';
@@ -90,11 +90,11 @@ function getPlanData () {
     else if(data.kind === 'verses' && !data.amount) {
         throw 'Specify the number of verses per day you want to read.';
     }
-    else if(data.kind === 'specified' && !data.amount) {
-        throw 'Choose to whether or not to read the whole plan or just what fits in your days.';
+    else if(data.kind === 'undefined') {
+        throw 'Choose to whether or not to read some verses, the whole plan, or just what fits in your day.';
     }
 
-    console.info('Data ' + JSON.stringify(data));
+    console.log('Data ' + JSON.stringify(data));
 
     return data;
 }
@@ -310,21 +310,21 @@ $('#skip-checkboxes').change(function () {
 if (typeof uriData.a !== 'undefined') {
     if (uriData.a === 'partial') {
         $('#amountNumber').hide();
-        $('#amountSpecified').show();
+        // $('#amountSpecified').show();
         $('#partial').parent().addClass('active');
         $('#partial').prop( 'checked', true);
         $('#specified').parent().addClass('active');
         $('#specified').prop( 'checked', true);
     } else if (uriData.a === 'whole') {
         $('#amountNumber').hide();
-        $('#amountSpecified').show();
+        // $('#amountSpecified').show();
         $('#whole').parent().addClass('active');
         $('#whole').prop( 'checked', true);
         $('#specified').parent().addClass('active');
         $('#specified').prop( 'checked', true);
     } else {
         $('#amountNumber').show().val(uriData.a);
-        $('#amountSpecified').hide();
+        // $('#amountSpecified').hide();
         $('#verses').parent().addClass('active');
         $('#verses').prop( 'checked', true);
     }
@@ -332,13 +332,11 @@ if (typeof uriData.a !== 'undefined') {
 
 // radio buttons
 $('#type input[type=radio]').change(function () {
-    if ( this.id === 'specified' ) {
-        $('#amountNumber').hide();
-        $('#amountSpecified').show();
+    if ( this.id === 'verses' ) {
+        $('#amountNumber').show();
     }
     else {
-        $('#amountNumber').show();
-        $('#amountSpecified').hide();
+        $('#amountNumber').hide();
     }
 });
 

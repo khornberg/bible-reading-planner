@@ -31,8 +31,8 @@ var planner = {
             var amount = (Number(this.amount) > 0) ? Number(this.amount) : 1;
             this.plan = this.createVersesPlan(this.sequence, amount);
         }
-        if(this.kind === 'specified') {
-            this.plan = this.createSpecifiedPlan(this.sequence, this.amount);
+        if(this.kind === 'whole' || this.kind === 'partial') {
+            this.plan = this.createSpecifiedPlan(this.sequence, this.kind);
         }
         // if(type === 'chapters') {
         //     return this.createChaptersPlan(sequence, Number(amount));
