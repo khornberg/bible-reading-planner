@@ -5,3 +5,4 @@ dist
 app/bower_components
 .c9*
 *.sublime*
+deploy.sh
