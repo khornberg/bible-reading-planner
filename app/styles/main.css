@@ -138,3 +138,30 @@ footer a {
         border-bottom: 0;
     }
 }
+
+/* Print */
+@media print {
+    body {
+      background: white;
+      font-size: 12pt;
+      font-family: serif;
+    }
+    
+    .plan,
+    .jumbotron {
+      width: auto;
+      margin: 0 5%;
+      padding: 0;
+      border: 0;
+      color: black;
+    }
+    
+    /* hide elements we don't want to print */
+    div .col-md-6,
+    .create,
+    .save,
+    .share,
+    footer {
+     display: none;
+    }
+}
