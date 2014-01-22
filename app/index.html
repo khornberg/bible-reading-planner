@@ -114,41 +114,31 @@
         <div id="amount-to-read" class="col-md-6">
           <h2 >Choose Amount to Read</h2>
             <div id="type" class="btn-group" data-toggle="buttons">
-                <!-- <label class="btn btn-sm btn-primary"> -->
-                    <!-- <input type="radio" name="options" id="chapters">Chapters</label> -->
                 <label class="btn btn-sm btn-primary">
                     <input type="radio" name="options" id="verses">Specify Verses</label>
-                <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Use the original sequence amount.">
-                    <input type="radio" name="options" id="specified">Original Amount</label>
+                <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Finish whole sequence in the alloted time.">
+                    <input type="radio" name="options" id="whole">Everything</label>
+                <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Use the orginal sequence amount in the alloted time.">
+                    <input type="radio" name="options" id="partial">What time allows</label>    
             </div>
             <p></p>
             <div class="input-group" id="amount">
                 <input type="number" name="amountNumber" id="amountNumber" class="form-control" placeholder="25">
-                <div id="amountSpecified" class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Finish whole sequence in the alloted time.">
-                        <input type="radio" name="options2" id="whole">Everything</label>
-                    <label class="btn btn-sm btn-primary" data-toggle="tooltip" data-container="body" title="Use the orginal sequence amount in the alloted time.">
-                        <input type="radio" name="options2" id="partial">What time allows</label>
-                </div>
+            </div>
+            <div class="create">
+                <button id="create" class="btn btn-lg btn-success" data-loading-text="Creating your plan">Create Your Plan</button>
             </div>
         </div>
         <div class="col-md-6 hidden-xs">
             <h2>&nbsp</h2>
             <div class="panel panel-default">
                 <div class="panel-heading">Choosing the amount</div>
-                <div class="panel-body">Choose the amount you want to read each day. <br /> Specify the amount of verses and the app will create a plan with that many verses per day. Or chose to read what the sequence creator planned in part or in whole within your days.</div>
+                <div class="panel-body">Choose the amount you want to read each day. <br /> Specify the amount of verses. The app will create a plan with that many verses per day or chose to read what the sequence creator planned in part or in whole within your days.</div>
             </div>
         </div>
     </div>
-      
 
-      <div class="row">
-        <div class="col-md-2 col-md-offset-5 create">
-            <button id="create" class="btn btn-lg btn-success" data-loading-text="Creating your plan">Create Your Plan</button>
-        </div>
-      </div>
-
-      <div class="row">
+    <div class="row">
         <div id="wait" class="text-center wait">
             <i class="fa fa-spinner fa-spin" style="font-size:300%"></i>
         </div>
@@ -222,8 +212,8 @@
         <div class="container">
             <div id="gh" class="row">
                 <div class="col-md-6">
-                    <h4>&copy; Kyle Hornberg 2013</h4>
-                    <p><a href="LICENSE">MIT License</a></p>
+                    <h4>&copy; Kyle Hornberg 2014</h4>
+                    <p><a href="http://opensource.org/licenses/MIT">MIT License</a></p>
                     <p><a href="https://github.com/khornberg/bible-reading-planner">Development on Github</a></p>
                     <p><a href="#legal" id="legal">Privacy/Legal Statements</a></p>
                 </div>

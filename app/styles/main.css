@@ -70,23 +70,23 @@ body {
     display: none;
 }
 
-.fade {
-    -webkit-animation: fade 1s;
-    -o-animation: fade 1s;
-    animation: fade 1s;
-    display: block;
-    opacity: 1;
-}
+/*.fade {*/
+/*    -webkit-animation: fade 1s;*/
+/*    -o-animation: fade 1s;*/
+/*    animation: fade 1s;*/
+/*    display: block;*/
+/*    opacity: 1;*/
+/*}*/
 
-/* -fail- */
-@-webkit-keyframes fade {
-    from {opacity: 0}
-    to {opacity: 1}
-}
-@keyframes fade {
-    from {opacity: 0}
-    to {opacity: 1}
-}
+ /*-fail- */
+/*@-webkit-keyframes fade {*/
+/*    from {opacity: 0}*/
+/*    to {opacity: 1}*/
+/*}*/
+/*@keyframes fade {*/
+/*    from {opacity: 0}*/
+/*    to {opacity: 1}*/
+/*}*/
 
 .actions {
     text-align: center;    
@@ -94,6 +94,7 @@ body {
 
 .save, .share {
     padding-bottom: 10px;
+    line-height: 35px;
 }
 
 .save a, .share a {
@@ -136,5 +137,32 @@ footer a {
     /* Remove the bottom border on the jumbotron for visual effect */
     .jumbotron {
         border-bottom: 0;
+    }
+}
+
+/* Print */
+@media print {
+    body {
+      background: white;
+      font-size: 12pt;
+      font-family: serif;
+    }
+    
+    .plan,
+    .jumbotron {
+      width: auto;
+      margin: 0 5%;
+      padding: 0;
+      border: 0;
+      color: black;
+    }
+    
+    /* hide elements we don't want to print */
+    div .col-md-6,
+    .create,
+    .save,
+    .share,
+    footer {
+     display: none;
     }
 }
