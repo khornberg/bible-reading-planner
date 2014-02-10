@@ -1,6 +1,6 @@
 {
   "name": "bible-plans",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "dependencies": {
     "modernizr": "~2.6.2",
     "jquery": "~1.10.2",

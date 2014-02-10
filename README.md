@@ -14,8 +14,6 @@ Inital release.
 
 ## Potential Additions
 
-- Pass data by url
-- Offline access
 - i18n
 - Progress tracking
 
