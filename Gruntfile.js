@@ -319,6 +319,7 @@ module.exports = function (grunt) {
                 src: [
                     'bower_components/modernizr/*',
                     'bower_components/readingplans/*',
+                    'bower_components/font-awesome/fonts/*',
                     'scripts/*/*',
                     'scripts/*',
                     '!scripts/vendor',
