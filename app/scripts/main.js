@@ -472,7 +472,7 @@ $('#downloadIcs').click(function (event) {
         var start = moment(day).format('YYYY/MM/DD');
         var end = moment(day).add('d', 1).format('YYYY/MM/DD');
         var description = el.cells[1].innerText;
-        var subject = 'Bible Reading';
+        var subject = (description.length < 70) ? description : 'Bible Reading';
         var location = 'Your Bible';
         cal.addEvent(subject, description, location, start, end);
     });
