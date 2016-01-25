@@ -2,15 +2,14 @@
   "name": "bible-plans",
   "version": "0.1.0",
   "dependencies": {
-    "modernizr": "~2.6.2",
     "jquery": "~1.10.2",
     "bible.math": "~0.1.6",
     "readingplans": "khornberg/readingplans",
-    "twix": "~0.3.0",
+    "twix": "~0.8.1",
     "font-awesome": "~4.0.3",
     "ics.js": "khornberg/ics.js",
-    "bootstrap-datepicker": "master",
-    "lz-string": "*"
+    "bootstrap-datepicker": "1.3.0",
+    "lz-string": "~1.4.4"
   },
   "devDependencies": {}
 }
