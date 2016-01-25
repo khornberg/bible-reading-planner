@@ -168,11 +168,13 @@ function assembleUri () {
      * a = amount to read (kind): read number of verses, everything, or what time allows
      */
 
+    var amount = (!planner.amount) ? planner.kind : planner.amount;
+
     uriString += 'p=' + planner.sequence.abbv + '&';
     uriString += 's=' + (planner.begin.getMonth()+1) + '/' + planner.begin.getDate() + '/' + planner.begin.getFullYear() + '&';
     uriString += 'e=' + (planner.end.getMonth()+1) + '/' + planner.end.getDate() + '/' + planner.end.getFullYear() + '&';
     uriString += 'k=[' + planner.skip.toString() + ']&';
-    uriString += 'a=' + planner.amount;
+    uriString += 'a=' + amount;
 console.log(uriString);
     return uriString;
 }

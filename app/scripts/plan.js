@@ -16,7 +16,7 @@ var planner = {
     'kind': null,
     'duration': null,
     'plan': null,
-    
+
     /**
      * Determines type of plan to create
      * @param  {object} sequence Bible reading sequence
@@ -33,6 +33,7 @@ var planner = {
         }
         if(this.kind === 'whole' || this.kind === 'partial') {
             this.plan = this.createSpecifiedPlan(this.sequence, this.kind);
+            this.amount = null;
         }
         // if(type === 'chapters') {
         //     return this.createChaptersPlan(sequence, Number(amount));
@@ -55,16 +56,18 @@ var planner = {
         var results = [];
         var sequenceKey = 0;
 
-        /** 
+        /**
          * Whole sequence
          * For each day of the sequence and each item in the day's sequence, add the day's items.
+         * TODO make this an option
          * If the number of days to read is not the same as the days in the sequence, read more in the beginning since people give up less right away.
+         * TODO equalize extra amount
          */
         if (amount === 'whole'){
 
             for (var day = 0; day < this.duration.length; day++) {
                 var refs = [];
-                
+
                 for (var x = 0; x < items; x++) {
                     if(sequenceKey < sequence.data2.length) {
                         for (var a = 0; a < sequence.data2[sequenceKey].length; a++) {
@@ -100,7 +103,7 @@ var planner = {
                 }
                 results.push({'day': this.duration[i].toString(), 'refs': [ref.trim()]});
             }
-                
+
         }
 
         return results;
@@ -123,7 +126,7 @@ var planner = {
         var ref;
         var remainder = 0;
 
-        /** 
+        /**
          * Determine references per day
          * Loop through the sequence data and parse each item to get a bible reference.
          * If the reference is valid, determine the amount to read relative to the reference.
@@ -136,7 +139,7 @@ var planner = {
         while(sequenceKey < sequence.data.length) {
             if (ref === null || ref === undefined) {
                 ref = bible.parseReference(sequence.data[sequenceKey]);
-                
+
                 // account for single and multi chapter ref
                 if (ref.chapter1 >= 0 && ref.verse1 === -1 && ref.verse2 === -1) {
                     ref.chapter2 = (ref.chapter2 === -1) ? ref.chapter1 : ref.chapter2;
@@ -157,7 +160,7 @@ var planner = {
                     var startRefString = startRef.toString();
                     var endRef = bible.add(startRef, amt - 1);
                     var endRefString = endRef.toString();
-                    
+
 
                     var referenceString = null;
                     // Format output to shorter reference strings
@@ -226,7 +229,7 @@ var planner = {
 
     /** not implemented yet **/
     // 'createChaptersPlan': function (sequence, amount) {
-        
+
     //     return;
     // },
 
