@@ -261,10 +261,16 @@ $('.list-group-item').each(function () {
     }
 });
 
+function getStartDate() {
+  var today = new Date();
+  var thisYear = today.getFullYear();
+  return new Date(thisYear, 0, 1);
+}
+
 // calendars
 $('#calendar-start').datepicker({
     'todayHighlight': true,
-    'startDate': new Date()
+    'startDate': getStartDate()
 });
 // set calendar start date
 $('#calendar-start').datepicker('update', (typeof uriData.s !== 'undefined') ? uriData.s : new Date());
