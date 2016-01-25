@@ -62,7 +62,7 @@ function getPlanData () {
     if (!data.sequenceName) {
         throw 'Choose a sequence.';
     }
-    
+
     // beginning
     data.begin = $('#calendar-start').datepicker('getDate');
     if (data.begin[0]) {
@@ -123,10 +123,10 @@ function output (plan, destination) {
         for (var i = 0; i < plan.length; i++) {
             rows = rows + '<tr><td>' + plan[i].day + '</td><td>';
             for(var n = 0; n < plan[i].refs.length; n++) {
-                
+
                 if ( typeof  plan[i].refs[n] === 'string') {
                     rows = rows + plan[i].refs[n];
-                       
+
                     // don't put a comma after the last element
                     if( n < plan[i].refs.length - 1) {
                         rows = rows + ', ';
@@ -135,7 +135,7 @@ function output (plan, destination) {
                 else {
                     for(var d = 0; d < plan[i].refs[n].length; d++) {
                         rows = rows + plan[i].refs[n][d];
-                       
+
                         // don't put a comma after the last element
                         if( d < plan[i].refs[n].length - 1) {
                             rows = rows + ', ';
@@ -167,7 +167,7 @@ function assembleUri () {
      * k = skipped days
      * a = amount to read (kind): read number of verses, everything, or what time allows
      */
-    
+
     uriString += 'p=' + planner.sequence.abbv + '&';
     uriString += 's=' + (planner.begin.getMonth()+1) + '/' + planner.begin.getDate() + '/' + planner.begin.getFullYear() + '&';
     uriString += 'e=' + (planner.end.getMonth()+1) + '/' + planner.end.getDate() + '/' + planner.end.getFullYear() + '&';
@@ -231,7 +231,7 @@ function isValidPlan (uriData) {
     // if (typeof uriData.p === 'undefined') { return false; } // plan abbreviation
     if (!isFinite(Date.parse(uriData.s))) { return false; } // start date
     if (!isFinite(Date.parse(uriData.e))) { return false; } // end date
-    if (!Array.isArray(uriData.k)) { return false; } // skip days 
+    if (!Array.isArray(uriData.k)) { return false; } // skip days
     if (!$.isNumeric(uriData.a) && uriData.a !== 'partial' && uriData.a !== 'whole') {
         return false;
     }
@@ -304,7 +304,7 @@ $('#calendar-end').change(function() {
 if (typeof uriData.k !== 'undefined' && uriData.k.length > 0) {
     $('#calendar-start').datepicker('setDaysOfWeekDisabled', uriData.k);
     $('#calendar-end').datepicker('setDaysOfWeekDisabled', uriData.k);
-    $('#skip-checkboxes input').each(function (i, input) { 
+    $('#skip-checkboxes input').each(function (i, input) {
         if (uriData.k.indexOf(Number(input.value)) !== -1) {
             $( this ).parent().addClass('active');
         }
@@ -361,7 +361,7 @@ $('#type input[type=radio]').change(function () {
 
  // select functionality
 $('.list-group-item').click(function () {
-    // TODO better way of doing this?          
+    // TODO better way of doing this?
     $('.list-group-item').each(function () {
         $(this).removeClass('active');
     });
@@ -374,7 +374,7 @@ $('.list-group-item').click(function () {
     planner.load();
 
     // $('.panel-heading').text(planner.sequence.name);
-    
+
     var firstDay = '<p><b>Day 1:</b> ' + planner.sequence.data2[0];
     var secondDay = '<br /><b>Day 2:</b> ' + planner.sequence.data2[1] + '</p>';
     var totalDays = '<p><b>Days:</b> ' + planner.sequence.data2.length + '<br /><b>Readings:</b> ' + planner.sequence.data.length;
@@ -397,7 +397,7 @@ $('#legal').click(function (e) {
 $('#create').click(function() {
     try {
         $('.alert').remove();
-        
+
         var data = getPlanData();
         planner.set(data);
         planner.create();
